@@ -1,7 +1,7 @@
 -- ============================================
 -- Query 03: Content Taxonomy Classification
 -- Project: Data In Motion Lead Analysis
--- Analyst: Jonathan Glenn
+-- Analyst: J.Glenn
 -- Description: Classifies YouTube videos as
 -- Closer, Validator, Both, or Below Threshold
 -- using NTILE quartile ranking and UNION-based
