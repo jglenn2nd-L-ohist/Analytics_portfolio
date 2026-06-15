@@ -1,10 +1,10 @@
-# \# Jonathan Glenn — Data Analytics Portfolio
+# \# J.Glenn — Data Analytics Portfolio
 
 # 
 
 # Data analyst with 12 years of field operations experience and a full analytics stack:
 
-# SQL · Python · Tableau · Excel · Power BI
+# SQL · Python · Tableau · Excel 
 
 # 
 
@@ -24,7 +24,7 @@
 
 # 
 
-# \### 01 — Lead Attribution Analysis | Data In Motion
+# \### 01 — Lead Attribution Analysis | Data In Motion ~ In progress
 
 # Joined four datasets across YouTube, paid ads, and lead attribution to identify
 
@@ -40,7 +40,7 @@
 
 # 
 
-# \### 02 — Pinnacle Retail Group | Business Intelligence Analysis
+# \### 02 — Pinnacle Retail Group | Business Intelligence Analysis ~ Coming Soon
 
 # End-to-end BI analysis for a 6-store Atlanta retail chain facing margin decline
 
