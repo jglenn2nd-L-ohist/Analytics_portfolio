@@ -1,3 +1,12 @@
+-- ============================================
+-- Query 04: Attribution Gap Analysis
+-- Project: Data In Motion Lead Analysis
+-- Analyst: J.Glenn
+-- Description: Identifies leads with no source
+-- attribution (first_source = '-'). Returns
+-- unattributed count and percent of total leads.
+-- Finding: 31.9% of leads are unattributed.
+-- ============================================
 WITH leads AS (
 	SELECT	
 		COUNT(*) AS t_leads,
