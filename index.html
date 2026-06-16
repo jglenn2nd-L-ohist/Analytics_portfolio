@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Jonathan Daily Job Brief",
+  "schemaVersion": 1,
+  "description": "Jonathan Glenn's daily job search brief — 5 scored postings, Gmail watch-list status, 29-application pipeline, and approval checklist. June 11, 2026."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Job Search Brief — June 11, 2026</title>
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
+<style>
+:root { color-scheme: light }
+*{box-sizing:border-box;margin:0;padding:0}
+body{display:flex;height:100vh;font-family:system-ui,-apple-system,sans-serif;background:#f8fafc;overflow:hidden}
+.sidebar{width:200px;min-width:200px;background:#1e2330;display:flex;flex-direction:column;height:100vh}
+.sidebar-header{padding:18px 16px 14px;border-bottom:1px solid #2d3447}
+.sidebar-header .title{color:#e2e8f0;font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.sidebar-header .date{color:#64748b;font-size:11px;margin-top:3px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 16px;color:#94a3b8;cursor:pointer;font-size:13px;border-left:3px solid transparent}
+.nav-item:hover{background:#252d3d;color:#e2e8f0}
+.nav-item.active{border-left:3px solid #3b82f6;background:#2d3447;color:#fff}
+.nav-item i{font-size:16px}
+.nav-badge{margin-left:auto;background:#ef4444;color:#fff;font-size:10px;padding:2px 6px;border-radius:10px;font-weight:600}
+.nav-badge.neutral{background:#475569}
+.main{flex:1;overflow-y:auto;padding:24px 28px;height:100vh}
+.page{display:none}
+
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.metric-card{background:#f1f5f9;border-radius:8px;padding:16px}
+.metric-card .lbl{font-size:12px;color:#64748b;margin-bottom:6px}
+.metric-card .val{font-size:26px;font-weight:500;color:#0f172a}
+
+.section-label{font-size:12px;font-weight:500;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin:20px 0 10px}
+.alert-card{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px 18px;margin-bottom:16px;cursor:pointer}
+.alert-card h3{font-size:14px;font-weight:500;color:#1e40af}
+.alert-card p{font-size:13px;color:#3b82f6;margin-top:3px}
+.top3-item{background:#fff;border:0.5px solid #e2e8f0;border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.score-mini{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:6px;font-size:15px;font-weight:500;flex-shrink:0}
+.sg{background:#dcfce7;color:#15803d}
+.sb{background:#dbeafe;color:#1d4ed8}
+.sa{background:#fef9c3;color:#a16207}
+.sn{background:#f1f5f9;color:#64748b}
+.top3-item .role{font-size:14px;font-weight:500;color:#0f172a}
+.top3-item .co{font-size:12px;color:#64748b;margin-top:1px}
+.top3-item .sal{margin-left:auto;font-size:13px;color:#059669;font-weight:500;white-space:nowrap}
+
+.page-header{margin-bottom:20px}
+.page-header h1{font-size:20px;font-weight:500;color:#0f172a}
+.page-header p{font-size:13px;color:#64748b;margin-top:4px}
+
+.posting-card{background:#fff;border:0.5px solid #e2e8f0;border-radius:12px;padding:16px 20px;margin-bottom:12px}
+.posting-card-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.score-badge{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:44px;border-radius:8px;font-size:18px;font-weight:500;flex-shrink:0}
+.posting-info .company{font-size:12px;color:#64748b}
+.posting-info .role{font-size:15px;font-weight:500;color:#0f172a;margin-top:2px}
+.posting-meta{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:#64748b;margin-top:6px}
+.posting-meta span{display:flex;align-items:center;gap:3px}
+.flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.flag{font-size:11px;padding:2px 8px;border-radius:12px;font-weight:500}
+.fw{background:#fff7ed;color:#c2410c}
+.fi{background:#eff6ff;color:#1d4ed8}
+.fn{background:#f1f5f9;color:#475569}
+.posting-footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:0.5px solid #f1f5f9}
+.score-breakdown{font-size:11px;color:#64748b;line-height:1.6}
+.score-breakdown .gn{color:#15803d}
+.score-breakdown .rd{color:#dc2626}
+.view-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#3b82f6;color:#fff;border-radius:8px;font-size:13px;text-decoration:none;font-weight:500;flex-shrink:0}
+.view-btn:hover{background:#2563eb}
+
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+.stat-box{background:#f1f5f9;border-radius:8px;padding:12px;text-align:center}
+.stat-box .n{font-size:24px;font-weight:500;color:#0f172a}
+.stat-box .l{font-size:12px;color:#64748b;margin-top:2px}
+.pipeline-wrap{overflow-x:auto}
+.pipeline-table{width:100%;border-collapse:collapse;font-size:13px}
+.pipeline-table th{text-align:left;padding:8px 10px;background:#f8fafc;border-bottom:1px solid #e2e8f0;color:#64748b;font-size:11px;font-weight:500;white-space:nowrap}
+.pipeline-table td{padding:8px 10px;border-bottom:0.5px solid #f1f5f9;color:#0f172a;vertical-align:top}
+.pipeline-table tr.stale td{background:#fff7ed}
+.st-badge{display:inline-block;padding:2px 7px;border-radius:12px;font-size:11px;font-weight:500}
+.st-applied{background:#dbeafe;color:#1d4ed8}
+.st-rejected{background:#fee2e2;color:#b91c1c}
+.st-scam{background:#fef3c7;color:#b45309}
+.days-out{font-size:12px}
+.days-warn{color:#c2410c;font-weight:600}
+
+.gmail-section{margin-bottom:22px}
+.gmail-section-header{font-size:13px;font-weight:500;padding:8px 12px;border-radius:6px;margin-bottom:10px}
+.gsh-none{background:#fee2e2;color:#b91c1c}
+.gsh-noaction{background:#f1f5f9;color:#475569}
+.gsh-watch{background:#f0fdf4;color:#15803d}
+.gmail-row{display:flex;align-items:center;padding:9px 0;border-bottom:0.5px solid #f1f5f9;font-size:13px;gap:12px}
+.gmail-sender{font-weight:500;color:#0f172a;min-width:130px}
+.gmail-summary{color:#64748b;flex:1}
+.gmail-tag{font-size:11px;padding:2px 8px;border-radius:12px;background:#f1f5f9;color:#475569}
+.empty-state{text-align:center;padding:24px;color:#94a3b8;font-size:13px}
+.watch-table{width:100%;border-collapse:collapse;font-size:13px}
+.watch-table th{text-align:left;padding:8px 10px;color:#64748b;font-size:11px;font-weight:500;border-bottom:1px solid #e2e8f0}
+.watch-table td{padding:8px 10px;border-bottom:0.5px solid #f1f5f9;color:#0f172a}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+.dg{background:#22c55e}
+.dy{background:#eab308}
+.dgr{background:#94a3b8}
+
+.approval-item{background:#fff;border:0.5px solid #e2e8f0;border-radius:12px;padding:16px 20px;margin-bottom:12px;display:flex;gap:14px}
+.appr-letter{display:flex;align-items:center;justify-content:center;min-width:28px;height:28px;background:#3b82f6;color:#fff;border-radius:50%;font-size:13px;font-weight:600;align-self:flex-start;margin-top:1px}
+.appr-body .title{font-size:14px;font-weight:500;color:#0f172a;margin-bottom:4px}
+.appr-body .desc{font-size:13px;color:#475569;line-height:1.55}
+.appr-body .action{margin-top:8px;font-size:12px;color:#3b82f6;font-weight:500}
+
+.page-note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 16px;font-size:13px;color:#92400e;margin-bottom:16px}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="title">Job Search</div>
+    <div class="date">June 11, 2026</div>
+  </div>
+  <div class="nav-item active" data-page="overview" onclick="go('overview',this)">
+    <i class="ti ti-layout-dashboard" aria-hidden="true"></i> Overview
+    <span class="nav-badge">5</span>
+  </div>
+  <div class="nav-item" data-page="gmail" onclick="go('gmail',this)">
+    <i class="ti ti-mail" aria-hidden="true"></i> Gmail
+    <span class="nav-badge neutral">0</span>
+  </div>
+  <div class="nav-item" data-page="postings" onclick="go('postings',this)">
+    <i class="ti ti-briefcase" aria-hidden="true"></i> New Postings
+    <span class="nav-badge neutral">5</span>
+  </div>
+  <div class="nav-item" data-page="pipeline" onclick="go('pipeline',this)">
+    <i class="ti ti-chart-bar" aria-hidden="true"></i> Pipeline
+    <span class="nav-badge neutral">29</span>
+  </div>
+  <div class="nav-item" data-page="approvals" onclick="go('approvals',this)">
+    <i class="ti ti-circle-check" aria-hidden="true"></i> Approvals
+    <span class="nav-badge">5</span>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- PAGE 1: OVERVIEW -->
+<div class="page" id="overview">
+  <div class="page-header">
+    <h1>Good morning, Jonathan</h1>
+    <p>Thursday, June 11, 2026 — daily job search brief</p>
+  </div>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="lbl">New postings</div><div class="val">5</div></div>
+    <div class="metric-card"><div class="lbl">Total applied</div><div class="val">29</div></div>
+    <div class="metric-card"><div class="lbl">Responses</div><div class="val">2</div></div>
+    <div class="metric-card"><div class="lbl">Actions needed</div><div class="val">5</div></div>
+  </div>
+  <div class="alert-card" onclick="goById('approvals')">
+    <h3><i class="ti ti-circle-check" style="font-size:15px;vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> 5 postings passed the filter today</h3>
+    <p>2 priority (score 10), 2 strong (score 9), 1 good (score 8) — click to review approvals</p>
+  </div>
+  <div class="section-label">Top 3 postings</div>
+  <div class="top3-item">
+    <div class="score-mini sg">10</div>
+    <div><div class="role">Data Analyst — Labor</div><div class="co">The Home Depot · Atlanta, GA (onsite)</div></div>
+    <div class="sal">$61K–$101K</div>
+  </div>
+  <div class="top3-item">
+    <div class="score-mini sg">9</div>
+    <div><div class="role">Business Intelligence Analyst</div><div class="co">Integra Partners · Remote (GA eligible)</div></div>
+    <div class="sal">$75K</div>
+  </div>
+  <div class="top3-item">
+    <div class="score-mini sg">9</div>
+    <div><div class="role">Reporting Data Analyst</div><div class="co">Molina Healthcare · Remote (CA only)</div></div>
+    <div class="sal">$73K–$112K</div>
+  </div>
+</div>
+
+<!-- PAGE 2: GMAIL -->
+<div class="page" id="gmail">
+  <div class="page-header">
+    <h1>Gmail</h1>
+    <p>Watch-list contacts + job alert summary</p>
+  </div>
+
+  <div class="gmail-section">
+    <div class="gmail-section-header gsh-none"><i class="ti ti-alert-circle" style="font-size:14px;vertical-align:-2px;margin-right:5px" aria-hidden="true"></i> Needs your decision</div>
+    <div class="empty-state">No items requiring a decision this session.</div>
+  </div>
+
+  <div class="gmail-section">
+    <div class="gmail-section-header gsh-noaction">No action required</div>
+    <div class="gmail-row">
+      <div class="gmail-sender">RXO</div>
+      <div class="gmail-summary">Subscription confirmation — "keep receiving job alert emails." No response needed.</div>
+      <div class="gmail-tag">Auto-email</div>
+    </div>
+  </div>
+
+  <div class="gmail-section">
+    <div class="gmail-section-header gsh-watch"><i class="ti ti-eye" style="font-size:14px;vertical-align:-2px;margin-right:5px" aria-hidden="true"></i> Watch-list status</div>
+    <table class="watch-table">
+      <thead><tr><th>Company</th><th>Status</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>IHG Hotels</td><td><span class="dot dgr"></span>No contact</td><td style="color:#64748b;font-size:12px">No emails detected</td></tr>
+        <tr><td>RXO</td><td><span class="dot dy"></span>Email received</td><td style="color:#64748b;font-size:12px">Subscription confirmation only</td></tr>
+        <tr><td>CCBSS / Coca-Cola</td><td><span class="dot dg"></span>Applied 5/19</td><td style="color:#64748b;font-size:12px">BI Analyst I — in pipeline</td></tr>
+        <tr><td>TriNet</td><td><span class="dot dg"></span>Applied 5/19</td><td style="color:#64748b;font-size:12px">Benefits Data Analyst — in pipeline</td></tr>
+        <tr><td>ALC Global / ALCglobalSoftware</td><td><span class="dot dy"></span>Active posting</td><td style="color:#64748b;font-size:12px">Entry-Level DA in today's brief — score 5, verify company model first</td></tr>
+        <tr><td>GlobalSoftSolution</td><td><span class="dot dgr"></span>No contact</td><td style="color:#64748b;font-size:12px">No emails detected</td></tr>
+        <tr><td>Capital Plan Holdings</td><td><span class="dot dgr"></span>No contact</td><td style="color:#64748b;font-size:12px">No emails detected</td></tr>
+        <tr><td>Asset Capital Market</td><td><span class="dot dgr"></span>No contact</td><td style="color:#64748b;font-size:12px">No emails detected</td></tr>
+        <tr><td>4P Consulting</td><td><span class="dot dg"></span>Applied 5/29</td><td style="color:#64748b;font-size:12px">Business Analyst — in pipeline</td></tr>
+        <tr><td>Returns Customer Experience</td><td><span class="dot dgr"></span>No contact</td><td style="color:#64748b;font-size:12px">No emails detected</td></tr>
+        <tr><td>Regions Financial</td><td><span class="dot dg"></span>Applied 5/20</td><td style="color:#64748b;font-size:12px">Data &amp; Analytics Analyst — in pipeline</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PAGE 3: NEW POSTINGS -->
+<div class="page" id="postings">
+  <div class="page-header">
+    <h1>New postings</h1>
+    <p>5 listings scored ≥ 5 after full JD review</p>
+  </div>
+
+  <!-- Score 10 -->
+  <div class="posting-card">
+    <div class="posting-card-header">
+      <div class="score-badge sg">10</div>
+      <div class="posting-info">
+        <div class="company">The Home Depot</div>
+        <div class="role">Data Analyst — Labor</div>
+        <div class="posting-meta">
+          <span><i class="ti ti-map-pin" aria-hidden="true"></i> Atlanta, GA (onsite)</span>
+          <span><i class="ti ti-currency-dollar" aria-hidden="true"></i> $61,250–$100,760</span>
+          <span><i class="ti ti-calendar" aria-hidden="true"></i> Posted June 2, 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="flags">
+      <span class="flag fn">Posting date &gt;48hrs</span>
+      <span class="flag fi">Degree: "or equivalent" — meets requirement</span>
+      <span class="flag fi">1 yr min experience</span>
+      <span class="flag fi">Strong skill match (SQL · Tableau · Excel all preferred)</span>
+    </div>
+    <div class="posting-footer">
+      <div class="score-breakdown">
+        <span class="gn">+2 SQL + Excel + Tableau confirmed</span> ·
+        <span class="gn">+1 salary ≥$65K</span> ·
+        <span class="gn">+1 Atlanta location</span> ·
+        <span class="gn">+1 degree "or equivalent"</span> ·
+        <span class="gn">+1 retail/ops industry (Kar Keys)</span> ·
+        <span class="gn">+1 exp 1 yr min</span> ·
+        <span class="gn">+0.5 title "Data Analyst"</span>
+        = <strong>10</strong> (capped)
+      </div>
+      <a class="view-btn" href="https://to.indeed.com/aa8nbcxkylsm" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> Apply</a>
+    </div>
+  </div>
+
+  <!-- Score 9 — Integra -->
+  <div class="posting-card">
+    <div class="posting-card-header">
+      <div class="score-badge sg">9</div>
+      <div class="posting-info">
+        <div class="company">Integra Partners (Point32Health subsidiary)</div>
+        <div class="role">Business Intelligence Analyst</div>
+        <div class="posting-meta">
+          <span><i class="ti ti-map-pin" aria-hidden="true"></i> Remote (GA eligible)</span>
+          <span><i class="ti ti-currency-dollar" aria-hidden="true"></i> $75,000</span>
+          <span><i class="ti ti-calendar" aria-hidden="true"></i> Posted May 26, 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="flags">
+      <span class="flag fw">⚠ Degree: bachelor's required, no equivalency — flag, Jonathan decides</span>
+      <span class="flag fn">Posting date &gt;48hrs</span>
+      <span class="flag fi">1–2 yrs experience</span>
+      <span class="flag fi">Healthcare industry match (DMEPOS network)</span>
+      <span class="flag fi">Georgia listed as eligible remote state</span>
+    </div>
+    <div class="posting-footer">
+      <div class="score-breakdown">
+        <span class="gn">+2 SQL + Excel + Tableau in JD</span> ·
+        <span class="gn">+1 salary $75K</span> ·
+        <span class="gn">+1 remote US (GA)</span> ·
+        <span class="gn">+1 healthcare match</span> ·
+        <span class="gn">+1 exp 1–2 yrs</span> ·
+        <span class="gn">+0.5 BI Analyst title</span> ·
+        <span class="rd">degree flag (no deduction)</span>
+        = <strong>9</strong> (flagged)
+      </div>
+      <a class="view-btn" href="https://to.indeed.com/aanznqgsh4q9" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> Apply</a>
+    </div>
+  </div>
+
+  <!-- Score 9 — Molina -->
+  <div class="posting-card">
+    <div class="posting-card-header">
+      <div class="score-badge sg">9</div>
+      <div class="posting-info">
+        <div class="company">Molina Healthcare</div>
+        <div class="role">Reporting Data Analyst</div>
+        <div class="posting-meta">
+          <span><i class="ti ti-map-pin" aria-hidden="true"></i> Remote (CA only)</span>
+          <span><i class="ti ti-currency-dollar" aria-hidden="true"></i> $73,008–$111,967</span>
+          <span><i class="ti ti-calendar" aria-hidden="true"></i> Posted May 27, 2026</span>
+        </div>
+      </div>
+    </div>
+    <div class="flags">
+      <span class="flag fw">⚠ Location: CA-only remote — relocation to California required</span>
+      <span class="flag fn">Posting date &gt;48hrs</span>
+      <span class="flag fi">Degree: Associate's or equivalent combination — meets requirement</span>
+      <span class="flag fi">Healthcare match (Healthcare Workforce Attrition project)</span>
+      <span class="flag fi">1–3 yrs experience (required)</span>
+    </div>
+    <div class="posting-footer">
+      <div class="score-breakdown">
+        <span class="gn">+2 SQL + Excel + PowerBI (Tableau equiv.)</span> ·
+        <span class="gn">+1 salary $73K+</span> ·
+        <span class="rd">location: CA-only (no +1)</span> ·
+        <span class="gn">+1 degree equiv. language</span> ·
+        <span class="gn">+1 healthcare match</span> ·
+        <span class="gn">+0.5 Reporting DA title</span>
+        = <strong>9</strong>
+      </div>
+      <a class="view-btn" href="https://to.indeed.com/aakchpcdwrp2" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> Apply</a>
+    </div>
+  </div>
+
+  <!-- Score 8 — Ampacity -->
+  <div class="posting-card">
+    <div class="posting-card-header">
+      <div class="score-badge sg">8</div>
+      <div class="posting-info">
+        <div class="company">Ampacity, LLC (Quanta Services)</div>
+        <div class="role">Data Analyst</div>
+        <div class="posting-meta">
+          <span><i class="ti ti-map-pin" aria-hidden="true"></i> Remote (Atlanta preferred)</span>
+          <span><i class="ti ti-currency-dollar" aria-hidden="true"></i> $75,000–$85,000</span>
+          <span><i class="ti ti-calendar" aria-hidden="true"></i> Posting date unknown</span>
+        </div>
+      </div>
+    </div>
+    <div class="flags">
+      <span class="flag fw">⚠ Power BI required — Jonathan's stack is Tableau (-1 deduction)</span>
+      <span class="flag fn">JD verified via WebSearch (not direct fetch)</span>
+      <span class="flag fi">SQL confirmed as core skill</span>
+      <span class="flag fi">Remote, anywhere in US</span>
+      <span class="flag fi">Clean energy / ops domain</span>
+    </div>
+    <div class="posting-footer">
+      <div class="score-breakdown">
+        <span class="gn">+1 salary $75K–$85K</span> ·
+        <span class="gn">+1 remote US</span> ·
+        <span class="gn">+1 degree not mentioned</span> ·
+        <span class="gn">+1 ops industry match</span> ·
+        <span class="gn">+0.5 Data Analyst title</span> ·
+        <span class="rd">−1 Power BI required (Tableau stack)</span>
+        = <strong>8.5 → 8</strong>
+      </div>
+      <a class="view-btn" href="https://allcareers-quanta.icims.com/jobs/search?ss=1&searchKeyword=ampacity" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> Apply</a>
+    </div>
+  </div>
+
+  <!-- Score 5 — ALC -->
+  <div class="posting-card">
+    <div class="posting-card-header">
+      <div class="score-badge sn">5</div>
+      <div class="posting-info">
+        <div class="company">ALCglobalSoftware (ALC Global Software Data)</div>
+        <div class="role">Entry-Level Data Analyst</div>
+        <div class="posting-meta">
+          <span><i class="ti ti-map-pin" aria-hidden="true"></i> Remote</span>
+          <span><i class="ti ti-currency-dollar" aria-hidden="true"></i> $72,000–$77,000</span>
+          <span><i class="ti ti-calendar" aria-hidden="true"></i> Posting date unknown</span>
+        </div>
+      </div>
+    </div>
+    <div class="flags">
+      <span class="flag fw">⚠ Watch-list company — verify relationship/model before applying</span>
+      <span class="flag fw">⚠ Very small company (~2 employees per ZoomInfo) — IT staffing model suspected</span>
+      <span class="flag fn">JD partially verified from prior session</span>
+      <span class="flag fn">Email alert source</span>
+    </div>
+    <div class="posting-footer">
+      <div class="score-breakdown">
+        Borderline (5) — presented because it is a watch-list company Jonathan is monitoring. Confirm the company is a direct employer (not a contractor placement program) before applying.
+      </div>
+      <a class="view-btn" href="https://www.ziprecruiter.com/co/Alc-Global-Software/Jobs" target="_blank" style="background:#64748b"><i class="ti ti-external-link" aria-hidden="true"></i> Search</a>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 4: PIPELINE -->
+<div class="page" id="pipeline">
+  <div class="page-header">
+    <h1>Application pipeline</h1>
+    <p>All 29 applications tracked — rows in orange have been out ≥ 25 days with no response</p>
+  </div>
+  <div class="stat-row">
+    <div class="stat-box"><div class="n">29</div><div class="l">Total</div></div>
+    <div class="stat-box"><div class="n">27</div><div class="l">Open</div></div>
+    <div class="stat-box"><div class="n">2</div><div class="l">Rejections</div></div>
+    <div class="stat-box"><div class="n">0</div><div class="l">Interviews</div></div>
+    <div class="stat-box"><div class="n">0</div><div class="l">Offers</div></div>
+  </div>
+  <div class="pipeline-wrap">
+    <table class="pipeline-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Company</th>
+          <th>Role</th>
+          <th>Location</th>
+          <th>Days out</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="stale"><td>1</td><td>5/1</td><td>Warner Brothers</td><td>Analyst, Commerce — CNN</td><td>Atlanta GA</td><td class="days-out days-warn">41</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr class="stale"><td>2</td><td>5/1</td><td>Home Depot</td><td>Logistics Analyst</td><td>Atlanta GA</td><td class="days-out days-warn">41</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr class="stale"><td>3</td><td>5/1</td><td>Omnimax</td><td>Sales Enablement Analyst</td><td>Peachtree Corners GA</td><td class="days-out days-warn">41</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr class="stale"><td>4</td><td>5/3</td><td>Tigris Fulfillment Partners</td><td>—</td><td>Metro Atlanta</td><td class="days-out days-warn">39</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>5</td><td>5/19</td><td>Coca-Cola (CCBSS)</td><td>BI Analyst I</td><td>Atlanta GA</td><td class="days-out">23</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>6</td><td>5/19</td><td>TriNet</td><td>Benefits Data Analyst</td><td>Atlanta GA</td><td class="days-out">23</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>7</td><td>5/20</td><td>HNTB</td><td>Business Analyst I</td><td>Atlanta GA</td><td class="days-out">22</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>8</td><td>5/20</td><td>Regions Financial</td><td>Data &amp; Analytics Analyst</td><td>Atlanta GA</td><td class="days-out">22</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>9</td><td>5/21</td><td>Roadshow Concepts</td><td>Operation Data Analyst</td><td>Remote</td><td class="days-out">21</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>10</td><td>5/21</td><td>Home Depot</td><td>Analyst — Decision Analytics</td><td>Atlanta GA</td><td class="days-out">21</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>11</td><td>5/21</td><td>Amazon</td><td>Business Analyst, Customer Delivery</td><td>Atlanta GA</td><td class="days-out">21</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>12</td><td>5/26</td><td>Le Rab</td><td>Operations Analyst</td><td>Remote</td><td class="days-out">16</td><td><span class="st-badge st-scam">Scam</span></td></tr>
+        <tr><td>13</td><td>5/27</td><td>KSU</td><td>Business Data Analyst</td><td>Kennesaw GA</td><td class="days-out">15</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>14</td><td>5/28</td><td>OpenX</td><td>BI Data Analyst</td><td>Atlanta GA</td><td class="days-out">14</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>15</td><td>5/28</td><td>MURJ</td><td>Data Analyst (entry level)</td><td>Remote</td><td class="days-out">14</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>16</td><td>5/29</td><td>Texas Work Commission</td><td>Data Analyst II</td><td>Austin TX</td><td class="days-out">13</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>17</td><td>5/29</td><td>Deloitte</td><td>Strategic Analytics Analyst</td><td>Atlanta GA</td><td class="days-out">13</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>18</td><td>5/29</td><td>Porsche</td><td>Logistics Operations Analyst</td><td>Atlanta GA</td><td class="days-out">13</td><td><span class="st-badge st-rejected">Rejected</span></td></tr>
+        <tr><td>19</td><td>5/29</td><td>State Farm</td><td>Analytics Analyst</td><td>Atlanta GA</td><td class="days-out">13</td><td><span class="st-badge st-rejected">Rejected</span></td></tr>
+        <tr><td>20</td><td>5/29</td><td>University of Illinois</td><td>Data Analyst</td><td>Remote</td><td class="days-out">13</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>21</td><td>5/29</td><td>4P Consulting</td><td>Business Analyst</td><td>Atlanta GA</td><td class="days-out">13</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>22</td><td>5/29</td><td>AssistRx</td><td>Data Insights Analyst</td><td>Remote</td><td class="days-out">13</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>23</td><td>5/29</td><td>Atrium Hospitality</td><td>Business Analyst — Engineering</td><td>Alpharetta GA</td><td class="days-out">13</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>24</td><td>6/2</td><td>Array Behavioral Care</td><td>Operations Analyst (BI)</td><td>Remote</td><td class="days-out">9</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>25</td><td>6/2</td><td>Home Depot</td><td>Business Analyst</td><td>Atlanta GA</td><td class="days-out">9</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>26</td><td>6/5</td><td>Verde Farms</td><td>Analyst — Category &amp; Commercial</td><td>Remote</td><td class="days-out">6</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>27</td><td>6/5</td><td>Tapcheck</td><td>Data Analyst</td><td>Remote</td><td class="days-out">6</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>28</td><td>6/5</td><td>VetComm</td><td>Revenue Ops &amp; Marketing Analyst</td><td>Remote</td><td class="days-out">6</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+        <tr><td>29</td><td>6/5</td><td>OceanSpray</td><td>IBP Analyst</td><td>Remote</td><td class="days-out">6</td><td><span class="st-badge st-applied">Applied</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PAGE 5: APPROVALS -->
+<div class="page" id="approvals">
+  <div class="page-header">
+    <h1>Approvals</h1>
+    <p>Nothing has been sent or applied to. Your decision on each item below.</p>
+  </div>
+
+  <div class="approval-item">
+    <div class="appr-letter">A</div>
+    <div class="appr-body">
+      <div class="title">Apply — Home Depot: Data Analyst Labor (Score 10)</div>
+      <div class="desc">Strongest match today. Atlanta onsite, $61K–$101K. SQL, Tableau, and Excel all in preferred qualifications. Degree "or equivalent." 1-year minimum experience. Retail/ops domain matches your Kar Keys portfolio project. This is a different role from the Logistics Analyst, Decision Analytics Analyst, and Business Analyst already in your pipeline.</div>
+      <div class="action">Suggested action: Generate tailored resume + cover letter, then apply via <a href="https://to.indeed.com/aa8nbcxkylsm" target="_blank" style="color:#3b82f6">Indeed link</a></div>
+    </div>
+  </div>
+
+  <div class="approval-item">
+    <div class="appr-letter">B</div>
+    <div class="appr-body">
+      <div class="title">Apply — Integra Partners: Business Intelligence Analyst (Score 9)</div>
+      <div class="desc">Remote role, Georgia is an eligible state. $75K flat salary. 1–2 years experience. Healthcare/DMEPOS domain matches your Healthcare Workforce Attrition project. SQL, Excel, and Tableau all listed. One flag: bachelor's degree required with no equivalency language. Jonathan has HS diploma — worth applying but be prepared to address in the interview.</div>
+      <div class="action">Suggested action: Apply via <a href="https://to.indeed.com/aanznqgsh4q9" target="_blank" style="color:#3b82f6">Indeed link</a> with tailored resume emphasizing healthcare project + certifications</div>
+    </div>
+  </div>
+
+  <div class="approval-item">
+    <div class="appr-letter">C</div>
+    <div class="appr-body">
+      <div class="title">Decide — Molina Healthcare: Reporting Data Analyst (Score 9)</div>
+      <div class="desc">Strong skill match: SQL + Excel + PowerBI (Tableau equivalent accepted), healthcare match, $73K–$112K salary. Key issue: this is listed as "Remote CA" — California residents only. Applying would require you to relocate to California. Are you open to CA? If yes, apply; if not, skip.</div>
+      <div class="action">Decision needed: Willing to relocate to California? → <a href="https://to.indeed.com/aakchpcdwrp2" target="_blank" style="color:#3b82f6">Apply here</a> if yes</div>
+    </div>
+  </div>
+
+  <div class="approval-item">
+    <div class="appr-letter">D</div>
+    <div class="appr-body">
+      <div class="title">Apply — Ampacity, LLC: Data Analyst (Score 8)</div>
+      <div class="desc">Remote (Atlanta preferred), $75K–$85K, Quanta Services subsidiary in clean energy. SQL is a core skill. One gap: role lists Power BI as the primary BI tool; you have Tableau. Deducted 1 point for this mismatch — still a good match overall. Apply via the Quanta iCIMS careers portal and search "Ampacity."</div>
+      <div class="action">Suggested action: Apply via <a href="https://allcareers-quanta.icims.com/jobs/search?ss=1&searchKeyword=ampacity" target="_blank" style="color:#3b82f6">Quanta iCIMS</a> — note Power BI in cover letter, position Tableau as transferable</div>
+    </div>
+  </div>
+
+  <div class="approval-item">
+    <div class="appr-letter">E</div>
+    <div class="appr-body">
+      <div class="title">Verify then decide — ALCglobalSoftware: Entry-Level Data Analyst (Score 5)</div>
+      <div class="desc">Watch-list company from your monitoring list. Remote, $72K–$77K. Score is borderline (5) — presented because you are already watching this company. Concern: ZoomInfo lists only ~2 employees, and the company's services profile (DevOps, Agile, Digital Transformation) suggests it may be an IT staffing/consulting firm that places contractors rather than a direct employer. Verify the role structure before applying.</div>
+      <div class="action">Suggested action: Research ALCglobalSoftware directly — confirm it's a direct hire, not a training/placement program, then decide</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<script>
+function go(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.style.display='none');
+  document.getElementById(id).style.display='block';
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+}
+function goById(id) { go(id, document.querySelector('[data-page="'+id+'"]')); }
+window.onload = () => go('overview', document.querySelector('[data-page="overview"]'));
+</script>
+</body>
+</html>
