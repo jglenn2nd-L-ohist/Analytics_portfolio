@@ -25,20 +25,14 @@
 # 
 
 
-# \### 01 — Lead Attribution Analysis | Data In Motion ~ In progress
+### 01 — Lead Attribution Analysis | Data In Motion ✅ Complete
+Joined four datasets across YouTube, paid ads, and lead attribution to identify
+which content drives real business outcomes for a data analytics bootcamp.
 
-# Joined four datasets across YouTube, paid ads, and lead attribution to identify
-
-# which content drives real business outcomes for a data analytics bootcamp.
-
-# 
-
-# \- 2,737 leads analyzed | \~40% attributed to YouTube | 32% attribution gap uncovered
-
-# \- Tools: SQL · Python · Tableau
-
-# \- \[View project](./01\_lead\_attribution/)
-
+- 2,737 leads analyzed | ~40% attributed to YouTube | 32% attribution gap uncovered
+- Tools: SQL · Python · Tableau
+- [View project](./01_lead_attribution/)
+- [View Tableau Dashboard](https://public.tableau.com/shared/XM7H3HQ3K?:display_count=n&:origin=viz_share_link)
 # 
 
 # \### 02 — Pinnacle Retail Group | Business Intelligence Analysis ~ Coming Soon
