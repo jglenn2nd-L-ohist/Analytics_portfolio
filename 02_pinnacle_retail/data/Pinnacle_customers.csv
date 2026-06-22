@@ -1,0 +1,201 @@
+﻿customer_id,first_name,last_name,email,phone,city,state,zip_code,loyalty_tier,signup_date,age,gender
+C0081,Andre,Taylor,andre.taylor22@gmail.com,,Smyrna,ga,30299,Gold,2023-07-22,-5,Male
+C0173,Keisha,Lewis,,4067058222,Decatur,Ga.,31118,Silver,2024-04-27,67,M
+C0020,DeShawn,Martin,deshawn.martin6@gmail.com,5703194789,Decatur,Ga.,30229,Bronze,2024-12-08,,MALE
+C0075,Monica,White,monica.white36@icloud.com,,Atlanta,Georgia ,314381X,Gold,2023-12-14,40,Male
+C0200,Monica,Robinson,monica.robinson37@outlook.com,(521) 260-9202,Sandy Springs,Georgia ,318043X,Bronze,2024-03-13,0,Non-Binary
+C0149,Marcus,Thompson,marcus.thompson39@gmail.com,,Sandy Springs,ga,31760,Silver,2023-11-04,-5,N/A
+C0191,Tyler,Taylor,tyler.taylor13@yahoo.com,7365045872,Atlanta,Georgia,31718,Silver,2023-06-30,-5,f
+C0123,Andre,Thomas,andre.thomas97@yahoo.com,+14897802999,Roswell,GA,3685,Platinum,2023-11-28,33,m
+C0126,DeShawn,Martinez,deshawn.martinez91@outlook.com,(439) 288-2551,Smyrna,Georgia ,31065,Platinum,2023-04-30,,N/A
+C0017,Tyler,Clark,tyler.clark34@yahoo.com,742-627-1130,Alpharetta,Ga.,31902,Bronze,2023-01-10,-5,FEMALE
+C0104,Rachel,Harris,rachel.harris93@hotmail.com,+16697891998,Marietta,Georgia,31392,Gold,2023-05-12,-5,Non-Binary
+C0014,Maria,Robinson,maria.robinson12@yahoo.com,+14857818496,Dunwoody,Georgia,31770,Platinum,2023-09-29,999,m
+C0015,Stephanie,Robinson,stephanie.robinson63@yahoo.com,497-597-7931,Atlanta,Georgia ,30117,Bronze,2024-08-21,-5,MALE
+C0141,Carlos,Taylor,carlos.taylor68@outlook.com,+15815484964,Marietta,ga,31427,Silver,2023-11-04,61,Non-Binary
+C0156,Linda,Jackson,linda.jackson60@yahoo.com,607-409-4587,Sandy Springs,Ga.,30879,Platinum,2023-01-05,,Female
+C0119,Keisha,Moore,keisha.moore69@outlook.com,687-555-7052,Marietta,Georgia ,31371,Silver,2024-10-15,32,F
+C0099,David,White,david.white94@outlook.com,7148297090,Atlanta,GA,31640,Silver,2023-02-01,-5,Non-Binary
+C0027,Tyler,Lewis,tyler.lewis60@hotmail.com,,Dunwoody,Georgia,31296,Gold,2023-04-06,,Non-Binary
+C0132,Andre,Taylor,andre.taylor19@icloud.com,5137938388,Alpharetta,GA,31866,Silver,2024-10-03,999,MALE
+C0124,Michael,Taylor,michael.taylor35@outlook.com,5541191859,Roswell,Georgia,30327,Platinum,2024-12-03,0,N/A
+C0001,Ashley,Johnson,ashley.johnson32@yahoo.com,,Marietta,Georgia ,3032,Bronze,2024-07-28,-5,male
+C0010,Carlos,Miller,carlos.miller71@yahoo.com,,Sandy Springs,Georgia,30817,Gold,2024-03-24,-5,female
+C0062,Jennifer,Taylor,jennifer.taylor80@outlook.com,(747) 329-4774,Atlanta,ga,31499,Silver,2023-04-03,0,N/A
+C0090,Keisha,White,keisha.white14@icloud.com,(463) 578-2563,Decatur,ga,,Bronze,2023-08-16,999,f
+C0073,Kevin,White,kevin.white88@hotmail.com,(434) 253-0497,Marietta,Ga.,31139,Bronze,2024-08-23,-5,f
+C0006,David,Miller,david.miller32@icloud.com,,Sandy Springs,Georgia ,30283,Platinum,2023-04-04,66,F
+C0060,Kevin,Johnson,kevin.johnson60@outlook.com,(746) 365-0391,Dunwoody,ga,30935,Gold,2023-07-23,999,F
+C0041,DeShawn,Taylor,deshawn.taylor63@icloud.com,+17885031966,Dunwoody,Ga.,30828,Silver,2023-11-10,-5,f
+C0093,Rachel,Davis,,(614) 866-9093,Marietta,Ga.,31177,Silver,2023-05-28,999,M
+C0110,Andre,Moore,andre.moore64@icloud.com,6399367799,Dunwoody,GA,31979,Silver,2023-08-09,0,M
+C0146,Carlos,Harris,carlos.harris14@gmail.com,+14026171869,Roswell,ga,,Platinum,2023-04-16,19,f
+C0056,Andre,Garcia,andre.garcia49@hotmail.com,+17393551903,Atlanta,Georgia,30205,Platinum,2023-04-13,999,M
+C0135,Kevin,Harris,kevin.harris78@gmail.com,,Smyrna,Ga.,31861,Bronze,2023-08-05,30,N/A
+C0032,Stephanie,Williams,stephanie.williams54@hotmail.com,,Sandy Springs,Ga.,30798,Platinum,2024-07-05,-5,
+C0144,Tyler,Harris,tyler.harris70@outlook.com,(596) 334-7981,Roswell,GA,30697,Platinum,2023-12-01,0,
+C0103,Jennifer,Martinez,jennifer.martinez26@yahoo.com,(521) 928-8312,Roswell,Georgia ,31129,Silver,2024-09-18,74,F
+C0185,Ashley,Brown,ashley.brown88@outlook.com,760-167-6621,Roswell,Georgia,30811,Bronze,2024-11-24,0,Male
+C0070,Carlos,Martin,carlos.martin96@gmail.com,6438520810,Marietta,Ga.,31861,Gold,2024-04-14,59,M
+C0169,David,Johnson,,+15753023227,Decatur,Ga.,30145,Bronze,2023-11-17,0,Male
+C0157,Kevin,Brown,kevin.brown69@yahoo.com,587-646-9119,Dunwoody,GA,31308,Gold,2024-09-03,-5,male
+C0049,Michael,Anderson,michael.anderson64@hotmail.com,+14411668752,Roswell,Georgia ,31380,Bronze,2024-11-19,0,FEMALE
+C0047,James,Martin,james.martin77@hotmail.com,549-154-7605,Alpharetta,ga,3880,Gold,2024-10-02,,male
+C0085,Jennifer,White,jennifer.white50@hotmail.com,,Atlanta,ga,30791,Gold,2023-09-16,-5,Male
+C0117,David,Robinson,david.robinson46@outlook.com,712-912-3194,Smyrna,ga,30609,Gold,2024-12-22,999,f
+C0046,Rachel,Clark,rachel.clark40@icloud.com,,Marietta,Georgia,30321,Silver,2023-06-27,53,Male
+C0064,Tanya,Harris,tanya.harris72@outlook.com,(446) 761-9862,Alpharetta,Georgia ,31376,Gold,2024-08-21,0,F
+C0086,Andre,Brown,andre.brown19@outlook.com,558-757-5963,Marietta,ga,31372,Bronze,2024-10-23,999,MALE
+C0094,Amber,White,amber.white54@yahoo.com,,Roswell,GA,31039,Bronze,2024-02-04,999,M
+C0183,Ashley,Martinez,ashley.martinez51@gmail.com,+17032044933,Decatur,Georgia,30804,Gold,2023-11-22,0,Female
+C0194,Carlos,Davis,carlos.davis47@gmail.com,,Marietta,ga,31499,Platinum,2024-10-16,0,Male
+C0097,Marcus,Thomas,marcus.thomas7@outlook.com,5393088344,Sandy Springs,Ga.,30382,Platinum,2024-12-09,0,
+C0155,Keisha,Davis,keisha.davis90@hotmail.com,5632126998,Atlanta,GA,31386,Silver,2023-09-07,,MALE
+C0087,Jennifer,Johnson,jennifer.johnson24@yahoo.com,574-915-8272,Smyrna,Georgia,30207,Bronze,2024-11-08,-5,Male
+C0079,Keisha,Martin,keisha.martin49@icloud.com,,Roswell,GA,30941,Bronze,2023-11-17,999,FEMALE
+C0002,Tanya,Thompson,tanya.thompson1@yahoo.com,7578090293,Alpharetta,Georgia,,Bronze,2024-01-03,0,FEMALE
+C0037,James,Thomas,james.thomas49@hotmail.com,(766) 432-7421,Smyrna,GA,31229,Bronze,2024-08-02,68,f
+C0076,Carlos,Clark,carlos.clark9@yahoo.com,(779) 151-4340,Smyrna,Ga.,315585X,Gold,2024-08-04,56,M
+C0121,Monica,Williams,monica.williams23@hotmail.com,+14901609681,Dunwoody,Georgia,30018,Gold,2024-08-04,56,f
+C0052,Stephanie,Williams,stephanie.williams47@icloud.com,+17879363326,Atlanta,Georgia,30897,Platinum,2023-05-05,-5,
+C0072,Brian,Lewis,brian.lewis90@gmail.com,+17354607488,Dunwoody,Georgia,31494,Bronze,2023-11-17,0,Non-Binary
+C0105,Tyler,Wilson,tyler.wilson17@hotmail.com,(657) 192-9673,Decatur,ga,30461,Gold,2024-06-15,0,F
+C0065,Tanya,Garcia,,,Smyrna,GA,30618,Platinum,2023-04-30,26,M
+C0091,James,Martin,,657-727-4032,Sandy Springs,GA,30202,Gold,2023-05-30,26,m
+C0170,Michael,Miller,michael.miller87@yahoo.com,,Atlanta,Georgia ,30436,Silver,2024-02-26,999,Female
+C0154,Tyler,Martinez,tyler.martinez4@hotmail.com,+14535956530,Marietta,GA,30702,Platinum,2023-07-31,999,f
+C0066,Rachel,Garcia,rachel.garcia31@icloud.com,+14697520395,Roswell,Georgia ,31341,Bronze,2024-05-16,999,m
+C0008,Kevin,Jackson,kevin.jackson56@yahoo.com,6321054447,Decatur,Georgia ,31039,Silver,2023-06-06,,MALE
+C0021,Maria,White,maria.white19@hotmail.com,4651701771,Roswell,GA,31365,Bronze,2023-12-29,-5,male
+C0150,Marcus,Garcia,marcus.garcia51@outlook.com,,Smyrna,ga,31908,Silver,2024-08-29,,Non-Binary
+C0101,Jennifer,Harris,jennifer.harris36@yahoo.com,458-143-4753,Dunwoody,Georgia ,319202X,Platinum,2023-08-08,0,N/A
+C0174,Tyler,Brown,,(510) 166-8183,Sandy Springs,Georgia ,30867,Platinum,2023-03-26,-5,MALE
+C0130,Monica,Martin,monica.martin30@yahoo.com,635-680-7596,Alpharetta,Georgia,,Bronze,2023-09-04,31,F
+C0083,Brian,Brown,brian.brown58@gmail.com,4297186390,Marietta,GA,31188,Bronze,2024-04-05,-5,Non-Binary
+C0192,Jennifer,Clark,,,Decatur,Georgia ,30359,Platinum,2023-02-08,23,Female
+C0053,Tanya,Wilson,tanya.wilson2@icloud.com,608-256-3790,Marietta,Ga.,31467,Gold,2024-06-05,0,male
+C0136,Keisha,Taylor,keisha.taylor91@yahoo.com,,Roswell,ga,30631,Gold,2024-01-04,999,female
+C0054,Keisha,Garcia,keisha.garcia71@yahoo.com,,Decatur,GA,31613,Gold,2023-01-03,0,FEMALE
+C0122,Rachel,Thompson,rachel.thompson70@icloud.com,,Dunwoody,ga,31497,Platinum,2024-10-25,,M
+C0042,Keisha,Robinson,keisha.robinson55@icloud.com,+15696902401,Alpharetta,ga,30646,Bronze,2024-07-02,,Female
+C0057,Carlos,Martin,carlos.martin20@gmail.com,6405446344,Sandy Springs,GA,30648,Platinum,2024-07-08,-5,F
+C0092,Keisha,Miller,keisha.miller61@hotmail.com,(715) 108-8100,Atlanta,ga,31489,Platinum,2023-04-24,0,Female
+C0148,Kevin,Thomas,kevin.thomas19@gmail.com,4858292657,Sandy Springs,ga,31933,Silver,2024-10-02,-5,FEMALE
+C0030,Andre,Thompson,andre.thompson93@icloud.com,618-848-1188,Dunwoody,Ga.,30567,Platinum,2024-10-03,0,female
+C0013,Ashley,Williams,ashley.williams44@gmail.com,527-421-4348,Dunwoody,Georgia,31790,Bronze,2024-03-29,-5,F
+C0137,Ashley,Garcia,ashley.garcia41@yahoo.com,+15896249960,Atlanta,Georgia ,,Gold,2023-06-06,0,Female
+C0188,Michael,Garcia,,749-815-8234,Roswell,Georgia,31809,Silver,2023-02-05,-5,FEMALE
+C0127,Tyler,Garcia,tyler.garcia66@hotmail.com,428-860-7331,Sandy Springs,Ga.,31652,Gold,2023-01-23,0,M
+C0040,Michael,Jackson,,+15664050766,Smyrna,ga,31220,Gold,2024-07-23,-5,Female
+C0167,Ashley,Thompson,,+14808403549,Atlanta,Ga.,30618,Silver,2023-10-08,0,m
+C0044,Rachel,Miller,rachel.miller97@hotmail.com,,Alpharetta,Ga.,30980,Gold,2024-05-04,25,male
+C0003,Kevin,Williams,kevin.williams69@gmail.com,,Alpharetta,Georgia ,31442,Bronze,2023-02-16,,
+C0035,DeShawn,Garcia,,6761873851,Smyrna,GA,31944,Silver,2023-07-24,71,FEMALE
+C0162,Ashley,Taylor,ashley.taylor5@hotmail.com,(534) 684-8151,Dunwoody,GA,31510,Gold,2024-12-28,999,Male
+C0096,Keisha,Wilson,keisha.wilson9@hotmail.com,418-592-3149,Atlanta,Georgia,31055,Platinum,2024-07-10,0,M
+C0007,Carlos,Wilson,carlos.wilson55@icloud.com,+14327455324,Dunwoody,Georgia ,30023,Bronze,2024-11-29,-5,
+C0163,Amber,Miller,amber.miller27@gmail.com,,Alpharetta,Georgia ,30599,Gold,2024-08-09,-5,Non-Binary
+C0187,DeShawn,Clark,deshawn.clark10@gmail.com,+14334317700,Decatur,GA,,Bronze,2023-06-22,999,N/A
+C0160,Keisha,Miller,keisha.miller50@icloud.com,+16589304216,Dunwoody,Ga.,30169,Bronze,2023-08-14,36,m
+C0051,Stephanie,Garcia,stephanie.garcia52@icloud.com,(418) 863-0712,Roswell,ga,31689,Bronze,2024-11-04,-5,female
+C0114,Michael,Lewis,michael.lewis39@icloud.com,,Dunwoody,Georgia ,31379,Bronze,2024-03-02,0,
+C0111,Maria,Thomas,maria.thomas84@hotmail.com,(546) 113-7194,Sandy Springs,Georgia,30749,Bronze,2024-02-15,-5,MALE
+C0189,Tanya,Thomas,tanya.thomas71@hotmail.com,4312471723,Sandy Springs,Georgia,31642,Bronze,2024-01-27,0,female
+C0088,Amber,Harris,amber.harris24@icloud.com,(484) 834-2941,Sandy Springs,ga,31250,Gold,2024-04-04,-5,Female
+C0116,James,Thompson,james.thompson20@hotmail.com,+17534420734,Dunwoody,GA,30665,Platinum,2024-06-22,0,Male
+C0080,Michael,Martin,michael.martin52@gmail.com,,Dunwoody,ga,31206,Platinum,2024-06-20,999,m
+C0019,Monica,Thomas,monica.thomas14@yahoo.com,(535) 293-6571,Decatur,ga,30416,Gold,2024-06-01,0,M
+C0152,David,Lewis,david.lewis52@icloud.com,,Atlanta,ga,31872,Bronze,2023-04-22,,Non-Binary
+C0036,Carlos,Taylor,carlos.taylor86@gmail.com,+16884656838,Alpharetta,ga,31471,Bronze,2023-06-17,37,FEMALE
+C0166,Monica,Harris,monica.harris55@yahoo.com,6535505300,Alpharetta,ga,30993,Gold,2024-11-29,66,M
+C0005,Tanya,Wilson,tanya.wilson35@icloud.com,(512) 644-0561,Smyrna,GA,30432,Gold,2023-08-06,999,male
+C0175,Amber,Miller,amber.miller40@gmail.com,661-440-9088,Roswell,Ga.,30895,Silver,2023-03-01,33,male
+C0078,Tyler,Garcia,tyler.garcia40@gmail.com,,Atlanta,GA,31565,Gold,2023-10-24,38,M
+C0128,Marcus,Clark,,(616) 678-0235,Atlanta,GA,30368,Silver,2024-10-18,999,f
+C0063,Stephanie,Wilson,stephanie.wilson70@outlook.com,6719418719,Decatur,ga,30604,Gold,2023-04-28,47,Male
+C0198,Monica,Harris,monica.harris62@icloud.com,733-478-4650,Dunwoody,GA,30652,Gold,2023-04-18,0,Male
+C0158,Tyler,Davis,tyler.davis59@icloud.com,,Marietta,Georgia,30374,Gold,2024-12-11,-5,male
+C0034,James,Brown,james.brown18@hotmail.com,4931843636,Sandy Springs,ga,31801,Platinum,2023-10-12,999,m
+C0125,Ashley,Thomas,ashley.thomas29@yahoo.com,468-902-2561,Dunwoody,Georgia ,31551,Silver,2023-09-11,-5,
+C0161,Tanya,Robinson,tanya.robinson59@icloud.com,,Marietta,Georgia ,30751,Bronze,2024-03-27,,male
+C0025,Kevin,Williams,kevin.williams1@icloud.com,6754305700,Sandy Springs,GA,31358,Bronze,2023-11-04,0,Non-Binary
+C0199,Michael,Wilson,michael.wilson71@gmail.com,(573) 909-8979,Sandy Springs,Georgia,31243,Gold,2023-07-30,999,N/A
+C0153,Jennifer,Wilson,jennifer.wilson6@icloud.com,7307704473,Sandy Springs,GA,31529,Silver,2024-04-01,999,female
+C0074,Ashley,Martin,ashley.martin86@hotmail.com,7691863121,Alpharetta,ga,31344,Platinum,2023-08-18,72,f
+C0131,Amber,Williams,amber.williams87@gmail.com,+15251742169,Dunwoody,Georgia,310924X,Silver,2024-08-12,-5,FEMALE
+C0028,Rachel,Taylor,rachel.taylor19@gmail.com,+14235107776,Marietta,Ga.,,Platinum,2024-02-14,,Non-Binary
+C0026,Stephanie,Jackson,stephanie.jackson38@icloud.com,+14654218542,Sandy Springs,Georgia,31707,Bronze,2023-11-08,,male
+C0186,James,Harris,james.harris72@icloud.com,+15272589226,Marietta,Georgia,30455,Silver,2023-07-22,999,f
+C0196,Andre,Lewis,andre.lewis73@gmail.com,6543359604,Marietta,Georgia,31972,Bronze,2024-12-26,0,female
+C0107,Tyler,Williams,tyler.williams4@gmail.com,423-544-0189,Sandy Springs,Georgia ,31117,Gold,2024-10-19,999,Female
+C0029,James,Davis,james.davis29@yahoo.com,+17569689889,Atlanta,Georgia ,31641,Platinum,2024-11-14,-5,FEMALE
+C0180,Michael,Brown,michael.brown37@outlook.com,,Dunwoody,GA,30622,Silver,2024-04-20,-5,female
+C0004,Rachel,Brown,rachel.brown13@hotmail.com,5428606962,Decatur,ga,31399,Bronze,2024-09-15,,MALE
+C0118,Keisha,White,keisha.white93@outlook.com,,Sandy Springs,Ga.,30589,Bronze,2023-12-21,0,N/A
+C0181,Marcus,Robinson,marcus.robinson32@yahoo.com,(403) 787-9264,Smyrna,Georgia ,30002,Platinum,2023-11-11,,MALE
+C0071,Keisha,Harris,keisha.harris14@hotmail.com,(764) 844-1741,Marietta,ga,311076X,Platinum,2024-09-03,0,female
+C0084,Marcus,Jackson,marcus.jackson65@yahoo.com,(431) 855-8523,Roswell,GA,,Platinum,2024-06-20,-5,Male
+C0184,DeShawn,Moore,deshawn.moore99@icloud.com,(455) 360-7356,Decatur,Ga.,316660X,Silver,2024-04-07,999,m
+C0195,Monica,Lewis,monica.lewis29@icloud.com,4897348231,Alpharetta,Georgia,31942,Platinum,2024-08-04,,FEMALE
+C0143,Tyler,Garcia,tyler.garcia10@outlook.com,678-155-2000,Roswell,GA,,Bronze,2023-11-03,-5,Female
+C0182,Tanya,Martin,tanya.martin8@yahoo.com,(764) 569-4689,Atlanta,Georgia,31834,Gold,2024-04-14,65,FEMALE
+C0023,Maria,Garcia,maria.garcia59@outlook.com,556-481-8418,Atlanta,Georgia,31980,Gold,2023-12-26,-5,male
+C0018,Ashley,Brown,ashley.brown65@outlook.com,(467) 685-5396,Smyrna,ga,31440,Gold,2024-09-18,-5,M
+C0082,DeShawn,Wilson,deshawn.wilson81@hotmail.com,,Roswell,ga,31293,Gold,2023-10-09,55,f
+C0067,Maria,White,maria.white57@yahoo.com,5852666893,Roswell,GA,31943,Platinum,2023-04-04,,Non-Binary
+C0164,Ashley,Miller,ashley.miller53@gmail.com,541-312-8830,Smyrna,Georgia,31384,Platinum,2024-05-16,-5,Non-Binary
+C0112,Marcus,White,marcus.white10@hotmail.com,,Alpharetta,Georgia ,31393,Platinum,2024-01-18,0,MALE
+C0190,Monica,Garcia,monica.garcia73@icloud.com,5647515956,Decatur,GA,313588X,Bronze,2024-04-28,0,
+C0109,Monica,Davis,monica.davis60@gmail.com,536-854-2969,Decatur,GA,30856,Silver,2023-06-13,0,FEMALE
+C0011,Ashley,Taylor,ashley.taylor44@gmail.com,,Smyrna,GA,31854,Bronze,2023-12-05,-5,Female
+C0033,Amber,Taylor,amber.taylor35@hotmail.com,+16481486955,Roswell,Georgia,31274,Bronze,2024-02-08,-5,Non-Binary
+C0050,Maria,Wilson,maria.wilson84@hotmail.com,,Sandy Springs,Ga.,30682,Gold,2024-11-17,,f
+C0055,Tyler,Garcia,tyler.garcia58@icloud.com,6476790218,Sandy Springs,Ga.,30489,Platinum,2023-08-28,999,M
+C0043,Marcus,Garcia,marcus.garcia76@icloud.com,(705) 574-7930,Smyrna,ga,31450,Silver,2023-10-08,20,MALE
+C0045,Keisha,Brown,keisha.brown88@gmail.com,,Alpharetta,GA,31241,Silver,2024-06-19,999,female
+C0031,DeShawn,Thomas,deshawn.thomas43@outlook.com,676-235-1868,Decatur,Georgia,30131,Platinum,2024-02-22,-5,female
+C0038,Monica,Martin,monica.martin9@icloud.com,(731) 672-4909,Sandy Springs,Ga.,31697,Platinum,2024-12-25,999,Male
+C0159,Stephanie,Lewis,stephanie.lewis50@hotmail.com,,Decatur,Georgia ,314732X,Platinum,2024-09-26,0,M
+C0168,DeShawn,White,deshawn.white84@yahoo.com,4267649508,Smyrna,Ga.,,Bronze,2023-05-16,,MALE
+C0133,Keisha,Williams,keisha.williams83@hotmail.com,+16686347476,Sandy Springs,Georgia,30969,Silver,2023-08-19,,
+C0178,Tyler,Wilson,tyler.wilson33@gmail.com,693-293-4976,Atlanta,GA,30966,Gold,2024-01-28,,M
+C0129,Michael,Thompson,michael.thompson49@hotmail.com,4413231198,Marietta,Georgia,3402,Bronze,2023-01-24,999,Non-Binary
+C0009,Brian,Johnson,brian.johnson63@gmail.com,4577089806,Smyrna,GA,30175,Platinum,2023-03-12,-5,
+C0102,Keisha,Moore,keisha.moore10@hotmail.com,(488) 846-7726,Roswell,ga,31825,Gold,2023-06-11,,
+C0077,Carlos,Wilson,carlos.wilson7@gmail.com,+15398434202,Dunwoody,Georgia ,31049,Bronze,2023-12-20,45,m
+C0177,Kevin,Davis,kevin.davis4@outlook.com,,Marietta,ga,31016,Platinum,2024-06-07,41,female
+C0061,Tanya,Harris,tanya.harris74@outlook.com,(758) 595-3150,Sandy Springs,ga,31526,Platinum,2023-10-21,,FEMALE
+C0147,Monica,Brown,monica.brown42@hotmail.com,+14065896386,Sandy Springs,GA,30497,Silver,2024-12-02,,Male
+C0176,Ashley,Thompson,ashley.thompson8@outlook.com,(741) 394-6849,Atlanta,Georgia,30710,Gold,2023-06-20,,N/A
+C0138,Michael,Clark,michael.clark64@icloud.com,7356663388,Dunwoody,Ga.,,Silver,2024-07-09,59,MALE
+C0108,Michael,Thomas,michael.thomas89@gmail.com,+14808375356,Dunwoody,Ga.,319939X,Gold,2024-02-13,0,MALE
+C0134,David,Williams,david.williams54@icloud.com,+16713249703,Smyrna,ga,31734,Gold,2023-04-05,,M
+C0197,James,Anderson,james.anderson89@gmail.com,(579) 530-6005,Atlanta,GA,31811,Platinum,2024-05-19,999,f
+C0142,Maria,Brown,maria.brown49@icloud.com,(643) 194-1452,Decatur,GA,30678,Bronze,2024-06-24,,Female
+C0059,Tanya,Martinez,tanya.martinez88@yahoo.com,(487) 393-7176,Sandy Springs,Georgia ,30293,Silver,2024-04-17,0,female
+C0151,Monica,Johnson,monica.johnson60@yahoo.com,(624) 588-7726,Sandy Springs,Ga.,31348,Silver,2024-03-09,999,F
+C0106,Kevin,Moore,kevin.moore71@outlook.com,,Marietta,Georgia ,30315,Silver,2024-11-05,-5,f
+C0139,Maria,Brown,maria.brown86@gmail.com,+17911107102,Decatur,Georgia,,Gold,2023-03-03,-5,female
+C0089,Rachel,Garcia,rachel.garcia25@outlook.com,+17478391997,Alpharetta,Ga.,31672,Silver,2024-09-11,0,M
+C0172,Amber,Thomas,amber.thomas89@gmail.com,737-606-0836,Smyrna,Ga.,31625,Silver,2024-05-21,42,Female
+C0022,Amber,Miller,amber.miller31@yahoo.com,(490) 791-7152,Decatur,ga,31769,Silver,2023-10-01,28,male
+C0171,DeShawn,Davis,deshawn.davis16@icloud.com,7737442986,Sandy Springs,ga,30172,Silver,2024-07-20,-5,N/A
+C0179,Monica,Martin,monica.martin32@hotmail.com,7686367620,Marietta,Georgia ,30107,Silver,2023-08-17,-5,M
+C0193,Amber,Taylor,,6441011467,Smyrna,Georgia,31729,Gold,2023-03-02,,FEMALE
+C0039,Brian,Anderson,brian.anderson69@hotmail.com,,Alpharetta,ga,30923,Silver,2024-04-20,-5,Non-Binary
+C0016,Linda,Williams,linda.williams11@yahoo.com,435-214-0194,Sandy Springs,GA,31217,Bronze,2024-09-26,999,Non-Binary
+C0145,David,Garcia,david.garcia71@hotmail.com,,Sandy Springs,GA,31460,Bronze,2023-03-26,,male
+C0069,Amber,Johnson,amber.johnson19@yahoo.com,676-520-5279,Marietta,GA,30487,Gold,2023-01-17,0,M
+C0058,Tanya,Thomas,tanya.thomas96@gmail.com,(622) 265-1601,Dunwoody,Georgia,31421,Gold,2024-01-03,999,Male
+C0120,Stephanie,Jackson,stephanie.jackson13@yahoo.com,+14023649811,Dunwoody,Ga.,31322,Bronze,2023-04-02,-5,Female
+C0113,Jennifer,Miller,jennifer.miller66@hotmail.com,(656) 167-5365,Atlanta,Georgia,30305,Silver,2023-12-02,0,Male
+C0068,Amber,Johnson,,570-508-6407,Smyrna,GA,30442,Silver,2023-12-03,,
+C0012,Kevin,Garcia,kevin.garcia17@icloud.com,695-893-0103,Dunwoody,Ga.,30725,Platinum,2024-02-25,47,Non-Binary
+C0115,James,Lewis,james.lewis84@icloud.com,(695) 481-7541,Dunwoody,Georgia,3644,Bronze,2024-08-09,62,Female
+C0098,Brian,Anderson,brian.anderson94@hotmail.com,,Decatur,Georgia ,311680X,Gold,2024-04-01,999,Male
+C0095,Michael,White,michael.white3@outlook.com,434-678-4825,Marietta,Georgia ,315447X,Gold,2024-10-20,999,N/A
+C0048,Ashley,Robinson,ashley.robinson20@outlook.com,(472) 219-8058,Decatur,ga,30899,Bronze,2024-04-24,0,N/A
+C0100,David,Williams,david.williams31@outlook.com,,Atlanta,Georgia ,30761,Platinum,2023-03-20,,MALE
+C0140,Keisha,Johnson,,(682) 790-1115,Atlanta,Georgia ,30035,Platinum,2023-07-03,24,MALE
+C0165,Kevin,Martin,kevin.martin10@gmail.com,6069650558,Roswell,Ga.,31779,Bronze,2024-04-14,0,F
+C0024,Monica,Jackson,monica.jackson15@outlook.com,(491) 545-3786,Marietta,Georgia ,31047,Bronze,2024-01-30,-5,Female

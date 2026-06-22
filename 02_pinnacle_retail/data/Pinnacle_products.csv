@@ -1,0 +1,21 @@
+﻿product_id,product_name,category,unit_price,unit_cost,supplier_id,sku,"is_active 1=yes, 2=no",launch_date
+P001,Wireless Earbuds,Electornics,89.99,37.54,SUP003,SKU-94245,1,2022-05-17
+P002,Smart Watch,Electornics,299.99,146.3,SUP003,SKU-98761,1,2022-03-24
+P003,Bluetooth Speaker,Electornics,49.99,25.17,SUP003,SKU-83591,0,2023-06-01
+P004,Phone Case,Accessories,19.99,11.38,SUP003,SKU-93964,0,2021-07-21
+P005,Laptop Stand,Electornics,34.99,22.24,SUP002,SKU-29651,1,2021-05-07
+P006,Running Shoes,Footwear,129.99,76.79,SUP003,SKU-99228,1,2020-02-22
+P007,Yoga Mat,Sports,39.99,17.11,SUP004,SKU-14629,0,2023-03-17
+P008,Dumbbell Set,Sports,149.99,84.6,SUP004,SKU-98063,0,2022-11-04
+P009,Protein Powder,Sports,54.99,33.11,SUP002,SKU-48506,0,2022-08-22
+P010,Water Bottle,Sports,24.99,14.18,SUP002,SKU-99091,0,2020-07-01
+P011,Face Moisturizer,Beauty,29.99,17.19,SUP003,SKU-58717,1,2023-04-14
+P012,Lip Gloss Set,Beauty,22.99,13.18,SUP005,SKU-86062,0,2020-05-25
+P013,Coffee Maker,Home & Kitchen,79.99,40.01,SUP004,SKU-79446,1,2022-04-26
+P014,Air Fryer,Home & Kitchen,119.99,47.42,SUP003,SKU-63633,0,2022-07-26
+P015,Throw Blanket,Home & Kitchen,44.99,25.41,SUP004,SKU-53598,1,2021-10-03
+P016,Action Figure,Toys,28.08,13.83,SUP002,SKU-85534,1,2022-09-29
+P017,Board Game,Toys,34.99,16.8,SUP004,SKU-72573,1,2020-01-10
+P018,Backpack,Accessories,59.99,34.15,SUP003,SKU-79603,0,2020-02-06
+P019,Sunglasses,Accessories,27.4,15.6,SUP003,SKU-50906,1,2020-07-29
+P020,Resistance Bands,Sports,27.99,15.45,SUP001,SKU-49085,1,2022-07-22

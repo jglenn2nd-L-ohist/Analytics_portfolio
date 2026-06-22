@@ -35,6 +35,17 @@ which content drives real business outcomes for a data analytics bootcamp.
 - [View Tableau Dashboard](https://public.tableau.com/shared/XM7H3HQ3K?:display_count=n&:origin=viz_share_link)
 # 
 
+# \### 02 — Pinnacle Retail Group | Business Intelligence Analysis 
+
+# End-to-end BI analysis for a 6-store Atlanta retail chain facing margin decline
+
+# and inventory inefficiencies.
+
+# 
+
+# \- 2,000+ transactions | 847 orphaned product IDs resolved | VP-level executive briefing
+
+
 # \### 02 — Pinnacle Retail Group | Business Intelligence Analysis ~ Coming Soon
 
 # End-to-end BI analysis for a 6-store Atlanta retail chain facing margin decline
@@ -44,6 +55,13 @@ which content drives real business outcomes for a data analytics bootcamp.
 # 
 
 # \- 2,000+ transactions | 847 orphaned product IDs resolved | VP-level executive briefing
+
+
+# - **In progress:** Revenue vs. projected analysis complete — 2025 actuals running 80–90% below projection across all 5 months (Jan–May)
+
+
+
+
 
 # \- Tools: SQL · Python · Tableau
 

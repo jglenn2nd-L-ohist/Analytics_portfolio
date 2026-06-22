@@ -1,0 +1,7 @@
+﻿store_id,store_name,region,address,city,state,zip_code,store_manager,sq_footage,open_date,latitude,longitude,status
+S001,Atlanta Midtown,Metro ATL,8624 Oak St,Atlanta,GA,30888,Robert Hayes,4200,2018-03-15,33.7844,-84.3846,Open
+S002,Atlanta Buckhead,Metro ATL,2292 Oak St,Marietta,GA,31846,Lisa Chen,6800,2015-07-01,33.8376,-84.3963,Open
+S003,Marietta,Suburbs,8131 Oak St,Decatur,GA,31536,,3900,2020-11-20,999.99,-84.5499,Open
+S004,Decatur,Suburbs,3187 Main St,Smyrna,GA,31941,Marcus Webb,5100,2019-04-08,33.7748,-84.2963,Open
+S005,Smyrna,Suburbs,6709 Peachtree St,Alpharetta,GA,30467,Diane Okafor,4750,2021-09-30,33.8631,,Closed
+S006,Alpharetta,Suburbs,3775 Main St,Roswell,GA,30432,James Petrov,7200,2016-02-14,34.0754,-84.2941,Open
