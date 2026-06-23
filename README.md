@@ -52,7 +52,7 @@ and inventory inefficiencies.
 
 # \## Connect
 
-# - LinkedIn: https://linkedin.com/in/j-glenn-2nd
+# \- LinkedIn: https://linkedin.com/in/j-glenn-2nd
 
 # \- Email: j.glenn2nd@gmail.com
 
