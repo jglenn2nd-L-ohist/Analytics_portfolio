@@ -35,37 +35,14 @@ which content drives real business outcomes for a data analytics bootcamp.
 - [View Tableau Dashboard](https://public.tableau.com/shared/XM7H3HQ3K?:display_count=n&:origin=viz_share_link)
 # 
 
-# \### 02 — Pinnacle Retail Group | Business Intelligence Analysis 
+# ### 02 — Pinnacle Retail Group | Business Intelligence Analysis 
+End-to-end BI analysis for a 6-store Atlanta retail chain facing margin decline
+and inventory inefficiencies.
 
-# End-to-end BI analysis for a 6-store Atlanta retail chain facing margin decline
-
-# and inventory inefficiencies.
-
-# 
-
-# \- 2,000+ transactions | 847 orphaned product IDs resolved | VP-level executive briefing
-
-
-# \### 02 — Pinnacle Retail Group | Business Intelligence Analysis ~ Coming Soon
-
-# End-to-end BI analysis for a 6-store Atlanta retail chain facing margin decline
-
-# and inventory inefficiencies.
-
-# 
-
-# \- 2,000+ transactions | 847 orphaned product IDs resolved | VP-level executive briefing
-
-
-# - **In progress:** Revenue vs. projected analysis complete — 2025 actuals running 80–90% below projection across all 5 months (Jan–May)
-
-
-
-
-
-# \- Tools: SQL · Python · Tableau
-
-# \- \[View project](./02\_pinnacle\_retail/)
+- 2,000+ transactions | 847 orphaned product IDs resolved | VP-level executive briefing
+- **In progress:** Revenue vs. projected analysis complete — 2025 actuals running 80–90% below projection across all 5 months (Jan–May)
+- Tools: SQL · Python · Tableau
+- [View project](./02\_pinnacle\_retail/)
 
 # 
 
@@ -75,7 +52,7 @@ which content drives real business outcomes for a data analytics bootcamp.
 
 # \## Connect
 
-# \- LinkedIn: linkedin.com/in/j-glenn-2nd
+# \- LinkedIn: https://linkedin.com/in/j-glenn-2nd
 
 # \- Email: j.glenn2nd@gmail.com
 
