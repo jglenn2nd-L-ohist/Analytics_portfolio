@@ -29,6 +29,8 @@ monthly_revenue = monthly_revenue.reset_index()
 prior_year = monthly_revenue.copy()
 prior_year['transact_year'] = prior_year['transact_year'] + 1
 merged_m_revenue = pd.merge(monthly_revenue, prior_year, on=['transact_year','transact_month'])
+
+# -- Growth rate calaculation
 merged_m_revenue['growth_rate'] = (merged_m_revenue['total_amount_x'] - merged_m_revenue['total_amount_y'])/merged_m_revenue['total_amount_y']
 merged_m_revenue = merged_m_revenue[~((merged_m_revenue['transact_year'] == 2025) & (merged_m_revenue['transact_month'] == 6))]
 
