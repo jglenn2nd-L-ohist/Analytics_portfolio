@@ -31,6 +31,7 @@ prod = pd.read_sql_query(query1, conn)
 query2 = """
     SELECT
         product_id
+    ,   quantity    
     ,   return_flag
     ,   store_id
     FROM
@@ -42,15 +43,17 @@ transact = pd.read_sql_query(query2, conn)
 # -- Merge store with transact
 stor_tx = pd.merge(stor, transact, on=['store_id'], how="inner")
 # -- Merge new set with product to get all needed info
-merged_stor = pd.merge(stor_tx, prod, on=['product_id'], how="inner")
+merged_stor = pd.merge(stor_tx, prod, on=['product_id'], how="left")
 
 # -- Transform 'return_flag' to boolean
-merged_stor['return_flag'] = merged_stor['return_flag'].str.lower() == 'yes'
+merged_stor = merged_stor.dropna(subset=['return_flag'])
+merged_stor['return_flag'] = merged_stor['return_flag'].str.lower().isin(['yes', 'y', 'true'])
+merged_stor['return_units'] = merged_stor['return_flag'] * merged_stor['quantity']
 
 # -- aggregate returns by store/category
 returns = merged_stor.groupby(['store_name','category']).agg(
-    total=('return_flag', 'count'),
-    returns=('return_flag', 'sum')
+    total=('quantity', 'sum'),
+    returns=('return_units', 'sum')
 )
 returns['rate'] = returns['returns']/returns['total']
 returns = returns.reset_index()
