@@ -594,7 +594,7 @@ def main():
     load_to_db(conn, "wc_shifts_scheduled",  df_scheduled)
     load_to_db(conn, "wc_shifts_actual",     df_actual)
     load_to_db(conn, "wc_inventory",         df_inventory)
-
+  
     conn.close()
 
     total_rows = (
