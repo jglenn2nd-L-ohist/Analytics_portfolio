@@ -200,8 +200,72 @@ unique_ingredients.to_sql('wc_ingredients', conn, if_exists='replace', index=Fal
 inventory = pd.merge(inventory, unique_ingredients[['ingredient_id', 'ingredient_name']], on='ingredient_name', how='left')
 inventory.to_sql('wc_inventory', conn, if_exists='replace', index=False)
 
+# - Standardize shift column (actuals)
+query5 = """
+    SELECT
+        *
+    FROM
+        wc_shifts_actual
+    """
 
-print(unique_ingredients.shape)
-print(unique_ingredients.head(20))
+actual = pd.read_sql_query(query5, conn)
+
+# - Shift dictionary
+mapping = {
+    'morning': 'morning',
+    'Morning': 'morning',
+    'MORNING': 'morning',
+    'AM': 'morning',
+    'am shift': 'morning',
+    'afternoon': 'afternoon',
+    'Afternoon': 'afternoon',
+    'AFTERNOON': 'afternoon',
+    'PM': 'afternoon',
+    'mid': 'afternoon',
+    'evening': 'evening',
+    'Evening': 'evening',
+    'EVENING': 'evening',
+    'PM2': 'evening',
+    'night': 'evening',
+    'closing': 'evening'}
+
+actual['shift'] = actual['shift'].map(mapping)
+
+# - Write standardized table to sql file
+actual.to_sql('wc_shifts_actual', conn, if_exists='replace', index=False)
+
+# - Standardize shift column (scheduled)
+query6 = """
+    SELECT
+        *
+    FROM
+        wc_shifts_scheduled
+    """
+
+sched = pd.read_sql_query(query6, conn)
+
+# - Shift dictionary
+mapping = {
+    'morning': 'morning',
+    'Morning': 'morning',
+    'MORNING': 'morning',
+    'AM': 'morning',
+    'am shift': 'morning',
+    'afternoon': 'afternoon',
+    'Afternoon': 'afternoon',
+    'AFTERNOON': 'afternoon',
+    'PM': 'afternoon',
+    'mid': 'afternoon',
+    'evening': 'evening',
+    'Evening': 'evening',
+    'EVENING': 'evening',
+    'PM2': 'evening',
+    'night': 'evening',
+    'closing': 'evening'}
+
+sched['shift'] = sched['shift'].map(mapping)
+
+# - Write standardized table to sql file
+sched.to_sql('wc_shifts_scheduled', conn, if_exists='replace', index=False)
 # - Terminate connection
 conn.close()
