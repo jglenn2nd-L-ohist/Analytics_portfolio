@@ -16,8 +16,6 @@ producing findings structured for a VP-level audience.
 ## Data
 - Source: Fictional dataset — 5 tables, 2,000+ transactions
 - Tables: `pintransact`, `pincust`, `pinstor`, `pininv`, `pinprod`
-- Known issue: Tableau dashboard was not published — data discrepancy between
-  source tables was identified and determined not worth reconciling for this project.
 
 ## Key Findings
 - 847 orphaned product IDs resolved during data cleaning
