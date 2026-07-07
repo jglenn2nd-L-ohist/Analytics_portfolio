@@ -22,8 +22,8 @@ Updated upon completion
 |------|---------|
 | `python/00_build_database.py` | Builds SQLite database from raw data |
 | `python/00b_clean.py` | Data cleaning and standardization |
-| `python/04_staffing_v_load.py` | Staffing vs. order load on game days vs. non-game days (Q1) |
-| `sql/04_staffing_v_load.sql` | Supporting SQL for Q1 staffing analysis |
+| `python/q1_staffing_v_load.py` | Staffing vs. order load on game days vs. non-game days (Q1) |
+| `sql/q1_staffing_v_load.sql` | Supporting SQL for Q1 staffing analysis |
 ## Tools
 SQL (SQLite) – Python (Pandas, Numpy, Matplotlib, Seaborn)
 
