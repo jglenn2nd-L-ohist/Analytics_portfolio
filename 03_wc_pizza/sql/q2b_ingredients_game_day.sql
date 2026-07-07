@@ -1,6 +1,6 @@
 ######################################
 - Project: World Cup Pizza Company
-- Script: 03_Ingredients_game_day.sql
+- Script: q2b_Ingredients_game_day.sql
 - Question: What are the ingredients necessary to supply game day demand on a store level?
 - Tables: wc_orders, wc_order_items, wc_products, wc_recipes, wc_ingredients
 - Game day window: 2026-06-15 through 2026-06-30

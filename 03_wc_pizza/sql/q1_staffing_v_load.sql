@@ -1,6 +1,6 @@
 -- ============================================================
 -- Project:          WC Pizza Co
--- Script:           04_staffing_vs_load.sql
+-- Script:           q1_staffing_vs_load.sql
 -- Business Question: Which locations and shifts are understaffed
 --                   relative to order volume on game days vs.
 --                   non-game days?
