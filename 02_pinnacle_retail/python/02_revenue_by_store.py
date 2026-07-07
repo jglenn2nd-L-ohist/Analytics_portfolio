@@ -89,3 +89,6 @@ ax.set_title('2024 Actual vs 2025 Projected & Actual (Store Level) | Jan–May 2
 
 plt.savefig('../outputs/02_revenue_by_store.png', dpi=150, bbox_inches='tight')
 plt.show()
+
+# - Terminate connection
+conn.close()

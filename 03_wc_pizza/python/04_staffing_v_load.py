@@ -1,20 +1,14 @@
--- ============================================================
--- Project:          WC Pizza Co
--- Script:           04_staffing_vs_load.sql
--- Business Question: Which locations and shifts are understaffed
---                   relative to order volume on game days vs.
---                   non-game days?
--- Tables Used:      wc_orders, wc_order_items, wc_products,
---                   wc_shifts_scheduled, wc_shifts_actual,
---                   wc_stores
--- Date Window:      2026-01-01 through 2026-06-30
--- Purpose:          Compare scheduled and actual staff counts
---                   against non-beverage item volume by store,
---                   date, and shift to identify understaffing
---                   patterns on game days vs. non-game days
--- Author:           J. Glenn
--- Date:             2026-07-06
--- ============================================================
+# - Import libraries
+import pandas as pd 
+import numpy as np
+import sqlite3 as sq
+import matplotlib.pyplot as plt
+
+# - Import dataset
+conn = sq.connect("../data/wc_pizza.db")
+
+# - Query data
+query = """
 WITH load AS (  -- Determine order volume by store/date/shift (taking into account order type)
 	SELECT
 		ord.store_name AS store 
@@ -88,4 +82,35 @@ JOIN
 	actual a
 ON
 	l.store = a.store AND l.date = a.date AND l.shift = a.shift 
-;
+"""
+
+loads = pd.read_sql_query(query, conn)
+
+
+# - grouping by store & game_day 
+df = loads.groupby(['store','is_game_day'])['order_per_person'].mean().reset_index()    
+
+# - pivot data for visualization
+pivot = df.pivot(index='store',columns='is_game_day', values='order_per_person')
+
+# - Plot the data
+x = np.arange(len(pivot))
+
+fig, ax = plt.subplots(figsize=(12, 8))
+
+width = 0.3
+
+ax.bar(x - width, pivot[1], width, label="Game Day" )
+ax.bar(x, pivot[0], width, label="No Game")
+ax.set_xticks(x)
+ax.legend()
+ax.set_ylabel('Avg Orders per Employee per Shift')
+ax.set_xlabel("Store")
+ax.set_title("Staffing load comparison Game day v Regular Day")
+ax.set_xticklabels(pivot.index)
+
+plt.savefig('../outputs/04_staffing_v_load.png', dpi=150, bbox_inches='tight')
+plt.show()  
+
+# - Terminate connection
+conn.close()

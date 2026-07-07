@@ -121,7 +121,7 @@ query3 = """
 employees = pd.read_sql_query(query3, conn)
 
 # Merge worked and employees to gain employee_id
-mer_work_emp = pd.merge(employees, worked, on='employee_name', how='left')
+mer_work_emp = pd.merge(worked, employees, on='employee_name', how='left')
 
 # - Write Standardized table back to SQL
 mer_work_emp.to_sql('wc_shifts_actual', conn, if_exists='replace', index=False)

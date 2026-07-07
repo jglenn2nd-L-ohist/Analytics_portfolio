@@ -72,3 +72,5 @@ ax.set_title('2024 Actual vs 2025 Projected & Actual | Jan–May 2025\nPinnacle 
 plt.savefig('../outputs/01_revenue_vs_projected.png', dpi=150, bbox_inches='tight')
 plt.show()
 
+# - Terminate connection
+conn.close()

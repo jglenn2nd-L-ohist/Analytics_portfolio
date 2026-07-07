@@ -63,3 +63,6 @@ plt.title('Immediate Reorder Alert — Pinnacle Retail Group', fontsize=13, pad=
 plt.tight_layout()
 plt.savefig('../outputs/04_stockout_table.png', dpi=150, bbox_inches='tight')
 plt.show()
+
+# - Terminate connection
+conn.close()

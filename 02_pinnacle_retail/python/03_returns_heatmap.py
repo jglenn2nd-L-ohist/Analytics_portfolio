@@ -71,3 +71,5 @@ plt.tight_layout()
 plt.savefig('../outputs/03_return_rate_heatmap.png', dpi=150, bbox_inches='tight')
 plt.show()
 
+# - Terminate connection
+conn.close()
