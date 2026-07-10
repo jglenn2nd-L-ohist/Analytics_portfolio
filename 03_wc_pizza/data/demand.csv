@@ -1,0 +1,26 @@
+Store,item,total_sold,Most_popular
+Camp Creek,Classic Pepperoni,127,1
+Camp Creek,Margherita,112,2
+Camp Creek,Cheese Breadsticks,105,3
+Camp Creek,Meat Lovers,102,4
+Camp Creek,BBQ Chicken,101,5
+Decatur,Classic Pepperoni,211,1
+Decatur,BBQ Chicken,186,2
+Decatur,Veggie Supreme,170,3
+Decatur,Meat Lovers,165,4
+Decatur,Margherita,161,5
+Downtown,Classic Pepperoni,490,1
+Downtown,BBQ Chicken,456,2
+Downtown,Margherita,394,3
+Downtown,Meat Lovers,381,4
+Downtown,Buffalo Chicken,355,5
+Duluth,Classic Pepperoni,314,1
+Duluth,BBQ Chicken,237,2
+Duluth,Margherita,229,3
+Duluth,Buffalo Chicken,211,4
+Duluth,Meat Lovers,202,5
+Smyrna,Classic Pepperoni,220,1
+Smyrna,Cheese Breadsticks,160,2
+Smyrna,Margherita,155,3
+Smyrna,BBQ Chicken,142,4
+Smyrna,Meat Lovers,133,5
