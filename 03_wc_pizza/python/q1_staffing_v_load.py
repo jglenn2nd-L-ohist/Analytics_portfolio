@@ -111,7 +111,7 @@ ax.set_xlabel("Store")
 ax.set_title("Staffing load comparison Game day v Regular Day")
 ax.set_xticklabels(pivot.index)
 
-plt.savefig('../outputs/04_staffing_v_load.png', dpi=150, bbox_inches='tight')
+plt.savefig('../outputs/q1_staffing_v_load.png', dpi=150, bbox_inches='tight')
 plt.show()  
 
 # - Terminate connection
