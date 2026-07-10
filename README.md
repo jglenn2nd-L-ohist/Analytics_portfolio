@@ -28,14 +28,15 @@ and inventory inefficiencies.
 - Tools: SQL · Python · Tableau
 - [View project](./02_pinnacle_retail/)
 
-### 03 — WC Pizza Co | Labor & Operations Analysis 🔄 In Progress
+### 03 — WC Pizza Co | Labor & Operations Analysis ✅ Complete
 Operations analysis for a 5-location Atlanta pizza chain through the lens of the
 2026 FIFA World Cup — identifying staffing gaps, demand surges, and cost leakage
 on game days versus non-game days.
 
-- January–July 2026 | 5 locations | ~269K rows across 9 tables
+- January–July 2026 | 5 locations | 267,500+ rows across 11 tables
 - Tools: SQL · Python · Tableau
 - [View project](./03_wc_pizza/)
+- [View Tableau Dashboard](https://public.tableau.com/views/WorldCupPizzaco/Dashboard1)
 
 ---
 
