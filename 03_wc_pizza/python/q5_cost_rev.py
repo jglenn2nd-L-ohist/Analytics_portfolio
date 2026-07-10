@@ -1,17 +1,15 @@
--- ============================================================
--- Project:          WC Pizza Co
--- Script:           q5_cost_rev.sql
--- Business Question: What does cost and revenue margins look like
---                   game day v non-game day?
--- Tables Used:      wc_shifts_actual, wc_order_items, wc_products
---                   wc_stores, wc_orders
--- Date Window:      2026-01-01 through 2026-06-30
--- Purpose:          Compare total revenue to total costs comparing
---                   game day v non game day
--- Author:           J. Glenn
--- Date:             2026-07
--- ============================================================
- WITH labor AS( -- Labor costs
+# - Import libraries
+import pandas as pd
+import numpy as np
+import sqlite3 as sq
+import matplotlib.pyplot as plt
+
+# - Import dataset
+conn = sq.connect("../data/wc_pizza.db")
+
+# - Query data
+query = """
+WITH labor AS( -- Labor costs
 	SELECT
 		store_id
 	,	SUM(labor_cost) tl_cost	
@@ -46,7 +44,7 @@
 	)
 	
 SELECT 
-	s.store_name
+	s.store_name store
 ,	g.tot_rev
 ,	(l.tl_cost + g.tg_cost) tot_costs
 ,	ROUND((g.tot_rev - (l.tl_cost + g.tg_cost))/l.num_days,2) margin
@@ -65,4 +63,32 @@ ON
 GROUP BY
 	l.store_id
 ,	l.game_day
-;
+"""
+
+cost = pd.read_sql_query(query, conn)
+
+
+# - prepare data for pivot by grouping on store & game day
+df = cost.groupby(['store','game_day'])['margin'].mean().reset_index()
+
+# - Pivot data
+pivot = df.pivot(index='store', columns='game_day', values='margin')
+
+# - Plot grouped bar chart
+x = np.arange(len(pivot))
+
+fig, ax = plt.subplots(figsize=(12, 8))
+
+width = 0.3
+
+ax.bar(x - width/2, pivot["Y"], width, label="Game Day" )
+ax.bar(x + width/2, pivot["N"], width, label="No Game")
+ax.set_xlabel("Game Day v No Game")
+ax.set_xticks(x)
+ax.legend()
+ax.set_ylabel("margin")
+ax.set_title("Game day v Non-Game Day Margins")
+ax.set_xticklabels(pivot.index)
+
+plt.savefig("../outputs/q5_cost_rev.png")
+plt.show()
