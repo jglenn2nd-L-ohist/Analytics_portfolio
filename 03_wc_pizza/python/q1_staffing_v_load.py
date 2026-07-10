@@ -86,6 +86,8 @@ ON
 
 loads = pd.read_sql_query(query, conn)
 
+# - Create CSV loaded into data folder
+loads.to_csv("../data/loads.csv")
 
 # - grouping by store & game_day 
 df = loads.groupby(['store','is_game_day'])['order_per_person'].mean().reset_index()    

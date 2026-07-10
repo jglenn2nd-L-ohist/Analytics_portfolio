@@ -67,6 +67,8 @@ GROUP BY
 
 cost = pd.read_sql_query(query, conn)
 
+# - Create CSV downloaded to data folder
+cost.to_csv("../data/cost.csv")
 
 # - prepare data for pivot by grouping on store & game day
 df = cost.groupby(['store','game_day'])['margin'].mean().reset_index()
