@@ -24,3 +24,10 @@ print("duplicate rows:", uci.duplicated().sum())
 
 # - Cancellation check
 print("Cancellations:", uci['InvoiceNo'].str.startswith('C').sum())
+
+
+# - Check for negatives outside of Cancelled orders
+neg = uci[~uci['InvoiceNo'].str.startswith('C')]
+print("Negative quantities apart from cancellations", (neg['Quantity']< 0).sum())
+print("Negative quantities apart from cancellations", (neg['UnitPrice']< 0).sum())
+
