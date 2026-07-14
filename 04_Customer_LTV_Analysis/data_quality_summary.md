@@ -16,3 +16,9 @@
 | 9288 Cancelled orders | Medium | Moderate impact - Under 2% Cancelled orders | Drop so as not to skew calculations |
 | Quantity & UnitPrice negative values | Medium | Impact is considerable - The negative quantities will corrupt the analysis | Dropping along with the Cancelled orders, 1336 quantity & 2 UnitPrice live outside of cancelled orders. These will be explicitly droppped |
 | Improper InvoiceDate formatting | Critical | Unable to do cohort calculations | Date time formatting to be done |
+
+--
+
+## Resolutions
+
+Post run of cleaning script dataset now contains 392,692 lines of data prepared for analysis
