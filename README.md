@@ -38,6 +38,16 @@ on game days versus non-game days.
 - [View project](./03_wc_pizza/)
 - [View Tableau Dashboard](https://public.tableau.com/views/WorldCupPizzaco/Dashboard1)
 
+### 04 - Customer Lifetime Value Analysis   - IN PROGRESS
+Cohort analysis of a UK-based wholesale retailer to determine customer lifetime value and purchasing trends across an international customer base
+
+- UK based online retailer, 1 year of messy data
+- 540,000+ entries unclean
+- 390,000+ Usable for analysis
+
+- Tools: Python
+- [View project](./04_Customer_LTV_Analysis)
+
 ---
 
 ## Connect
