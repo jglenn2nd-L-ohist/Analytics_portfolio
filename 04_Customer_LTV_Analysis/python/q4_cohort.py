@@ -34,7 +34,7 @@ r_rate = cohort_mat.div(cohort_mat[0], axis=0)
 
 # - construct heatmap to visualize retention rates
 fig, ax = plt.subplots(figsize=(10,6))
-sns.heatmap(r_rate, annot=True, fmt="0.0%", cmap="Greens", ax=ax)
+sns.heatmap(r_rate, annot=True, fmt="0.0%", cmap="Blues", ax=ax)
 
 plt.title("Cohort/Period Retention Rate Heatmap")
 plt.tight_layout()
