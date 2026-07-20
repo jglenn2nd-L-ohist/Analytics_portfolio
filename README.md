@@ -38,18 +38,18 @@ on game days versus non-game days.
 - [View project](./03_wc_pizza/)
 - [View Tableau Dashboard](https://public.tableau.com/views/WorldCupPizzaco/Dashboard1)
 
-### 04 - Customer Lifetime Value Analysis   - IN PROGRESS
-Cohort analysis of a UK-based wholesale retailer to determine customer lifetime value and purchasing trends across an international customer base
+### 04 — Customer Lifetime Value Analysis | UCI Online Retail ✅ Complete
+Cohort analysis of a UK-based wholesale retailer to determine customer lifetime value
+and purchasing trends across an international customer base.
 
-- UK based online retailer, 1 year of messy data
-- 540,000+ entries unclean
-- 390,000+ Usable for analysis
-
+- 4,338 customers | 392,692 usable entries | 37 countries | 14 cohorts analyzed
+- Early cohorts outspend later ones | Netherlands leads volume | EIRE concentrated in 3 accounts
 - Tools: Python
-- [View project](./04_Customer_LTV_Analysis)
+- [View project](./04_Customer_LTV_Analysis/)
+- [View Executive Briefing](./04_Customer_LTV_Analysis/deliverables/ltv_analysis.pdf)
 
 ---
 
 ## Connect
-- LinkedIn: linkedin.com/in/j-glenn-2nd
-- Email: j.glenn2nd@gmail.com
+- LinkedIn: linkedin.com/in/j-glenn-2nd/
+- Email: j.glenn2nd@gmail.com 
