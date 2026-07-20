@@ -39,6 +39,7 @@ ax.barh(top_10r.index, top_10r.values, label="Revenue by Country")
 ax.set_xlabel("Revenue Generated")
 ax.set_title("International Revenue, Top 10 countries")
 
+plt.tight_layout()
 plt.savefig("../outputs/q3a_rev_by_country.png")
 
 # - Plot for Average spend by customer per country
@@ -48,6 +49,7 @@ ax.barh(top_10a.index, top_10a.values, label="Avg Spend")
 ax.set_xlabel("Revenue Generated")
 ax.set_title("Average Spent by Customer, Top 10 countries")
 
+plt.tight_layout()
 plt.savefig("../outputs/q3b_cus_spend_country.png")
 
 # - Plot for Average Number of buys per customer per country
