@@ -48,6 +48,13 @@ and purchasing trends across an international customer base.
 - [View project](./04_Customer_LTV_Analysis/)
 - [View Executive Briefing](./04_Customer_LTV_Analysis/deliverables/ltv_analysis.pdf)
 
+### 05 — Global Superstore Operations Analysis ⏳ In Progress
+Root cause analysis of shipping operations, regional performance, and return rates
+for a global retailer spanning multiple markets and customer segments.
+
+- 51,291 orders across 7 markets | ETL pipeline: Excel → pandas → SQLite | COO-level briefing
+- Tools: SQL · Python · SQLite · Power BI
+- [View project](./05_Global_Superstore_Operations/)
 ---
 
 ## Connect
