@@ -51,4 +51,10 @@ orders["ship_time"] = (orders["ship_date"] - orders['order_date'])
 # - convert ship_time to int
 orders["ship_time"] = orders["ship_time"].dt.days
 
-print(orders.head())
+# - Export transformed datasets to SQL
+conn = sql.connect("../data/global_ss.db")
+orders.to_sql("orders", conn, if_exists="replace", index=False)
+returns.to_sql("returns", conn, if_exists="replace", index=False)
+people.to_sql("people", conn, if_exists="replace", index=False)
+
+conn.close()
