@@ -53,8 +53,18 @@ Extract from `.xls` (three sheets via `pd.read_excel()`) → Transform in pandas
 
 ## Key Findings
 
-*To be populated upon project completion.*
-
+Q1:
+    Ship mode reveals negative profit pattern across multiple region/category/ship mode combinations
+Q2:
+    Central is profit leader 50% above 2nd place profit leader
+Q3:
+    Company average return rate: 5.96%
+    North Asia, North & West are all more than double company return rate
+    in both category and segment breakdown
+Q4:
+    824 Returned and had high shipping costs
+    of those 542 were at or below the average sale price
+    also 436 of the 824 were sold without discounting
 ---
 
 ## Recommendations
