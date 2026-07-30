@@ -1,7 +1,7 @@
 # J. Glenn — Data Analytics Portfolio
 
 Data analyst with 12 years of field operations experience and a full analytics stack:  
-SQL · Python · Tableau · Excel
+SQL · Python · Tableau · Excel · Power BI 
 
 This portfolio contains end-to-end analytics projects — from raw data and SQL queries
 to Python visuals and executive dashboards. Every project includes the code that
@@ -48,12 +48,13 @@ and purchasing trends across an international customer base.
 - [View project](./04_Customer_LTV_Analysis/)
 - [View Executive Briefing](./04_Customer_LTV_Analysis/deliverables/ltv_analysis.pdf)
 
-### 05 — Global Superstore Operations Analysis ⏳ In Progress
+### 05 — Global Superstore Operations Analysis ✅ Complete
 Root cause analysis of shipping operations, regional performance, and return rates for a global retailer spanning multiple markets and customer segments.
 
-- 51,291 orders across 7 markets | ETL pipeline: Excel → pandas → SQLite | COO-level briefing
+- 51,291 orders across 7 markets | ETL pipeline: Excel → pandas → SQLite | Power BI dashboard
 - Tools: SQL · Python · SQLite · Power BI
 - [View project](./05_Global_Superstore_Operations/)
+
 ---
 
 ## Connect
