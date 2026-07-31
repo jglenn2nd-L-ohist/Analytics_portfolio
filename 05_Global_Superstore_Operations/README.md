@@ -68,8 +68,9 @@ Studying returns, specifically with high shipping costs, the company has a sampl
 | # | Recommendation | Based On |
 |---|---------------|----------|
 | R1 | Commission a pricing study to determine the proper shipping cost structure for corporate accounts across all shipping modes. | Q1 |
-| R2 | Implement a return survey in North Asia, North, and West regions to identify root causes and inform a targeted reduction strategy. | Q3 |
-| R3 | Evaluate a discount strategy for high-shipping-cost, low-sale-price items as a perceived value intervention to reduce return rates. | Q4 |
+| R2 | Conduct an operational review of the Central region to identify the practices driving its profit leadership and assess replicability across underperforming regions. | Q2 |
+| R3 | Implement a return survey in North Asia, North, and West regions to identify root causes and inform a targeted reduction strategy. | Q3 |
+| R4 | Evaluate a discount strategy for high-shipping-cost, low-sale-price items as a perceived value intervention to reduce return rates. | Q4 |
 ---
 
 ## Files
