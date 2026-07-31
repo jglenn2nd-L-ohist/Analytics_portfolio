@@ -55,6 +55,7 @@ Extract from `.xls` (three sheets via `pd.read_excel()`) → Transform in pandas
 
 ## Key Findings
 
+|---|---------------|
 | Q1 |
 With respect to shipping costs, data reveals there are large profit losses found in all categories, some more than $2,000 per order. |
 | Q2 |
