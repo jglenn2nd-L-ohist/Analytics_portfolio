@@ -42,6 +42,8 @@ The goal is root cause: identify the operational factors driving high shipping c
 City, State, Country, Market, Region, Category, Sub-Category, Product Name, Sales,
 Quantity, Discount, Profit, Shipping Cost, Order Priority
 
+**Attribution:** Global Superstore Dataset — Kaggle (CC0: Public Domain)  
+https://www.kaggle.com/datasets/apoorvaappz/global-super-store-dataset
 ---
 
 ## ETL Pipeline
@@ -54,7 +56,7 @@ Extract from `.xls` (three sheets via `pd.read_excel()`) → Transform in pandas
 ## Key Findings
 
 Q1:
-With respect to shipping costs, data reveals there are large profit losses across all categories, more than $2,000 per order. 
+With respect to shipping costs, data reveals there are large profit losses found in all categories, some more than $2,000 per order. 
 Q2:
 With the corporate segment experiencing the heaviest losses Central region is our overall profit leader, bringing in 50% more than the 2nd place region, North. 
 Q3:
