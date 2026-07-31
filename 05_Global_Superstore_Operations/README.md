@@ -55,14 +55,14 @@ Extract from `.xls` (three sheets via `pd.read_excel()`) → Transform in pandas
 
 ## Key Findings
 
-Q1:
-With respect to shipping costs, data reveals there are large profit losses found in all categories, some more than $2,000 per order. 
-Q2:
-With the corporate segment experiencing the heaviest losses Central region is our overall profit leader, bringing in 50% more than the 2nd place region, North. 
-Q3:
-Our company returns rate is 5.96%. North Asia, North & West all have return rates double the company average when viewed by both category and segment.
-Q4: 
-Studying returns, specifically with high shipping costs, the company has a sample size of 824. Of those 824, 542 (~66%) were sales made at or below the company average of $721. Also of those 824, 436 (~53%) were sold at full price, without any discount.
+| Q1 |
+With respect to shipping costs, data reveals there are large profit losses found in all categories, some more than $2,000 per order. |
+| Q2 |
+With the corporate segment experiencing the heaviest losses Central region is our overall profit leader, bringing in 50% more than the 2nd place region, North. |
+| Q3 |
+|Our company returns rate is 5.96%. North Asia, North & West all have return rates double the company average when viewed by both category and segment. |
+| Q4 | 
+Studying returns, specifically with high shipping costs, the company has a sample size of 824. Of those 824, 542 (~66%) were sales made at or below the company average of $721. Also of those 824, 436 (~53%) were sold at full price, without any discount. |
 ---
 
 ## Recommendations
