@@ -17,8 +17,8 @@ which content drives real business outcomes for a data analytics bootcamp.
 
 - 2,737 leads analyzed | ~40% attributed to YouTube | 32% attribution gap uncovered
 - Tools: SQL · Python · Tableau
-- [View project](./01_lead_attribution/)
-- [View Tableau Dashboard](https://public.tableau.com/shared/XM7H3HQ3K?:display_count=n&:origin=viz_share_link)
+- [`View project`](./01_lead_attribution/)
+- [`View Tableau Dashboard`](https://public.tableau.com/shared/XM7H3HQ3K?:display_count=n&:origin=viz_share_link)
 
 ### 02 — Pinnacle Retail Group | Business Intelligence Analysis ✅ Complete
 End-to-end BI analysis for a 6-store Atlanta retail chain facing margin decline
@@ -26,7 +26,7 @@ and inventory inefficiencies.
 
 - 2,000+ transactions | 847 orphaned product IDs resolved | VP-level executive briefing
 - Tools: SQL · Python · Tableau
-- [View project](./02_pinnacle_retail/)
+- [`View project`](./02_pinnacle_retail/)
 
 ### 03 — WC Pizza Co | Labor & Operations Analysis ✅ Complete
 Operations analysis for a 5-location Atlanta pizza chain through the lens of the
@@ -35,8 +35,8 @@ on game days versus non-game days.
 
 - January–July 2026 | 5 locations | 267,500+ rows across 11 tables
 - Tools: SQL · Python · Tableau
-- [View project](./03_wc_pizza/)
-- [View Tableau Dashboard](https://public.tableau.com/views/WorldCupPizzaco/Dashboard1)
+- [`View project`](./03_wc_pizza/)
+- [`View Tableau Dashboard`](https://public.tableau.com/views/WorldCupPizzaco/Dashboard1)
 
 ### 04 — Customer Lifetime Value Analysis | UCI Online Retail ✅ Complete
 Cohort analysis of a UK-based wholesale retailer to determine customer lifetime value
@@ -45,16 +45,22 @@ and purchasing trends across an international customer base.
 - 4,338 customers | 392,692 usable entries | 37 countries | 14 cohorts analyzed
 - Early cohorts outspend later ones | Netherlands leads volume | EIRE concentrated in 3 accounts
 - Tools: Python
-- [View project](./04_Customer_LTV_Analysis/)
-- [View Executive Briefing](./04_Customer_LTV_Analysis/deliverables/ltv_analysis.pdf)
+- [`View project`](./04_Customer_LTV_Analysis/)
+- [`View Executive Briefing`](./04_Customer_LTV_Analysis/deliverables/ltv_analysis.pdf)
 
 ### 05 — Global Superstore Operations Analysis ✅ Complete
 Root cause analysis of shipping operations, regional performance, and return rates for a global retailer spanning multiple markets and customer segments.
 
 - 51,291 orders across 7 markets | ETL pipeline: Excel → pandas → SQLite | Power BI dashboard
 - Tools: SQL · Python · SQLite · Power BI
-- [View project](./05_Global_Superstore_Operations/)
+- [`View project`](./05_Global_Superstore_Operations/)
 
+### 06 —  Safe haven or Wild west: Atlanta 4yrs after Constitutional Carry | Trend Analysis 🔄 In Progress
+Analysis of Atlanta firearm crime data trends since the inception of constitutional carry in 2022.
+
+- April 1,2022 - March 31, 2026 | Atlanta City Crime Records | 220581 entries
+- Tools:
+- [`View project`](./06_atlanta_cc/)
 ---
 
 ## Connect
