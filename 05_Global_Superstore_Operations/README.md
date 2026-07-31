@@ -2,7 +2,7 @@
 
 **Analyst:** J. Glenn  
 **Project:** 05_Global_Superstore_Operations  
-**Status:** In Progress  
+**Status:** Complete
 
 ---
 
@@ -54,46 +54,54 @@ Extract from `.xls` (three sheets via `pd.read_excel()`) → Transform in pandas
 ## Key Findings
 
 Q1:
-    Ship mode reveals negative profit pattern across multiple region/category/ship mode combinations
+With respect to shipping costs, data reveals there are large profit losses across all categories, more than $2,000 per order. 
 Q2:
-    Central is profit leader 50% above 2nd place profit leader
+With the corporate segment experiencing the heaviest losses Central region is our overall profit leader, bringing in 50% more than the 2nd place region, North. 
 Q3:
-    Company average return rate: 5.96%
-    North Asia, North & West are all more than double company return rate
-    in both category and segment breakdown
-Q4:
-    824 Returned and had high shipping costs
-    of those 542 were at or below the average sale price
-    also 436 of the 824 were sold without discounting
+Our company returns rate is 5.96%. North Asia, North & West all have return rates double the company average when viewed by both category and segment.
+Q4: 
+Studying returns, specifically with high shipping costs, the company has a sample size of 824. Of those 824, 542 (~66%) were sales made at or below the company average of $721. Also of those 824, 436 (~53%) were sold at full price, without any discount.
 ---
 
 ## Recommendations
 
-*To be populated upon project completion.*
-
+| # | Recommendation | Based On |
+|---|---------------|----------|
+| R1 | Commission a pricing study to determine the proper shipping cost structure for corporate accounts across all shipping modes. | Q1 |
+| R2 | Implement a return survey in North Asia, North, and West regions to identify root causes and inform a targeted reduction strategy. | Q3 |
+| R3 | Evaluate a discount strategy for high-shipping-cost, low-sale-price items as a perceived value intervention to reduce return rates. | Q4 |
 ---
 
 ## Files
 
 | File | Description |
 |------|-------------|
-| `data/Global Superstore.xls` | Raw source data — three sheets |
+| `data/GlobalSuperstore.xls` | Raw source data — three sheets |
 | `data_quality_summary.md` | Data quality issues, severity, and resolutions |
 | `python/00_profile.py` | EDA pass — shape, nulls, dtypes, data quality flags |
 | `python/01_etl.py` | Extract, transform, load into SQLite |
-| `python/q1_shipping_modes.py` | Shipping mode usage and cost by segment and region |
+| `python/q1_ship_mode.py` | Shipping mode usage and cost by segment and region |
 | `python/q2_revenue_profit.py` | Revenue and profit by region, segment, and category |
-| `python/q3_return_rates.py` | Return rate analysis by region, category, and segment |
-| `python/q4_root_cause.py` | Correlation analysis — shipping cost and return rate drivers |
-| `sql/` | SQL queries used in analysis |
-| `outputs/` | Charts and exported CSVs |
-| `deliverables/` | Executive briefing and Power BI dashboard |
+| `python/q3_region_return.py` | Return rate analysis by region, category, and segment |
+| `python/q4_return_factors.py` | Correlation analysis — shipping cost and return rate drivers |
+| `sql/q1_ship_mode.sql` | Query shipping mode costs |
+| `sql/q2_revenue_profit.sql` | Query profits by region |
+| `sql/q3_region_return.sql` | Query return rates by region and category |
+| `sql/q4_return_factors.sql` | Query 4 separate factors for returns with high shipping costs |
+| `outputs/q1_ship_mode.png` | Shipping mode cost vis |
+| `outputs/q2_revenue_profit.png` | Revenue breakdown by region vis |
+| `outputs/q3_region_category.png` | Return rates by region |
+| `outputs/q3_returns_segment.png` | Return rates by segment |
+| `outputs/q4_discount_factors.png` | Return/High shipping and discounts vis |
+| `outputs/q4_sales_factors.png` | Return/High shipping and sale price vis |
 
 ---
 
 ## Dashboard
 
-*Power BI dashboard — to be linked upon completion.*
+Power BI dashboard committed to `deliverables/global_superstore_dashboard.pbix`
+Requires Power BI Desktop to open locally
+*Live published link - pending*
 
 ---
 
