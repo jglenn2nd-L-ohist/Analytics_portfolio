@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer LTV Analysis — J. Glenn</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0f0e17;
+    --bg2:       #16151f;
+    --bg3:       #1c1b28;
+    --accent:    #9b7fe8;
+    --accent2:   #e87fb8;
+    --gold:      #7fb8e8;
+    --text:      #e8e6f0;
+    --muted:     #8b8799;
+    --border:    rgba(255,255,255,0.08);
+    --card:      #1a1926;
+    --card2:     #201f2e;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none; z-index:0;
+  }
+
+  /* Subtle radial glow behind hero */
+  body::after {
+    content:'';
+    position:fixed;
+    top:-20%; left:50%;
+    transform:translateX(-50%);
+    width:900px; height:600px;
+    background: radial-gradient(ellipse at center, rgba(155,127,232,0.08) 0%, transparent 70%);
+    pointer-events:none; z-index:0;
+  }
+
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1.2rem 4rem;
+    background:rgba(15,14,23,0.85);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-brand {
+    font-family:'DM Mono',monospace; font-size:0.78rem;
+    color:var(--accent); letter-spacing:0.18em; text-transform:uppercase;
+  }
+  .nav-links { display:flex; gap:2.5rem; list-style:none; }
+  .nav-links a {
+    color:var(--muted); text-decoration:none;
+    font-family:'DM Mono',monospace; font-size:0.72rem;
+    letter-spacing:0.12em; text-transform:uppercase;
+    transition:color 0.2s;
+  }
+  .nav-links a:hover { color:var(--accent); }
+
+  /* HERO */
+  .hero {
+    position:relative; z-index:1;
+    min-height:100vh;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    padding:8rem 4rem 4rem;
+    max-width:1300px; margin:0 auto;
+    gap:4rem;
+  }
+  .hero-tag {
+    font-family:'DM Mono',monospace; font-size:0.72rem;
+    color:var(--accent); letter-spacing:0.2em; text-transform:uppercase;
+    margin-bottom:1.5rem;
+    display:flex; align-items:center; gap:1rem;
+  }
+  .hero-tag::before { content:''; width:36px; height:1px; background:var(--accent); }
+  .hero h1 {
+    font-family:'DM Serif Display',serif;
+    font-size:clamp(2.8rem,5.5vw,4.8rem);
+    line-height:1.05; font-weight:400;
+    letter-spacing:-0.02em;
+    margin-bottom:1rem;
+    color:#fff;
+  }
+  .hero h1 em { font-style:italic; color:var(--accent); }
+  .analysis-type {
+    font-family:'DM Mono',monospace; font-size:0.72rem;
+    letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:1.5rem;
+  }
+  .hero-sub {
+    font-size:1rem; color:var(--muted);
+    max-width:480px; margin-bottom:2.5rem;
+  }
+  .hero-meta { display:flex; gap:2.5rem; flex-wrap:wrap; }
+  .meta-item { display:flex; flex-direction:column; gap:0.25rem; }
+  .meta-label {
+    font-family:'DM Mono',monospace; font-size:0.65rem;
+    color:var(--muted); letter-spacing:0.15em; text-transform:uppercase;
+  }
+  .meta-val { font-size:0.9rem; font-weight:700; color:#fff; }
+
+  /* STAT CARDS */
+  .hero-right {
+    display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  }
+  .stat-card {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:2rem 1.5rem;
+    position:relative; overflow:hidden;
+    transition:transform 0.3s, box-shadow 0.3s;
+  }
+  .stat-card:hover {
+    transform:translateY(-3px);
+    box-shadow:0 12px 40px rgba(155,127,232,0.12);
+    border-color:rgba(155,127,232,0.2);
+  }
+  .stat-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:var(--accent);
+  }
+  .stat-card:nth-child(2)::before { background:var(--accent2); }
+  .stat-card:nth-child(3)::before { background:var(--gold); }
+  .stat-card:nth-child(4)::before { background:linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .stat-num {
+    font-family:'DM Serif Display',serif;
+    font-size:2.8rem; color:var(--accent);
+    line-height:1; margin-bottom:0.4rem;
+  }
+  .stat-card:nth-child(2) .stat-num { color:var(--accent2); }
+  .stat-card:nth-child(3) .stat-num { color:var(--gold); }
+  .stat-card:nth-child(4) .stat-num { color:var(--accent); }
+  .stat-lbl {
+    font-size:0.78rem; color:var(--muted);
+    font-family:'DM Mono',monospace;
+    text-transform:uppercase; letter-spacing:0.08em;
+  }
+
+  /* LAYOUT */
+  .wrap {
+    position:relative; z-index:1;
+    max-width:1200px; margin:0 auto;
+    padding:6rem 4rem;
+  }
+  .sec-tag {
+    font-family:'DM Mono',monospace; font-size:0.7rem;
+    color:var(--accent); letter-spacing:0.2em; text-transform:uppercase;
+    margin-bottom:0.75rem;
+    display:flex; align-items:center; gap:1rem;
+  }
+  .sec-tag::before { content:''; width:28px; height:1px; background:var(--accent); }
+  .sec-title {
+    font-family:'DM Serif Display',serif;
+    font-size:clamp(1.8rem,3.5vw,2.8rem);
+    font-weight:400; line-height:1.15;
+    margin-bottom:1rem; color:#fff;
+  }
+  .sec-intro { color:var(--muted); max-width:580px; margin-bottom:3.5rem; font-size:1rem; }
+
+  hr.div { border:none; border-top:1px solid var(--border); max-width:1200px; margin:0 auto; }
+
+  .band {
+    background:var(--bg2);
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+  }
+
+  /* PIPELINE */
+  .pipeline {
+    display:grid; grid-template-columns:repeat(4,1fr);
+    border:1px solid var(--border); border-radius:12px;
+    overflow:hidden; background:var(--card); margin-bottom:4rem;
+  }
+  .pipe-step {
+    padding:2rem 1.75rem;
+    border-right:1px solid var(--border);
+    transition:background 0.3s;
+  }
+  .pipe-step:last-child { border-right:none; }
+  .pipe-step:hover { background:rgba(155,127,232,0.05); }
+  .pipe-num {
+    font-family:'DM Mono',monospace; font-size:0.65rem;
+    color:var(--accent); letter-spacing:0.18em; margin-bottom:0.75rem;
+  }
+  .pipe-icon { font-size:1.6rem; margin-bottom:0.75rem; display:block; }
+  .pipe-step h3 {
+    font-family:'DM Serif Display',serif; font-size:1.1rem;
+    font-weight:400; margin-bottom:0.5rem; color:#fff;
+  }
+  .pipe-step p { font-size:0.82rem; color:var(--muted); line-height:1.65; }
+
+  /* DATA GRID */
+  .data-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:3rem;
+  }
+  .data-card {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:2rem;
+    position:relative; overflow:hidden;
+    transition:border-color 0.3s;
+  }
+  .data-card:hover { border-color:rgba(155,127,232,0.25); }
+  .data-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:var(--accent);
+  }
+  .data-card:nth-child(2)::before { background:var(--accent2); }
+  .data-card:nth-child(3)::before { background:var(--gold); }
+  .data-card:nth-child(4)::before { background:linear-gradient(90deg,var(--accent),var(--accent2)); }
+  .data-card-label {
+    font-family:'DM Mono',monospace; font-size:0.65rem;
+    letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:0.5rem;
+  }
+  .data-card-num {
+    font-family:'DM Serif Display',serif;
+    font-size:2.4rem; color:var(--accent); line-height:1; margin-bottom:0.4rem;
+  }
+  .data-card:nth-child(2) .data-card-num { color:var(--accent2); }
+  .data-card:nth-child(3) .data-card-num { color:var(--gold); }
+  .data-card p { font-size:0.83rem; color:var(--muted); line-height:1.6; }
+
+  /* FINDINGS */
+  .findings-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;
+  }
+  .finding {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:2.5rem;
+    position:relative; overflow:hidden;
+    transition:transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  }
+  .finding:hover {
+    transform:translateY(-2px);
+    box-shadow:0 8px 32px rgba(155,127,232,0.1);
+    border-color:rgba(155,127,232,0.2);
+  }
+  .finding::before {
+    content:''; position:absolute;
+    top:0; left:0; bottom:0; width:3px;
+    background:var(--accent);
+  }
+  .finding:nth-child(2)::before { background:var(--accent2); }
+  .finding:nth-child(3)::before { background:var(--gold); }
+  .finding:nth-child(4)::before { background:linear-gradient(180deg,var(--accent),var(--accent2)); }
+  .finding-num {
+    font-family:'DM Mono',monospace; font-size:0.65rem;
+    color:var(--muted); letter-spacing:0.18em;
+    text-transform:uppercase; margin-bottom:0.75rem;
+  }
+  .finding h3 {
+    font-family:'DM Serif Display',serif;
+    font-size:1.35rem; font-weight:400;
+    margin-bottom:0.75rem; color:#fff;
+  }
+  .finding p { font-size:0.88rem; color:var(--muted); line-height:1.7; margin-bottom:1.25rem; }
+  .finding-badge {
+    display:inline-flex; align-items:baseline; gap:0.35rem;
+    background:rgba(155,127,232,0.1);
+    border:1px solid rgba(155,127,232,0.25);
+    border-radius:999px;
+    padding:0.35rem 0.9rem;
+  }
+  .finding:nth-child(2) .finding-badge { background:rgba(232,127,184,0.1); border-color:rgba(232,127,184,0.25); }
+  .finding:nth-child(3) .finding-badge { background:rgba(127,184,232,0.1); border-color:rgba(127,184,232,0.25); }
+  .finding:nth-child(4) .finding-badge { background:rgba(155,127,232,0.08); border-color:rgba(155,127,232,0.2); }
+  .badge-num { font-family:'DM Mono',monospace; font-size:1rem; color:var(--accent); font-weight:500; }
+  .finding:nth-child(2) .badge-num { color:var(--accent2); }
+  .finding:nth-child(3) .badge-num { color:var(--gold); }
+  .badge-lbl { font-size:0.72rem; color:var(--muted); }
+
+  .analytic-note {
+    background: rgba(155,127,232,0.06);
+    border: 1px solid rgba(155,127,232,0.2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* IMPLICATIONS */
+  .solutions-list { display:flex; flex-direction:column; gap:1.25rem; }
+  .solution {
+    display:grid; grid-template-columns:3.5rem 1fr auto;
+    align-items:start; gap:1.5rem;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:2rem;
+    transition:border-color 0.3s, box-shadow 0.3s;
+  }
+  .solution:hover {
+    border-color:rgba(155,127,232,0.25);
+    box-shadow:0 4px 24px rgba(155,127,232,0.08);
+  }
+  .sol-num {
+    font-family:'DM Serif Display',serif;
+    font-size:2.2rem; color:var(--accent);
+    opacity:0.35; line-height:1;
+  }
+  .sol-content h4 { font-weight:700; font-size:1rem; margin-bottom:0.4rem; color:#fff; }
+  .sol-content p { font-size:0.875rem; color:var(--muted); line-height:1.65; }
+  .sol-data {
+    font-family:'DM Mono',monospace; font-size:0.7rem;
+    color:var(--accent2); text-transform:uppercase;
+    letter-spacing:0.1em;
+    background:rgba(232,127,184,0.1);
+    border:1px solid rgba(232,127,184,0.2);
+    border-radius:6px;
+    padding:0.35rem 0.75rem;
+    white-space:nowrap; align-self:center;
+  }
+
+  /* STACK */
+  .stack-row { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:2rem; }
+  .stack-tag {
+    background:var(--card2);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:0.4rem 1.1rem;
+    font-family:'DM Mono',monospace;
+    font-size:0.72rem; color:var(--accent);
+    letter-spacing:0.06em;
+    transition:border-color 0.2s;
+  }
+  .stack-tag:hover { border-color:rgba(155,127,232,0.3); }
+
+  footer {
+    position:relative; z-index:1;
+    border-top:1px solid var(--border);
+    padding:3rem 4rem;
+    max-width:1200px; margin:0 auto;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:1rem;
+  }
+  footer p { font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--muted); }
+  footer a { color:var(--accent); text-decoration:none; }
+  footer a:hover { color:#fff; }
+
+  .fade { opacity:0; transform:translateY(20px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .fade.on { opacity:1; transform:translateY(0); }
+
+  @media(max-width:800px) {
+    nav { padding:1rem 1.5rem; }
+    .nav-links { display:none; }
+    .hero { grid-template-columns:1fr; padding:6rem 1.5rem 3rem; gap:3rem; }
+    .hero-right { grid-template-columns:1fr 1fr; }
+    .wrap { padding:4rem 1.5rem; }
+    .pipeline { grid-template-columns:1fr 1fr; }
+    .pipe-step { border-right:none; border-bottom:1px solid var(--border); }
+    .pipe-step:last-child { border-bottom:none; }
+    .data-grid { grid-template-columns:1fr; }
+    .findings-grid { grid-template-columns:1fr; }
+    .solution { grid-template-columns:2.5rem 1fr; }
+    .sol-data { display:none; }
+    footer { flex-direction:column; text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">J. Glenn — Portfolio</span>
+  <ul class="nav-links">
+    <li><a href="#pipeline">Process</a></li>
+    <li><a href="#data">Data</a></li>
+    <li><a href="#findings">Findings</a></li>
+    <li><a href="#implications">Implications</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Case Study · 2025</div>
+    <h1>Customer<br><em>Lifetime Value</em><br>Analysis</h1>
+    <p class="analysis-type">Cohort Retention &amp; Customer Lifetime Value Analysis</p>
+    <p class="hero-sub">A full-cycle customer intelligence project: profiling 4,338 customers across 37 countries, mapping buying habits, tracking cohort retention over 13 months, and calculating average lifetime value by cohort.</p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">Analyst</span>
+        <span class="meta-val">J. Glenn</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Customers</span>
+        <span class="meta-val">4,338</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Countries</span>
+        <span class="meta-val">37</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Stack</span>
+        <span class="meta-val">Python</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right fade">
+    <div class="stat-card">
+      <div class="stat-num">541K</div>
+      <div class="stat-lbl">Raw Entries Processed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">4,338</div>
+      <div class="stat-lbl">Unique Customers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">£27</div>
+      <div class="stat-lbl">Dec 2010 Cohort Avg Monthly Spend</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">13</div>
+      <div class="stat-lbl">Cohort Periods Tracked</div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<section class="wrap" id="pipeline">
+  <div class="sec-tag">01 — Methodology</div>
+  <h2 class="sec-title">Five Questions.<br>One Structured Pipeline.</h2>
+  <p class="sec-intro">Each business question had a dedicated Python script. Cleaning came first and was completed before any analytical script ran.</p>
+
+  <div class="pipeline fade">
+    <div class="pipe-step">
+      <div class="pipe-num">STEP 01</div>
+      <span class="pipe-icon">🧹</span>
+      <h3>Profile &amp; Clean</h3>
+      <p>EDA pass to surface data quality issues across 541,909 raw entries. Six discrete cleaning operations reduced the dataset to 392,692 processable records in ltvclean.csv.</p>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">STEP 02</div>
+      <span class="pipe-icon">👤</span>
+      <h3>Customer Profile</h3>
+      <p>Spend distribution and purchase frequency analysis across the full customer base. Q1 and Q2 scripts built the RFM foundation: recency, frequency, and monetary value per customer.</p>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">STEP 03</div>
+      <span class="pipe-icon">🌍</span>
+      <h3>Geographic Segmentation</h3>
+      <p>Country-level analysis across three dimensions: total revenue, average spend per customer, and purchase frequency. Three horizontal bar charts surfaced the geographic story.</p>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">STEP 04</div>
+      <span class="pipe-icon">📊</span>
+      <h3>Cohort Retention &amp; LTV</h3>
+      <p>13x13 cohort retention matrix built with seaborn heatmap. Cohort average revenue matrix and executive bar chart calculated lifetime value by acquisition month.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<section class="band">
+<div class="wrap" id="data">
+  <div class="sec-tag">02 — Dataset</div>
+  <h2 class="sec-title">One Year of Transactions.<br>Four Thousand Customers.</h2>
+  <p class="sec-intro">UCI Online Retail Dataset via Kaggle. December 2010 through December 2011. UK-based retailer with international reach.</p>
+
+  <div class="data-grid fade">
+    <div class="data-card">
+      <div class="data-card-label">Raw Entries</div>
+      <div class="data-card-num">541,909</div>
+      <p>Entries across 8 columns before any cleaning. Included nulls, cancelled orders, non-customer records, and negative quantities requiring resolution before analysis.</p>
+    </div>
+    <div class="data-card">
+      <div class="data-card-label">Cleaned Records</div>
+      <div class="data-card-num">392,692</div>
+      <p>Processable entries after six discrete cleaning operations. Cancelled orders, null Customer IDs, and non-product stock codes removed. Reduction rate: 27.6%.</p>
+    </div>
+    <div class="data-card">
+      <div class="data-card-label">Unique Customers</div>
+      <div class="data-card-num">4,338</div>
+      <p>Distinct customers identified across 37 countries. UK is the dominant market. International customers tracked separately for geographic segmentation analysis.</p>
+    </div>
+    <div class="data-card">
+      <div class="data-card-label">Observation Period</div>
+      <div class="data-card-num">13 mo.</div>
+      <p>December 2010 through December 2011. Later cohorts have fewer observation periods by design, which shapes how their retention and LTV patterns are interpreted.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="div">
+
+<section class="wrap" id="findings">
+  <div class="sec-tag">03 — Key Findings</div>
+  <h2 class="sec-title">What the Cohorts Revealed.</h2>
+  <p class="sec-intro">Four data-backed findings across customer behavior, geography, retention, and cohort performance.</p>
+
+  <div class="findings-grid fade">
+    <div class="finding">
+      <div class="finding-num">Finding 01 — Cohort Performance</div>
+      <h3>Early Cohorts Outperform on Both Retention and Spend</h3>
+      <p>The December 2010 cohort leads all others on retention rate and average spend per transaction at £27 per month. Average spend has declined consistently across cohorts through the observation period, suggesting either market maturation or a shift in customer acquisition quality over time.</p>
+      <div class="finding-badge">
+        <span class="badge-num">£27/mo</span>
+        <span class="badge-lbl">Dec 2010 cohort avg spend</span>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-num">Finding 02 — Geographic Risk</div>
+      <h3>Geographic Concentration Creates Revenue Fragility</h3>
+      <p>Netherlands and EIRE dominate international revenue. EIRE's figures are driven by just 3 wholesale accounts. Volume and customer quality tell different stories. A single account exit in EIRE would produce a significant revenue drop that would not appear in customer count metrics.</p>
+      <div class="finding-badge">
+        <span class="badge-num">3</span>
+        <span class="badge-lbl">wholesale accounts driving EIRE revenue</span>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-num">Finding 03 — Retention Pattern</div>
+      <h3>The Second Purchase Is the Critical Inflection Point</h3>
+      <p>Across all cohorts, the largest retention decline occurs between period 0 and period 1. Customers who do not make a second purchase within the first month are significantly less likely to return at all. The window between first and second purchase is where retention strategy has the highest leverage.</p>
+      <div class="finding-badge">
+        <span class="badge-num">Period 0-1</span>
+        <span class="badge-lbl">sharpest retention drop across all cohorts</span>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-num">Finding 04 — Later Cohorts</div>
+      <h3>Later Cohort Patterns Are Indeterminate</h3>
+      <p>Cohorts from July 2011 onward show compressed, similar behavior with limited observation periods. Whether this reflects market saturation, seasonality, or data truncation cannot be determined from this dataset alone. These cohorts require additional observation time before conclusions can be drawn.</p>
+      <div class="finding-badge">
+        <span class="badge-num">July 2011+</span>
+        <span class="badge-lbl">cohorts with indeterminate patterns</span>
+      </div>
+      <div class="analytic-note">
+        Analytical note: Later cohorts have fewer periods by design. Treating their compressed behavior as a trend would be premature. Further observation required.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<section class="band">
+<div class="wrap" id="implications">
+  <div class="sec-tag">04 — Implications</div>
+  <h2 class="sec-title">Three Moves<br>for Leadership.</h2>
+  <p class="sec-intro">Each implication is grounded in a specific data pattern. No recommendations disconnected from the findings.</p>
+
+  <div class="solutions-list fade">
+    <div class="solution">
+      <div class="sol-num">1</div>
+      <div class="sol-content">
+        <h4>Invest in Australia</h4>
+        <p>Australia ranks 4th or 5th across all three geographic metrics consistently: total revenue, average spend per customer, and purchase frequency. That consistency across three independent measures signals an engaged customer base with room to grow, not a one-dimensional revenue spike. A targeted investment in the Australian market has a more reliable foundation than doubling down on EIRE, where revenue is concentrated in three accounts.</p>
+      </div>
+      <div class="sol-data">Driven by Finding 02</div>
+    </div>
+
+    <div class="solution">
+      <div class="sol-num">2</div>
+      <div class="sol-content">
+        <h4>Investigate the August 2011 Cohort</h4>
+        <p>The 2011-08 cohort shows 59% and 58% retention at periods 2 and 3, well above surrounding cohorts. That outperformance does not appear in cohorts immediately before or after it. Something specific happened in August 2011 that drove higher retention. Identifying what that was, whether a campaign, a product launch, a channel shift, or a customer segment mix, could provide a repeatable acquisition playbook.</p>
+      </div>
+      <div class="sol-data">Driven by Finding 01</div>
+    </div>
+
+    <div class="solution">
+      <div class="sol-num">3</div>
+      <div class="sol-content">
+        <h4>Replace Email with Direct Outreach After First Purchase</h4>
+        <p>The data shows period 0 to period 1 is where retention collapses. A phone-based contact campaign after first purchase addresses that window directly. The goal is to build a personal relationship before the customer goes dormant, making the second purchase a natural next step rather than a response to a generic marketing event. Email sequences have already proven insufficient at this inflection point.</p>
+      </div>
+      <div class="sol-data">Driven by Finding 03</div>
+    </div>
+  </div>
+
+  <div style="margin-top:4rem;">
+    <div class="sec-tag">Stack Used</div>
+    <div class="stack-row">
+      <span class="stack-tag">Python — pandas · numpy · matplotlib · seaborn</span>
+      <span class="stack-tag">RFM Analysis</span>
+      <span class="stack-tag">Cohort Retention Analysis</span>
+      <span class="stack-tag">Geographic Segmentation</span>
+      <span class="stack-tag">Customer Lifetime Value</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <p>J. Glenn · Data Analyst · Atlanta, GA</p>
+  <p>
+    <a href="https://www.linkedin.com/in/j-glenn-2nd" target="_blank">LinkedIn</a>
+    &nbsp;·&nbsp;
+    <a href="https://jglennportfolio.my.canva.site/" target="_blank">Portfolio</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/jglenn2nd-L-ohist/Analytics_portfolio/tree/main/04_Customer_LTV_Analysis" target="_blank">GitHub</a>
+  </p>
+  <p style="color:rgba(139,135,153,0.4)">2025 · Customer LTV Analysis · Project 04</p>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
