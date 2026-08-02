@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jonathan Glenn | Data Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #1e3628;
+    --bg2:      #172c20;
+    --bg3:      #0f1f14;
+    --accent:   #4a7c5f;
+    --accent2:  #5d9e78;
+    --accent3:  #7dcca0;
+    --text:     #e8ede9;
+    --muted:    #a8c4b0;
+    --border:   rgba(255,255,255,0.1);
+    --card:     rgba(255,255,255,0.04);
+    --card-h:   rgba(255,255,255,0.07);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .watermark {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    pointer-events: none; z-index: 0;
+    overflow: hidden; opacity: 0.045;
+  }
+  .watermark span {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-style: italic;
+    color: #a8c4b0;
+    white-space: nowrap;
+    line-height: 1.1;
+  }
+
+  .page {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 32px 0 24px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 24px;
+  }
+  .name-block h1 {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .name-block .subtitle {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .name-block .positioning {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--accent3);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  .name-block .contact-line {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .name-block .contact-line a {
+    color: var(--muted); text-decoration: none;
+  }
+  .name-block .contact-line a:hover { color: var(--accent2); }
+
+  .header-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+  .header-links a {
+    display: flex; align-items: center; gap: 7px;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .header-links a:hover { border-color: var(--accent2); background: rgba(93,158,120,0.1); }
+  .header-links a.github-btn {
+    background: rgba(93,158,120,0.15);
+    border-color: var(--accent2);
+  }
+  .header-links svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* ── METRICS STRIP ── */
+  .metrics-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+  }
+  .metric {
+    padding: 24px 20px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .metric:last-child { border-right: none; }
+  .metric-num {
+    font-family: 'EB Garamond', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent3);
+    line-height: 1;
+  }
+  .metric-label {
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+  }
+
+  /* ── BIO ── */
+  .bio-section {
+    padding: 44px 0 36px;
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 14px;
+    font-family: 'Inter', monospace;
+    display: block;
+  }
+  .bio-text p {
+    color: var(--text);
+    font-size: 0.96rem;
+    line-height: 1.8;
+  }
+  .bio-text p + p { margin-top: 12px; }
+  .bio-text strong { color: #fff; }
+
+  .cert-section h3 {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .cert-section ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .cert-section li {
+    font-size: 0.82rem;
+    color: var(--muted);
+    padding-left: 14px;
+    position: relative;
+  }
+  .cert-section li::before {
+    content: '·';
+    position: absolute; left: 0;
+    color: var(--accent2);
+  }
+
+  /* ── SKILLS ── */
+  .skills-section {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    padding: 6px 14px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    font-size: 0.82rem;
+    color: var(--text);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .tag:hover { border-color: var(--accent2); background: rgba(93,158,120,0.08); }
+
+  /* ── PROJECTS ── */
+  .projects-section { padding: 44px 0 60px; }
+  .projects-section .section-title {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #fff;
+  }
+  .projects-section .section-sub {
+    font-size: 0.86rem;
+    color: var(--muted);
+    margin-bottom: 32px;
+    max-width: 580px;
+    line-height: 1.6;
+  }
+
+  /* FEATURED ROW */
+  .featured-label {
+    font-family: 'Inter', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .featured-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  .standard-label {
+    font-family: 'Inter', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .standard-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .standard-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+
+  /* BASE CARD */
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    text-decoration: none;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.25s, border-color 0.25s, transform 0.25s;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent2);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .project-card:hover {
+    background: var(--card-h);
+    border-color: rgba(93,158,120,0.3);
+    transform: translateY(-2px);
+  }
+  .project-card:hover::before { opacity: 1; }
+
+  /* FEATURED CARD overrides */
+  .project-card.featured {
+    background: var(--bg2);
+    border-color: rgba(93,158,120,0.2);
+    padding: 28px;
+    gap: 12px;
+  }
+  .project-card.featured::before {
+    opacity: 1;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent3));
+  }
+  .project-card.featured:hover {
+    background: rgba(23,44,32,0.9);
+    border-color: rgba(93,158,120,0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+
+  .card-number {
+    font-size: 0.63rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: 'Inter', monospace;
+  }
+  .card-title {
+    font-family: 'EB Garamond', serif;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+  .project-card.featured .card-title { font-size: 1.2rem; }
+  .project-card:not(.featured) .card-title { font-size: 0.95rem; }
+
+  .card-outcome {
+    font-size: 0.78rem;
+    color: var(--accent3);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .project-card:not(.featured) .card-outcome { font-size: 0.72rem; }
+
+  .card-type {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .project-card:not(.featured) .card-type { display: none; }
+
+  .card-tools {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .tool-tag {
+    font-size: 0.68rem;
+    font-family: 'Inter', monospace;
+    color: var(--muted);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+  }
+  .card-arrow {
+    position: absolute;
+    bottom: 18px; right: 18px;
+    font-size: 0.9rem;
+    color: var(--accent2);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .project-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  footer .left { font-size: 0.78rem; color: var(--muted); }
+  footer .right {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+
+  .fade { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade.on { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 960px) {
+    .featured-grid { grid-template-columns: 1fr 1fr; }
+    .standard-grid { grid-template-columns: repeat(3, 1fr); }
+    .metrics-strip { grid-template-columns: repeat(3, 1fr); }
+    .metric:nth-child(4), .metric:nth-child(5) { border-top: 1px solid var(--border); }
+  }
+  @media (max-width: 680px) {
+    header { grid-template-columns: 1fr; }
+    .header-links { justify-content: flex-start; }
+    .featured-grid { grid-template-columns: 1fr; }
+    .standard-grid { grid-template-columns: 1fr 1fr; }
+    .metrics-strip { grid-template-columns: repeat(2, 1fr); }
+    .bio-section { grid-template-columns: 1fr; }
+    .project-card:not(.featured) .card-type { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="watermark" aria-hidden="true">
+  <span>I am not the finished</span>
+  <span>product — I am not</span>
+  <span>stopping until I am —</span>
+  <span>I am the person who</span>
+</div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <div class="name-block">
+      <h1>Jonathan Glenn</h1>
+      <p class="subtitle">Data Analyst &nbsp;·&nbsp; Atlanta, GA</p>
+      <p class="positioning">I find what the data is not saying. Then I tell the right person.</p>
+      <p class="contact-line">678-793-8993 &nbsp;·&nbsp; <a href="mailto:j.glenn2nd@gmail.com">j.glenn2nd@gmail.com</a></p>
+    </div>
+    <nav class="header-links">
+      <a href="https://www.linkedin.com/in/j-glenn-2nd" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="mailto:j.glenn2nd@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Email
+      </a>
+      <a href="https://drive.google.com/file/d/1Kc6B5y7hC44kXZngpNnNmAXr64hVWgWA/view?usp=sharing" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Résumé
+      </a>
+      <a href="https://github.com/jglenn2nd-L-ohist/Analytics_portfolio" target="_blank" rel="noopener" class="github-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        GitHub
+      </a>
+    </nav>
+  </header>
+
+  <!-- METRICS STRIP -->
+  <div class="metrics-strip fade">
+    <div class="metric">
+      <span class="metric-num">$500K+</span>
+      <span class="metric-label">Territory revenue built from zero, sustained 4+ years</span>
+    </div>
+    <div class="metric">
+      <span class="metric-num">541K</span>
+      <span class="metric-label">Records processed across end-to-end projects</span>
+    </div>
+    <div class="metric">
+      <span class="metric-num">32%</span>
+      <span class="metric-label">Attribution gap uncovered across 2,737 leads</span>
+    </div>
+    <div class="metric">
+      <span class="metric-num">6x</span>
+      <span class="metric-label">Conversion gap found between near-identical content</span>
+    </div>
+    <div class="metric">
+      <span class="metric-num">8</span>
+      <span class="metric-label">Industries analyzed across a full analytics stack</span>
+    </div>
+  </div>
+
+  <!-- BIO -->
+  <div class="bio-section fade">
+    <div class="bio-text">
+      <span class="section-label">&lt;/WHO AM I?&gt;</span>
+      <p>I built a <strong>$500K+ territory from zero</strong> by doing what most people call analytics without the title: tracking KPIs daily, finding execution gaps before they escalated, and translating raw field data into leadership decisions in real time. I did that for 12 years. Now I do it with a full stack.</p>
+      <p>What separates me is not the tools. It is the instinct. I ask the question behind the question, because most people do not ask for what they are actually searching for. That is how I uncovered a <strong>32% attribution gap</strong> nobody had named, a <strong>6x conversion difference</strong> between near-identical content, and a single-location <strong>63% return rate</strong> that became the anchor of a VP-level briefing. I do not stop at what the data says. I go until I find what is causing it.</p>
+      <p>I am a <strong>Google Certified Data Analyst</strong> and a bridge-builder. When I commit to a problem, that becomes the only thing. I take accountability early, close the loop completely, and deliver something the person across the table can act on — not just read.</p>
+    </div>
+    <div class="cert-section">
+      <h3>Certifications</h3>
+      <ul>
+        <li>Google Data Analytics (Coursera)</li>
+        <li>Data Analyst Track · Data In Motion</li>
+        <li>SQL Fundamentals</li>
+        <li>Think Like an Analyst</li>
+        <li>The Power of Statistics</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="skills-section fade">
+    <span class="section-label">&lt;/TECHNICAL SKILLS&gt;</span>
+    <div class="tags">
+      <span class="tag">SQL</span>
+      <span class="tag">Python</span>
+      <span class="tag">Tableau</span>
+      <span class="tag">Power BI</span>
+      <span class="tag">Excel</span>
+      <span class="tag">Data Wrangling</span>
+      <span class="tag">Data Storytelling</span>
+      <span class="tag">Root Cause Analysis</span>
+      <span class="tag">KPI Development</span>
+      <span class="tag">Stakeholder Presentations</span>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="projects-section">
+    <span class="section-label">&lt;/PROJECTS&gt;</span>
+    <h2 class="section-title">8 End-to-End Analyses</h2>
+    <p class="section-sub">Retail · Telecom · Healthcare · Marketing · Operations · Customer Analytics. Every project starts with a business question and ends with a decision someone can act on.</p>
+
+    <!-- FEATURED -->
+    <div class="featured-label">Featured Work</div>
+    <div class="featured-grid">
+
+      <a class="project-card featured fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/05_Global_Superstore_Operations/deliverables/global_superstore_operations.html" target="_blank" rel="noopener">
+        <span class="card-number">Project 05</span>
+        <span class="card-title">Multi-Region Operations &amp; Profitability Analysis</span>
+        <span class="card-outcome">51,291 orders · 7 markets · Central leads profit by 50%</span>
+        <span class="card-type">Root cause analysis of shipping costs and return rates for a global retailer. ETL pipeline from Excel to SQLite. Three regions running at double the company return rate identified and documented.</span>
+        <div class="card-tools">
+          <span class="tool-tag">SQL</span>
+          <span class="tool-tag">Python</span>
+          <span class="tool-tag">Power BI</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a class="project-card featured fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/04_Customer_LTV_Analysis/deliverables/customer_ltv_analysis.html" target="_blank" rel="noopener">
+        <span class="card-number">Project 04</span>
+        <span class="card-title">Cohort Retention &amp; Customer Lifetime Value Analysis</span>
+        <span class="card-outcome">4,338 customers · 37 countries · 13 cohort periods tracked</span>
+        <span class="card-type">RFM segmentation, 13x13 cohort retention matrix, and LTV by acquisition month for a UK-based retailer. Early cohorts outspend later ones. EIRE revenue concentrated in 3 wholesale accounts.</span>
+        <div class="card-tools">
+          <span class="tool-tag">Python</span>
+          <span class="tool-tag">RFM Analysis</span>
+          <span class="tool-tag">Cohort Analysis</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a class="project-card featured fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/03_wc_pizza/deliverables/wc_pizza_case__study.html" target="_blank" rel="noopener">
+        <span class="card-number">Project 03</span>
+        <span class="card-title">Demand &amp; Staffing Capacity Analysis</span>
+        <span class="card-outcome">267,500+ rows · 5 locations · game day vs. non-game day</span>
+        <span class="card-type">Operations analysis for a pizza chain ahead of the 2026 FIFA World Cup. Staffing gaps, demand surges, and cost leakage quantified by location before the tournament began.</span>
+        <div class="card-tools">
+          <span class="tool-tag">SQL</span>
+          <span class="tool-tag">Python</span>
+          <span class="tool-tag">Tableau</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+    </div>
+
+    <!-- STANDARD -->
+    <div class="standard-label">Additional Work</div>
+    <div class="standard-grid">
+
+      <a class="project-card fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/01_lead_attribution/deliverables/lead_attribution_case_study.html" target="_blank" rel="noopener">
+        <span class="card-number">Project 01</span>
+        <span class="card-title">Lead Attribution &amp; Channel Performance Analysis</span>
+        <span class="card-outcome">32% attribution gap · 6x conversion gap</span>
+        <div class="card-tools">
+          <span class="tool-tag">SQL</span>
+          <span class="tool-tag">Python</span>
+          <span class="tool-tag">Tableau</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a class="project-card fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/02_pinnacle_retail/deliverables/pinnacle_case_study.html" target="_blank" rel="noopener">
+        <span class="card-number">Project 02</span>
+        <span class="card-title">Retail Performance &amp; Inventory Analysis</span>
+        <span class="card-outcome">63% return rate isolated · 847 orphaned IDs resolved</span>
+        <div class="card-tools">
+          <span class="tool-tag">SQL</span>
+          <span class="tool-tag">Python</span>
+          <span class="tool-tag">Tableau</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a class="project-card fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/deliverables/healthcare-case-study.html" target="_blank" rel="noopener">
+        <span class="card-number">Project 06</span>
+        <span class="card-title">Workforce Attrition Analysis</span>
+        <span class="card-outcome">70% of departing staff held highest credential tier</span>
+        <div class="card-tools">
+          <span class="tool-tag">SQL</span>
+          <span class="tool-tag">Python</span>
+          <span class="tool-tag">Tableau</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a class="project-card fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/deliverables/karkey-case-study.html" target="_blank" rel="noopener">
+        <span class="card-number">Project 07</span>
+        <span class="card-title">Service Operations &amp; Efficiency Analysis</span>
+        <span class="card-outcome">Bottlenecks surfaced across 2,000+ records</span>
+        <div class="card-tools">
+          <span class="tool-tag">SQL</span>
+          <span class="tool-tag">Excel</span>
+          <span class="tool-tag">Tableau</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+      <a class="project-card fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/deliverables/telecom_case_study.html" target="_blank" rel="noopener">
+        <span class="card-number">Project 08</span>
+        <span class="card-title">Customer Churn &amp; Retention Analysis</span>
+        <span class="card-outcome">7,043 records · churn drivers by segment</span>
+        <div class="card-tools">
+          <span class="tool-tag">SQL</span>
+          <span class="tool-tag">Python</span>
+          <span class="tool-tag">Tableau</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="left">J. Glenn &nbsp;·&nbsp; Data Analyst &nbsp;·&nbsp; Atlanta, GA &nbsp;·&nbsp; 678-793-8993</span>
+    <span class="right">I am not the finished product. I am the person who will not stop until I am.</span>
+  </footer>
+
+</div>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
