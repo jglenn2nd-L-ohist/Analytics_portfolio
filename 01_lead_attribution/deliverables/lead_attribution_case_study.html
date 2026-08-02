@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data In Motion — Lead Attribution Analysis | Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0e0e0e;
+    --ink-mid: #3a3a3a;
+    --ink-muted: #767676;
+    --ink-faint: #b0b0b0;
+    --surface: #fafaf8;
+    --surface-2: #f2f1ed;
+    --border: #e0dfd8;
+    --accent: #1a4fa8;
+    --accent-light: #e8eef9;
+    --accent-mid: #3466c2;
+    --signal: #c44a1a;
+    --signal-light: #fdf0eb;
+    --green: #1a6e3a;
+    --green-light: #e8f5ee;
+    --amber: #8a5c0a;
+    --amber-light: #fdf4e3;
+    --rule: #d4d3cc;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a {
+    font-size: 13px;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* HERO */
+  .hero {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 5rem 2rem 4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent-mid);
+  }
+  h1 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    max-width: 700px;
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--ink-mid);
+    line-height: 1.65;
+    max-width: 580px;
+    margin-bottom: 2.5rem;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .meta-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--ink-mid);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+  }
+
+  /* STAT BAR */
+  .stat-bar {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-item {
+    padding: 1rem 1.5rem 1rem 0;
+    border-right: 1px solid var(--border);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 2rem;
+    line-height: 1.1;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  .stat-accent { color: var(--accent-mid); }
+
+  /* MAIN CONTENT */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  section { padding: 4rem 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1.25rem;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.01em;
+  }
+
+  p { color: var(--ink-mid); margin-bottom: 1rem; }
+  p:last-child { margin-bottom: 0; }
+
+  /* PROBLEM / FRAMING */
+  .framing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .framing-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+  }
+  .framing-card.signal {
+    background: var(--signal-light);
+    border-color: #e8c4b0;
+  }
+
+  /* FINDINGS */
+  .finding-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 1.25rem; }
+  .finding {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+  .finding-num {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 1.5rem;
+    color: var(--accent-light);
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    width: 48px;
+    flex-shrink: 0;
+    color: #fff;
+  }
+  .finding-body { padding-top: 4px; }
+  .finding-body h3 { margin-bottom: 4px; }
+  .finding-body p { font-size: 14px; margin: 0; }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem 1.75rem;
+    background: var(--accent-light);
+    border-radius: 0 8px 8px 0;
+    margin: 2rem 0;
+  }
+  .pull-quote p {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 1.15rem;
+    line-height: 1.5;
+    color: var(--ink);
+    font-style: italic;
+    margin: 0;
+  }
+
+  /* DATA ANATOMY */
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .data-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    background: #fff;
+  }
+  .data-card-icon {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    color: var(--accent-mid);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .data-card h3 { font-size: 13px; margin-bottom: 4px; }
+  .data-card p { font-size: 12px; color: var(--ink-muted); margin: 0; }
+
+  /* METHODOLOGY STEPS */
+  .steps { margin-top: 2rem; display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid;
+    grid-template-columns: 1px 1fr;
+    gap: 0 1.5rem;
+    padding-bottom: 2rem;
+  }
+  .step:last-child { padding-bottom: 0; }
+  .step-line-wrap { display: flex; flex-direction: column; align-items: center; }
+  .step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+  .step-connector {
+    width: 1px;
+    flex: 1;
+    background: var(--border);
+    margin-top: 4px;
+  }
+  .step:last-child .step-connector { display: none; }
+  .step-content { padding-bottom: 0; }
+  .step-content h3 { font-size: 14px; margin-bottom: 4px; }
+  .step-content p { font-size: 14px; margin: 0; }
+
+  /* CAPTIVATION INDICATOR */
+  .formula-block {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .formula-display {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    letter-spacing: 0.02em;
+  }
+  .formula-legend { display: flex; flex-direction: column; gap: 6px; }
+  .formula-legend-item { display: flex; gap: 0.75rem; color: var(--ink-muted); font-size: 12px; }
+  .formula-legend-item span:first-child { color: var(--ink); min-width: 80px; }
+
+  /* RECOMMENDATIONS */
+  .reco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 2rem; }
+  .reco-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #fff;
+  }
+  .reco-card.primary { border-color: var(--accent-mid); border-width: 1.5px; }
+  .reco-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+  }
+  .reco-tag.high { background: var(--accent-light); color: var(--accent-mid); }
+  .reco-tag.medium { background: var(--green-light); color: var(--green); }
+  .reco-card h3 { font-size: 14px; margin-bottom: 6px; }
+  .reco-card p { font-size: 13px; margin: 0; }
+
+  /* TOOLS USED */
+  .tools-wrap { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.25rem; }
+  .tool-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-mid);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+  }
+
+  /* LESSONS */
+  .lessons { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1.75rem; }
+  .lesson {
+    padding: 1.25rem;
+    background: var(--surface-2);
+    border-radius: 8px;
+    border-left: 3px solid var(--rule);
+  }
+  .lesson.accent { border-left-color: var(--accent); }
+  .lesson h3 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .lesson p { font-size: 13px; margin: 0; }
+
+  /* FOOTER */
+  footer {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+  .footer-name {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+  }
+  .footer-sub { font-size: 12px; color: var(--ink-muted); margin-top: 2px; }
+
+  @media (max-width: 600px) {
+    .framing-grid, .reco-grid, .lessons { grid-template-columns: 1fr; }
+    .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding: 1rem 0; }
+    .stat-bar { grid-template-columns: 1fr 1fr; }
+    nav { padding: 0 1rem; }
+    .nav-links { gap: 1rem; }
+    .hero, main, footer { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Portfolio · Case Study</span>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#findings">Findings</a>
+    <a href="#methodology">Method</a>
+    <a href="#recommendations">Recommendations</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-eyebrow">Data Analytics Consulting · Data In Motion Internship</div>
+  <h1>Turning YouTube Views into a Lead Attribution Engine</h1>
+  <p class="hero-sub">A four-week end-to-end analytics engagement: joined four datasets across YouTube, paid ads, and lead attribution to identify which content drives real business outcomes — and which doesn't.</p>
+  <div class="hero-meta">
+    <span class="meta-chip">Data In Motion</span>
+    <span class="meta-chip">Spring 2025</span>
+    <span class="meta-chip">Lead Attribution</span>
+    <span class="meta-chip">Content Strategy</span>
+    <span class="meta-chip">Tableau · SQL · Python</span>
+  </div>
+</header>
+
+<div class="stat-bar">
+  <div class="stat-item">
+    <div class="stat-num">2,737</div>
+    <div class="stat-label">Total leads analyzed across attribution sources</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num stat-accent">~40%</div>
+    <div class="stat-label">Of all leads attributed to YouTube content</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">126</div>
+    <div class="stat-label">YouTube videos across 1.1M views mapped to lead data</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">$41K</div>
+    <div class="stat-label">Ad spend analyzed across 41 paid campaigns</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">32%</div>
+    <div class="stat-label">Of leads had no source attribution — a key gap uncovered</div>
+  </div>
+</div>
+
+<main>
+
+  <section id="problem">
+    <div class="section-label">01 · The Problem</div>
+    <h2>The business assumed views meant leads. The data disagreed.</h2>
+    <p>The client — an online data analytics educator — was investing heavily in YouTube content and paid advertising to drive leads into her bootcamp program. But there was no clear picture of <em>which</em> content actually converted, which channels were truly pulling weight, and what the 32% of unattributed leads represented as a strategic blind spot.</p>
+    <p>The question wasn't just "what's working?" It was "what does working actually mean when views and lead volume tell completely different stories?"</p>
+
+    <div class="framing-grid">
+      <div class="framing-card">
+        <h3>Surface-level assumption</h3>
+        <p style="font-size:14px;">More views = more leads. High-performing content is identifiable by its view count. YouTube and paid ads serve separate purposes.</p>
+      </div>
+      <div class="framing-card signal">
+        <h3>What the data revealed</h3>
+        <p style="font-size:14px;">Views and lead conversion were structurally decoupled. Two videos with near-identical view counts produced 422 vs. 66 leads respectively — a 6× gap demanding explanation.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="data">
+    <div class="section-label">02 · The Data</div>
+    <h2>Four datasets. One cross-file bridge built on a naming convention.</h2>
+    <p>The core analytical challenge was that no single dataset answered the business question. The value was in joining them — and the join key was hiding in plain sight: Hyros attribution tags embedded video publish dates in their source strings (e.g., <code style="font-size:12px; background:var(--surface-2); padding:2px 6px; border-radius:3px; font-family:'JetBrains Mono',monospace;">@yt_10_2_2025</code>), creating a bridge between lead data and YouTube performance.</p>
+
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="data-card-icon">YouTube</div>
+        <h3>Content performance</h3>
+        <p>126 videos · 1.1M views · Feb 2025–Feb 2026. Impressions, CTR, watch time, revenue per video.</p>
+      </div>
+      <div class="data-card">
+        <div class="data-card-icon">Hyros</div>
+        <h3>Lead attribution</h3>
+        <p>2,737 leads with source tags. First Source and Last Source fields redefined mid-analysis after stakeholder clarification.</p>
+      </div>
+      <div class="data-card">
+        <div class="data-card-icon">Ad Data</div>
+        <h3>Paid campaigns</h3>
+        <p>41 ads · $41K spent · Aug 2025–Feb 2026. Mapped to Hyros "Call" lead segment for true cost-per-lead calculation.</p>
+      </div>
+      <div class="data-card">
+        <div class="data-card-icon">LinkedIn</div>
+        <h3>Organic social</h3>
+        <p>1.8M impressions · 18.6K engagements · 34K followers. Contextual channel for attribution comparison.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="findings">
+    <div class="section-label">03 · Key Findings</div>
+    <h2>Six discoveries that changed the strategic picture.</h2>
+
+    <div class="finding-list">
+      <div class="finding">
+        <div class="finding-num">1</div>
+        <div class="finding-body">
+          <h3>Views do not predict leads</h3>
+          <p>The Oct 2 video (422 leads) and an Oct 20 video (66 leads) had nearly identical view counts. Conversion wasn't about reach — it was about content intent and the audience state at the time of viewing.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">2</div>
+        <div class="finding-body">
+          <h3>YouTube drives ~66% of attributed leads</h3>
+          <p>When stripping unattributed leads, YouTube's share of identifiable lead generation dominates every other channel combined — making it the engine of the business, not just a brand-building exercise.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">3</div>
+        <div class="finding-body">
+          <h3>Content is heavily "Both"-weighted — a structural vulnerability</h3>
+          <p>Most top-performing videos function as both the First Touch and Last Touch simultaneously. Viewers arrive, decide, and book — all from one video. There is no Validator content reinforcing certainty between those steps, creating funnel fragility.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">4</div>
+        <div class="finding-body">
+          <h3>Top Closer content shares a replicable title pattern</h3>
+          <p>High First-Source-converting videos disproportionately use FOMO framing and authority/trust signals in their titles. This is a concrete, low-cost content strategy lever.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">5</div>
+        <div class="finding-body">
+          <h3>32% of leads have no attribution — a data infrastructure gap</h3>
+          <p>Nearly a third of all leads cannot be traced to any source. This isn't a small rounding error. It is a structural blind spot that limits the reliability of every attribution conclusion drawn from the remaining 68%.</p>
+        </div>
+      </div>
+      <div class="finding">
+        <div class="finding-num">6</div>
+        <div class="finding-body">
+          <h3>Paid ads generated 113 high-intent leads at ~$140 cost-per-lead</h3>
+          <p>The $15,884 spent on ads producing Hyros "Call" leads reveals a measurable — and improvable — paid acquisition cost. This benchmarks future ad efficiency conversations with the client.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>"A finding with missing data infrastructure is a hypothesis, not a confirmed recommendation." The discipline of distinguishing what the data confirms versus what it suggests was the analytical backbone of this engagement.</p>
+    </div>
+  </section>
+
+  <section id="methodology">
+    <div class="section-label">04 · Methodology</div>
+    <h2>How the analysis was structured and executed.</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-line-wrap"><div class="step-dot"></div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h3>Data audit and join architecture</h3>
+          <p>Identified the Hyros-to-YouTube bridge via source tag naming convention. Mapped join keys across all four files before writing a single query. Flagged the 32% attribution gap upfront as a data quality constraint on the entire analysis.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line-wrap"><div class="step-dot"></div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h3>Outlier handling before analysis</h3>
+          <p>The Oct 2 viral video (422 leads) was excluded from correlation analysis before seeing results — an analytically honest decision made in advance to prevent outlier-driven conclusions from contaminating the model.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line-wrap"><div class="step-dot"></div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h3>Content role taxonomy</h3>
+          <p>Categorized each YouTube video as Closer (First Source dominant), Validator (Last Source dominant), or Both — after First/Last Source definitions were clarified directly with the client stakeholder mid-project, which shifted the entire analytical frame.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line-wrap"><div class="step-dot"></div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h3>Captivation Indicator development</h3>
+          <p>Built a composite content scoring metric combining CTR and average view duration as a production guidance tool — helping the client understand what early content signals predict future engagement, even if they don't directly predict leads.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line-wrap"><div class="step-dot"></div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h3>Tableau dashboard + executive presentation</h3>
+          <p>Delivered a presentation-ready Tableau dashboard and a six-slide executive deck. The deck followed a Credibility → Vulnerability → Solution → Action narrative spine, framing the attribution gap not as a failure but as the strategic opportunity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="captivation">
+    <div class="section-label">05 · Key Analytical Tool</div>
+    <h2>The Captivation Indicator — a content production signal.</h2>
+    <p>Rather than simply ranking videos by lead count, the analysis developed a forward-looking production guidance metric to help the client understand <em>why</em> certain content earns attention before conversion data is ever available.</p>
+
+    <div class="formula-block">
+      <div class="formula-display">Captivation Indicator = CTR × (Avg View Duration / Video Length)</div>
+      <div class="formula-legend">
+        <div class="formula-legend-item"><span>CTR</span><span>Click-through rate — signals title and thumbnail effectiveness at earning the click</span></div>
+        <div class="formula-legend-item"><span>View Ratio</span><span>Avg view duration ÷ video length — signals whether content holds the audience it earned</span></div>
+        <div class="formula-legend-item"><span>Score &gt; 1.0</span><span>Indicates above-average audience captivation across both dimensions</span></div>
+      </div>
+    </div>
+
+    <p>Important framing: the Captivation Indicator is a <strong>content creation compass</strong>, not a conversion predictor. Top lead-generating videos don't uniformly score above 1.0 — conversion depends on factors the metric doesn't capture. Its value is in guiding production decisions <em>before</em> outcomes are known.</p>
+  </section>
+
+  <section id="recommendations">
+    <div class="section-label">06 · Recommendations</div>
+    <h2>Two concrete, data-grounded actions for the client.</h2>
+
+    <div class="reco-grid">
+      <div class="reco-card primary">
+        <span class="reco-tag high">Highest impact</span>
+        <h3>Mandatory enrollment survey</h3>
+        <p>Implement a one-question "how did you hear about us?" survey at enrollment. Lowest barrier, highest information gain. Directly closes the 32% attribution gap over time without requiring new technology infrastructure.</p>
+      </div>
+      <div class="reco-card">
+        <span class="reco-tag medium">Content strategy</span>
+        <h3>Produce dedicated Validator content</h3>
+        <p>The funnel currently has no middle. Create testimonial and authority-positioning videos that reinforce certainty for viewers who have already encountered the brand but haven't committed. Addresses the "Both"-content structural risk.</p>
+      </div>
+      <div class="reco-card">
+        <span class="reco-tag medium">Content strategy</span>
+        <h3>Replicate the Closer title formula</h3>
+        <p>High First-Source-converting videos share FOMO and trust-signal framing in their titles. This pattern is replicable at zero additional cost — it only requires intentional title strategy, not new production resources.</p>
+      </div>
+      <div class="reco-card">
+        <span class="reco-tag high">Infrastructure</span>
+        <h3>Evaluate SegMetrics or RB2B</h3>
+        <p>Longer-term attribution infrastructure tools that could significantly reduce the unattributed lead volume. Prepared as a verbal recommendation for stakeholder discussion rather than a primary slide finding.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="tools">
+    <div class="section-label">07 · Tools & Stack</div>
+    <h2>Technologies used across the engagement.</h2>
+    <div class="tools-wrap">
+      <span class="tool-badge">Tableau</span>
+      <span class="tool-badge">SQL</span>
+      <span class="tool-badge">Python</span>
+      <span class="tool-badge">matplotlib</span>
+      <span class="tool-badge">Excel</span>
+      <span class="tool-badge">PowerPoint</span>
+      <span class="tool-badge">Hyros</span>
+      <span class="tool-badge">YouTube Studio</span>
+    </div>
+  </section>
+
+  <section id="lessons">
+    <div class="section-label">08 · What I Learned</div>
+    <h2>The analytical instincts this project built.</h2>
+
+    <div class="lessons">
+      <div class="lesson accent">
+        <h3>Correlation ≠ causation is not just a rule — it's a discipline</h3>
+        <p>Enforcing this in real data, under real time pressure, with a real stakeholder, is different from knowing it as a concept. Every finding was pressure-tested before it became a claim.</p>
+      </div>
+      <div class="lesson accent">
+        <h3>Stakeholder clarification changes everything</h3>
+        <p>The First/Last Source redefinition mid-project invalidated the original analytical framework. Learning to rebuild cleanly — without ego — is a core consulting skill.</p>
+      </div>
+      <div class="lesson">
+        <h3>Data gaps are findings, not failures</h3>
+        <p>The 32% attribution gap is the most actionable insight in the deck. Missing data infrastructure tells its own story — and it is often more valuable than the data that exists.</p>
+      </div>
+      <div class="lesson">
+        <h3>The narrative spine matters as much as the numbers</h3>
+        <p>A Credibility → Vulnerability → Solution → Action structure isn't just presentation design. It's how analytical findings become strategic decisions that stakeholders actually act on.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div>
+    <div class="footer-name">Jonathan Glenn</div>
+    <div class="footer-sub">Data Analytics · Strategy · Consulting</div>
+  </div>
+  <div style="font-size:12px; color:var(--ink-muted); font-family:'JetBrains Mono',monospace;">Data In Motion · 2025</div>
+</footer>
+
+</body>
+</html>
