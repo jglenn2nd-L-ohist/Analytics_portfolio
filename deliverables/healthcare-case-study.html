@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watson Healthcare Attrition Analysis — J. Glenn</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #f7f4ef;
+    --bg2:       #eee9e0;
+    --ink:       #1c1812;
+    --ink-muted: #7a6f62;
+    --accent:    #c45c2e;
+    --accent2:   #4a7c8e;
+    --gold:      #b8902a;
+    --border:    rgba(28,24,18,0.1);
+    --card:      #ffffff;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* GRAIN TEXTURE */
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events:none; z-index:0;
+  }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1.2rem 4rem;
+    background:rgba(247,244,239,0.88);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-brand {
+    font-family:'DM Mono',monospace; font-size:0.78rem;
+    color:var(--accent); letter-spacing:0.18em; text-transform:uppercase;
+  }
+  .nav-links { display:flex; gap:2.5rem; list-style:none; }
+  .nav-links a {
+    color:var(--ink-muted); text-decoration:none;
+    font-family:'DM Mono',monospace; font-size:0.72rem;
+    letter-spacing:0.12em; text-transform:uppercase;
+    transition:color 0.2s;
+  }
+  .nav-links a:hover { color:var(--accent); }
+
+  /* HERO */
+  .hero {
+    position:relative; z-index:1;
+    min-height:100vh;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    padding:8rem 4rem 4rem;
+    max-width:1300px; margin:0 auto;
+    gap:4rem;
+  }
+  .hero-left {}
+  .hero-tag {
+    font-family:'DM Mono',monospace; font-size:0.72rem;
+    color:var(--accent); letter-spacing:0.2em; text-transform:uppercase;
+    margin-bottom:1.5rem;
+    display:flex; align-items:center; gap:1rem;
+  }
+  .hero-tag::before { content:''; width:36px; height:1px; background:var(--accent); }
+  .hero h1 {
+    font-family:'DM Serif Display',serif;
+    font-size:clamp(2.8rem,5.5vw,4.8rem);
+    line-height:1.05; font-weight:400;
+    letter-spacing:-0.02em;
+    margin-bottom:1.5rem;
+  }
+  .hero h1 em { font-style:italic; color:var(--accent); }
+  .hero-sub {
+    font-size:1rem; color:var(--ink-muted);
+    max-width:480px; margin-bottom:2.5rem;
+  }
+  .hero-meta { display:flex; gap:2.5rem; flex-wrap:wrap; }
+  .meta-item { display:flex; flex-direction:column; gap:0.25rem; }
+  .meta-label {
+    font-family:'DM Mono',monospace; font-size:0.65rem;
+    color:var(--ink-muted); letter-spacing:0.15em; text-transform:uppercase;
+  }
+  .meta-val { font-size:0.9rem; font-weight:700; color:var(--ink); }
+
+  /* HERO RIGHT — big stat card */
+  .hero-right {
+    display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  }
+  .stat-card {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:2rem 1.5rem;
+    position:relative; overflow:hidden;
+    transition:transform 0.3s, box-shadow 0.3s;
+  }
+  .stat-card:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(28,24,18,0.08); }
+  .stat-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background:var(--accent);
+  }
+  .stat-card:nth-child(2)::before { background:var(--accent2); }
+  .stat-card:nth-child(3)::before { background:var(--gold); }
+  .stat-card:nth-child(4)::before { background:var(--accent); }
+  .stat-num {
+    font-family:'DM Serif Display',serif;
+    font-size:2.8rem; color:var(--accent);
+    line-height:1; margin-bottom:0.4rem;
+  }
+  .stat-card:nth-child(2) .stat-num { color:var(--accent2); }
+  .stat-card:nth-child(3) .stat-num { color:var(--gold); }
+  .stat-lbl { font-size:0.8rem; color:var(--ink-muted); font-family:'DM Mono',monospace; text-transform:uppercase; letter-spacing:0.08em; }
+
+  /* SECTION WRAPPER */
+  .wrap {
+    position:relative; z-index:1;
+    max-width:1200px; margin:0 auto;
+    padding:6rem 4rem;
+  }
+  .sec-tag {
+    font-family:'DM Mono',monospace; font-size:0.7rem;
+    color:var(--accent); letter-spacing:0.2em; text-transform:uppercase;
+    margin-bottom:0.75rem;
+    display:flex; align-items:center; gap:1rem;
+  }
+  .sec-tag::before { content:''; width:28px; height:1px; background:var(--accent); }
+  .sec-title {
+    font-family:'DM Serif Display',serif;
+    font-size:clamp(1.8rem,3.5vw,2.8rem);
+    font-weight:400; line-height:1.15;
+    margin-bottom:1rem;
+  }
+  .sec-intro { color:var(--ink-muted); max-width:580px; margin-bottom:3.5rem; font-size:1rem; }
+
+  /* DIVIDER */
+  hr.div { border:none; border-top:1px solid var(--border); max-width:1200px; margin:0 auto; }
+
+  /* PERSONA SECTION */
+  .persona-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start;
+  }
+  .persona-card {
+    background:var(--ink);
+    color:#f7f4ef;
+    border-radius:16px;
+    padding:3rem;
+    position:relative; overflow:hidden;
+  }
+  .persona-card::after {
+    content:'"';
+    position:absolute; top:-20px; right:2rem;
+    font-family:'DM Serif Display',serif;
+    font-size:12rem; color:rgba(196,92,46,0.15);
+    line-height:1;
+  }
+  .persona-name {
+    font-family:'DM Serif Display',serif;
+    font-size:1.8rem; margin-bottom:0.25rem;
+    color:#f7f4ef;
+  }
+  .persona-role {
+    font-family:'DM Mono',monospace; font-size:0.72rem;
+    color:var(--accent); letter-spacing:0.12em;
+    text-transform:uppercase; margin-bottom:2rem;
+  }
+  .persona-body { font-size:0.95rem; line-height:1.75; color:rgba(247,244,239,0.8); margin-bottom:1.5rem; }
+  .persona-highlight {
+    background:rgba(196,92,46,0.15);
+    border-left:3px solid var(--accent);
+    padding:0.75rem 1rem;
+    font-size:0.88rem;
+    color:rgba(247,244,239,0.9);
+    border-radius:0 6px 6px 0;
+  }
+  .persona-stats { display:flex; flex-direction:column; gap:1rem; }
+  .p-stat {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:1.5rem;
+    display:flex; align-items:center; gap:1.25rem;
+  }
+  .p-stat-icon { font-size:1.5rem; }
+  .p-stat-num {
+    font-family:'DM Serif Display',serif;
+    font-size:1.6rem; color:var(--accent); line-height:1;
+  }
+  .p-stat-lbl { font-size:0.78rem; color:var(--ink-muted); margin-top:0.2rem; }
+
+  /* FINDINGS */
+  .findings-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;
+  }
+  .finding {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:2.5rem;
+    position:relative; overflow:hidden;
+    transition:transform 0.3s, box-shadow 0.3s;
+  }
+  .finding:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(28,24,18,0.06); }
+  .finding::before {
+    content:''; position:absolute;
+    top:0; left:0; bottom:0; width:3px;
+    background:var(--accent);
+  }
+  .finding:nth-child(2)::before { background:var(--accent2); }
+  .finding:nth-child(3)::before { background:var(--gold); }
+  .finding:nth-child(4)::before { background:var(--accent); opacity:0.5; }
+  .finding-num {
+    font-family:'DM Mono',monospace; font-size:0.65rem;
+    color:var(--ink-muted); letter-spacing:0.18em;
+    text-transform:uppercase; margin-bottom:0.75rem;
+  }
+  .finding h3 {
+    font-family:'DM Serif Display',serif;
+    font-size:1.35rem; font-weight:400;
+    margin-bottom:0.75rem;
+  }
+  .finding p { font-size:0.88rem; color:var(--ink-muted); line-height:1.7; margin-bottom:1.25rem; }
+  .finding-badge {
+    display:inline-flex; align-items:baseline; gap:0.35rem;
+    background:rgba(196,92,46,0.08);
+    border:1px solid rgba(196,92,46,0.2);
+    border-radius:999px;
+    padding:0.35rem 0.9rem;
+  }
+  .finding:nth-child(2) .finding-badge { background:rgba(74,124,142,0.08); border-color:rgba(74,124,142,0.2); }
+  .finding:nth-child(3) .finding-badge { background:rgba(184,144,42,0.08); border-color:rgba(184,144,42,0.2); }
+  .badge-num { font-family:'DM Mono',monospace; font-size:1rem; color:var(--accent); font-weight:500; }
+  .finding:nth-child(2) .badge-num { color:var(--accent2); }
+  .finding:nth-child(3) .badge-num { color:var(--gold); }
+  .badge-lbl { font-size:0.72rem; color:var(--ink-muted); }
+
+  /* SOLUTIONS */
+  .solutions-list { display:flex; flex-direction:column; gap:1.25rem; }
+  .solution {
+    display:grid; grid-template-columns:3.5rem 1fr auto;
+    align-items:start; gap:1.5rem;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:2rem;
+    transition:border-color 0.3s;
+  }
+  .solution:hover { border-color:rgba(196,92,46,0.3); }
+  .sol-num {
+    font-family:'DM Serif Display',serif;
+    font-size:2.2rem; color:var(--accent);
+    opacity:0.4; line-height:1;
+  }
+  .sol-content h4 { font-weight:700; font-size:1rem; margin-bottom:0.4rem; }
+  .sol-content p { font-size:0.875rem; color:var(--ink-muted); line-height:1.65; }
+  .sol-data {
+    font-family:'DM Mono',monospace; font-size:0.7rem;
+    color:var(--accent2); text-transform:uppercase;
+    letter-spacing:0.1em;
+    background:rgba(74,124,142,0.08);
+    border:1px solid rgba(74,124,142,0.2);
+    border-radius:6px;
+    padding:0.35rem 0.75rem;
+    white-space:nowrap; align-self:center;
+  }
+
+  /* STACK */
+  .stack-row { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:2rem; }
+  .stack-tag {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:0.4rem 1.1rem;
+    font-family:'DM Mono',monospace;
+    font-size:0.72rem; color:var(--accent);
+    letter-spacing:0.06em;
+  }
+
+  /* PIPELINE STRIP */
+  .pipeline {
+    display:grid; grid-template-columns:repeat(3,1fr);
+    border:1px solid var(--border); border-radius:12px;
+    overflow:hidden; background:var(--card); margin-bottom:4rem;
+  }
+  .pipe-step {
+    padding:2.5rem 2rem;
+    border-right:1px solid var(--border);
+    transition:background 0.3s;
+  }
+  .pipe-step:last-child { border-right:none; }
+  .pipe-step:hover { background:rgba(196,92,46,0.03); }
+  .pipe-num { font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--accent); letter-spacing:0.18em; margin-bottom:0.75rem; }
+  .pipe-icon { font-size:1.6rem; margin-bottom:0.75rem; display:block; }
+  .pipe-step h3 { font-family:'DM Serif Display',serif; font-size:1.2rem; font-weight:400; margin-bottom:0.6rem; }
+  .pipe-step p { font-size:0.85rem; color:var(--ink-muted); line-height:1.65; }
+
+  /* BG BAND */
+  .band {
+    background:var(--bg2);
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+  }
+
+  /* FOOTER */
+  footer {
+    position:relative; z-index:1;
+    border-top:1px solid var(--border);
+    padding:3rem 4rem;
+    max-width:1200px; margin:0 auto;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:1rem;
+  }
+  footer p { font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--ink-muted); }
+  footer a { color:var(--accent); text-decoration:none; }
+
+  /* FADE IN */
+  .fade { opacity:0; transform:translateY(20px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .fade.on { opacity:1; transform:translateY(0); }
+
+  @media(max-width:800px) {
+    nav { padding:1rem 1.5rem; }
+    .nav-links { display:none; }
+    .hero { grid-template-columns:1fr; padding:6rem 1.5rem 3rem; gap:3rem; }
+    .hero-right { grid-template-columns:1fr 1fr; }
+    .wrap { padding:4rem 1.5rem; }
+    .pipeline { grid-template-columns:1fr; }
+    .pipe-step { border-right:none; border-bottom:1px solid var(--border); }
+    .pipe-step:last-child { border-bottom:none; }
+    .persona-grid { grid-template-columns:1fr; }
+    .findings-grid { grid-template-columns:1fr; }
+    .solution { grid-template-columns:2.5rem 1fr; }
+    .sol-data { display:none; }
+    footer { flex-direction:column; text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">J. Glenn — Portfolio</span>
+  <ul class="nav-links">
+    <li><a href="#pipeline">Process</a></li>
+    <li><a href="#persona">Profile</a></li>
+    <li><a href="#findings">Findings</a></li>
+    <li><a href="#solutions">Solutions</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Case Study · Apr 2026</div>
+    <h1>Watson Healthcare<br><em>Attrition</em><br>Analysis</h1>
+    <p class="hero-sub">A root cause analysis of employee turnover across 1,700+ records — identifying who is leaving, why, and what Watson Healthcare can do about it.</p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">Analyst</span>
+        <span class="meta-val">J. Glenn</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Records</span>
+        <span class="meta-val">1,700+</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Stack</span>
+        <span class="meta-val">Excel · SQL · Tableau</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Attrition Rate</span>
+        <span class="meta-val">12%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right fade">
+    <div class="stat-card">
+      <div class="stat-num">12%</div>
+      <div class="stat-lbl">Corporate Attrition Rate</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">199</div>
+      <div class="stat-lbl">Employees Lost to Turnover</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">107</div>
+      <div class="stat-lbl">Nurses Left the Company</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">&lt;5</div>
+      <div class="stat-lbl">Years — Peak Turnover Window</div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- PIPELINE -->
+<section class="wrap" id="pipeline">
+  <div class="sec-tag">01 — Methodology</div>
+  <h2 class="sec-title">How the Work Was Done</h2>
+  <p class="sec-intro">Every step completed independently — from raw data to executive-ready presentation.</p>
+
+  <div class="pipeline fade">
+    <div class="pipe-step">
+      <div class="pipe-num">STEP 01</div>
+      <span class="pipe-icon">🧹</span>
+      <h3>Data Cleaning</h3>
+      <p>Cleaned and standardized employee records in Excel — resolved missing values, corrected formatting inconsistencies, and validated data integrity before a single analysis was run.</p>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">STEP 02</div>
+      <span class="pipe-icon">🔍</span>
+      <h3>SQL Analysis</h3>
+      <p>Queried the dataset across departments, tenure bands, compensation levels, satisfaction scores, and involvement ratings to isolate the true root causes of attrition.</p>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">STEP 03</div>
+      <span class="pipe-icon">📊</span>
+      <h3>Tableau & Presentation</h3>
+      <p>Built Tableau visualizations segmenting attrition by education, satisfaction, involvement, work-life balance, and income. Delivered findings as a stakeholder-ready PowerPoint deck.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- PERSONA -->
+<section class="band">
+<div class="wrap" id="persona">
+  <div class="sec-tag">02 — Who Is Leaving</div>
+  <h2 class="sec-title">The Attrition Profile</h2>
+  <p class="sec-intro">The data does not describe an abstract trend. It describes a person. Here is who Watson Healthcare is losing.</p>
+
+  <div class="persona-grid fade">
+    <div class="persona-card">
+      <div class="persona-name">The Departing Employee</div>
+      <div class="persona-role">Composite profile from 199 departures</div>
+      <p class="persona-body">He is a 32-year-old male nurse. He holds a Bachelor's degree and works significant overtime each week — which is why he is dissatisfied with his work-life balance. Earning approximately $4,024/month, he has little interest in his current role.</p>
+      <div class="persona-highlight">
+        Notably, he received a promotion last year with a 15% raise — yet remains at high risk of departure. Compensation alone is not the answer.
+      </div>
+    </div>
+
+    <div class="persona-stats">
+      <div class="p-stat">
+        <div class="p-stat-icon">🎓</div>
+        <div>
+          <div class="p-stat-num">67%</div>
+          <div class="p-stat-lbl">of attrition came from degreed workers</div>
+        </div>
+      </div>
+      <div class="p-stat">
+        <div class="p-stat-icon">📅</div>
+        <div>
+          <div class="p-stat-num">31</div>
+          <div class="p-stat-lbl">average age of departing employees</div>
+        </div>
+      </div>
+      <div class="p-stat">
+        <div class="p-stat-icon">⏱️</div>
+        <div>
+          <div class="p-stat-num">&lt;5 yrs</div>
+          <div class="p-stat-lbl">when most turnover occurs</div>
+        </div>
+      </div>
+      <div class="p-stat">
+        <div class="p-stat-icon">💰</div>
+        <div>
+          <div class="p-stat-num">$4,024</div>
+          <div class="p-stat-lbl">avg. monthly income of departing employees</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<hr class="div">
+
+<!-- FINDINGS -->
+<section class="wrap" id="findings">
+  <div class="sec-tag">03 — Key Findings</div>
+  <h2 class="sec-title">What the Data Found</h2>
+  <p class="sec-intro">Four distinct attrition drivers — each one a data-backed signal, not an assumption.</p>
+
+  <div class="findings-grid fade">
+    <div class="finding">
+      <div class="finding-num">Finding 01 — Satisfaction</div>
+      <h3>Unhappy Entry-Level Employees Leave at the Highest Rate</h3>
+      <p>47% of unhappy entry-level employees left the company. Low satisfaction is the single strongest predictor of departure — especially among staff with the least tenure. These are employees in their most formative years with the organization.</p>
+      <div class="finding-badge">
+        <span class="badge-num">47%</span>
+        <span class="badge-lbl">of unhappy entry-level staff departed</span>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-num">Finding 02 — Involvement</div>
+      <h3>Disconnected Employees Are the Highest Flight Risk</h3>
+      <p>50% of those who left rated job involvement as "very little." Employees who feel disconnected from their work leave regardless of compensation — pointing to engagement as a structural problem, not an individual one.</p>
+      <div class="finding-badge">
+        <span class="badge-num">50%</span>
+        <span class="badge-lbl">rated job involvement as "very little"</span>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-num">Finding 03 — Income</div>
+      <h3>A 33% Pay Gap Is Driving 77% of Departures</h3>
+      <p>77% of departing employees earned less than $5,000/month. Regional nurses average $6,100/month — Watson Healthcare is offering $4,024. That 33% gap is the most concrete, actionable finding in the dataset.</p>
+      <div class="finding-badge">
+        <span class="badge-num">$6,100</span>
+        <span class="badge-lbl">regional average vs. $4,024 offered</span>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-num">Finding 04 — Work-Life Balance</div>
+      <h3>40% Cited Poor Work-Life Balance as a Factor</h3>
+      <p>Those who were "very dissatisfied" with work-life balance left at the highest rate. Long hours and overtime without scheduling flexibility are pushing employees out — particularly among nurses who already carry heavy workloads.</p>
+      <div class="finding-badge">
+        <span class="badge-num">40%</span>
+        <span class="badge-lbl">cited unfavorable work-life balance</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- SOLUTIONS -->
+<section class="band">
+<div class="wrap" id="solutions">
+  <div class="sec-tag">04 — Recommendations</div>
+  <h2 class="sec-title">Three Moves<br>for Leadership</h2>
+  <p class="sec-intro">Every recommendation ties directly to a finding. No guesswork. No filler.</p>
+
+  <div class="solutions-list fade">
+    <div class="solution">
+      <div class="sol-num">1</div>
+      <div class="sol-content">
+        <h4>Close the Pay Gap</h4>
+        <p>Regional nurses earn 33% more than Watson Healthcare is offering. Bringing compensation in line with the $6,100/month regional average addresses the single largest measurable driver of attrition. Even partial movement toward market rate reduces the financial incentive to leave.</p>
+      </div>
+      <div class="sol-data">Driven by finding 03</div>
+    </div>
+
+    <div class="solution">
+      <div class="sol-num">2</div>
+      <div class="sol-content">
+        <h4>Build a Mentor-Mentee Program</h4>
+        <p>50% of attrition gave job involvement low marks. A structured mentor-mentee program where mentees receive consistent acknowledgment and feedback creates a clear signal that their contributions matter — directly improving job involvement scores and reducing the disengagement that precedes departure.</p>
+      </div>
+      <div class="sol-data">Driven by finding 02</div>
+    </div>
+
+    <div class="solution">
+      <div class="sol-num">3</div>
+      <div class="sol-content">
+        <h4>Create Flexible Scheduling Options</h4>
+        <p>40% of departing employees cited unfavorable work-life balance. Employees working long hours would benefit significantly from flexible scheduling — reducing burnout and directly addressing the overtime dissatisfaction that shows up consistently in the departure data.</p>
+      </div>
+      <div class="sol-data">Driven by finding 04</div>
+    </div>
+  </div>
+
+  <div style="margin-top:4rem;">
+    <div class="sec-tag">Stack Used</div>
+    <div class="stack-row">
+      <span class="stack-tag">Excel (Data Cleaning)</span>
+      <span class="stack-tag">SQL (Querying · Segmentation)</span>
+      <span class="stack-tag">Tableau (Custom Dashboards)</span>
+      <span class="stack-tag">PowerPoint (Stakeholder Deck)</span>
+      <span class="stack-tag">Root Cause Analysis</span>
+      <span class="stack-tag">HR Analytics</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <p>J. Glenn · Data Analyst · Atlanta, GA</p>
+  <p>
+    <a href="https://www.linkedin.com/in/j-glenn-2nd" target="_blank">LinkedIn</a>
+    &nbsp;·&nbsp;
+    <a href="https://jglennportfolio.my.canva.site/" target="_blank">Portfolio</a>
+  </p>
+  <p style="color:rgba(122,111,98,0.4)">Apr 2026 · Watson Healthcare Attrition Analysis</p>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

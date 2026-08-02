@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WC Pizza Co — Executive Briefing</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: #000;
+  color: #fff;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+.deck {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+/* Every slide: full viewport, hidden by default */
+.slide {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0; left: 0;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3.5rem 5rem 5rem;
+}
+
+.slide.active { display: flex; }
+
+/* NAV BAR */
+.nav {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background: rgba(0,0,0,0.75);
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(245,197,24,0.3);
+}
+
+.nav button {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  letter-spacing: 0.1em;
+}
+
+.nav button.on { color: #F5C518; background: rgba(245,197,24,0.15); }
+.nav .arr { font-size: 1rem; color: rgba(255,255,255,0.5); }
+.nav .arr:hover { color: #F5C518; }
+
+/* SHARED ELEMENTS */
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: #F5C518;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.slide-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 5rem;
+  font-weight: 900;
+  color: rgba(245,197,24,0.12);
+  line-height: 1;
+}
+
+.slide-hd {
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.slide-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1;
+  color: #fff;
+}
+
+/* ── SLIDE 1 ── */
+#s1 { background: #0A2E1A; }
+
+.s1-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 6.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.92;
+  margin-bottom: 1.5rem;
+  max-width: 720px;
+}
+
+.s1-title em { color: #F5C518; font-style: normal; }
+
+.s1-sub {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.55);
+  max-width: 500px;
+  line-height: 1.65;
+  margin-bottom: 2.5rem;
+}
+
+.tags { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(245,197,24,0.3);
+  color: rgba(255,255,255,0.5);
+}
+
+.tag.hi { border-color: #F5C518; color: #F5C518; }
+
+/* ── SLIDE 2 ── */
+#s2 { background: #0D0D0D; }
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.kpi-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.kpi-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: #F5C518;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.kpi-lbl { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.4; }
+
+.dq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.dq-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.03);
+  border-left: 2px solid #F5C518;
+  border-radius: 0 4px 4px 0;
+}
+
+.dq-issue { font-size: 0.8rem; color: #fff; margin-bottom: 0.25rem; }
+.dq-res { font-size: 0.7rem; color: rgba(255,255,255,0.45); text-align: right; max-width: 160px; }
+
+.badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.bg { background: rgba(26,92,50,0.5); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+.ba { background: rgba(180,120,0,0.3); color: #F5C518; border: 1px solid rgba(245,197,24,0.3); }
+
+/* ── SLIDE 3 ── */
+#s3 { background: #1A5C32; }
+
+.findings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.fc {
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}
+
+.fc.featured {
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  border-color: #F5C518;
+}
+
+.fc-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 4rem;
+  font-weight: 900;
+  color: #F5C518;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.fc-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  color: #F5C518;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.fc-body { font-size: 0.85rem; color: rgba(255,255,255,0.8); line-height: 1.55; }
+
+/* ── SLIDE 4 ── */
+#s4 { background: #0D0D0D; }
+
+.fin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.fin-card {
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.03);
+}
+
+.fin-store {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.fin-store span { color: #F5C518; }
+
+.fin-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.fin-metric { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+.fin-vals { display: flex; gap: 1.5rem; }
+
+.fin-val { text-align: right; }
+.fvn { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: #fff; }
+.fvn.g { color: #4ade80; }
+.fvn.r { color: #E63946; }
+.fvl { font-size: 0.6rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; }
+
+.insight {
+  padding: 1rem 1.25rem;
+  background: rgba(245,197,24,0.07);
+  border: 1px solid rgba(245,197,24,0.25);
+  border-radius: 6px;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.6;
+}
+
+.insight strong { color: #F5C518; }
+
+/* ── SLIDE 5 ── */
+#s5 { background: #0A2E1A; }
+
+.recs { display: flex; flex-direction: column; gap: 0.9rem; }
+
+.rec {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding: 1.1rem 1.4rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+}
+
+.rec-n {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: rgba(245,197,24,0.35);
+  line-height: 1;
+  min-width: 1.75rem;
+}
+
+.rec-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  margin-bottom: 0.35rem;
+}
+
+.rec-body { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.55; }
+
+.rec-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: #F5C518;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+<!-- SLIDE 1 -->
+<section class="slide active" id="s1">
+  <div class="eyebrow">Executive Briefing · WC Pizza Co. · July 2026</div>
+  <h1 class="s1-title">Are We <em>Ready</em><br>For The Cup?</h1>
+  <p class="s1-sub">A full-cycle operations analysis across five Atlanta locations — staffing, demand, and cost — ahead of the final game in Atlanta on July 15, 2026.</p>
+  <div class="tags">
+    <span class="tag hi">5 Locations</span>
+    <span class="tag hi">267,500+ Rows</span>
+    <span class="tag hi">11 Tables</span>
+    <span class="tag">SQL · Python · Tableau</span>
+    <span class="tag">J. Glenn · Data Analyst</span>
+  </div>
+</section>
+
+<!-- SLIDE 2 -->
+<section class="slide" id="s2">
+  <div class="slide-hd">
+    <div class="slide-num">02</div>
+    <div>
+      <div class="eyebrow">The Dataset</div>
+      <div class="slide-title">Data &amp; Quality</div>
+    </div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-num">267K+</div>
+      <div class="kpi-lbl">Total rows across 11 tables — Jan through Jul 2026</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">1,360</div>
+      <div class="kpi-lbl">Duplicate order records identified and removed before analysis</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-num">9</div>
+      <div class="kpi-lbl">Distinct data quality issues resolved before any query ran</div>
+    </div>
+  </div>
+  <div class="dq-grid">
+    <div class="dq-row">
+      <div><div class="dq-issue">Mixed date formats</div><span class="badge bg">Resolved</span></div>
+      <div class="dq-res">Standardized via pd.to_datetime()</div>
+    </div>
+    <div class="dq-row">
+      <div><div class="dq-issue">22 store name variants → 5 locations</div><span class="badge bg">Resolved</span></div>
+      <div class="dq-res">Dictionary mapping applied</div>
+    </div>
+    <div class="dq-row">
+      <div><div class="dq-issue">Missing employee IDs in shifts</div><span class="badge bg">Resolved</span></div>
+      <div class="dq-res">Name-to-ID merge from employees table</div>
+    </div>
+    <div class="dq-row">
+      <div><div class="dq-issue">Null pay rates &amp; reorder points</div><span class="badge ba">Flagged</span></div>
+      <div class="dq-res">Excluded from cost calc · ops review needed</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3 -->
+<section class="slide" id="s3">
+  <div class="slide-hd">
+    <div class="slide-num">03</div>
+    <div>
+      <div class="eyebrow">What The Data Said</div>
+      <div class="slide-title">Key Findings</div>
+    </div>
+  </div>
+  <div class="findings">
+    <div class="fc featured">
+      <div class="fc-num">736</div>
+      <div>
+        <div class="fc-label">Downtown · Avg Orders / Game Day</div>
+        <div class="fc-body">Downtown processes nearly 3× more orders on game days than any other location — and nearly 3× more than its own non-game day average. The volume spike is real, concentrated, and predictable.</div>
+      </div>
+    </div>
+    <div class="fc">
+      <div class="fc-label">Smyrna · Staff Load</div>
+      <div class="fc-num" style="font-size:3rem;">18.9</div>
+      <div class="fc-body" style="font-size:0.8rem;">Orders per staff member on game days — the highest load in the chain. Smyrna is operationally stressed despite lower volume.</div>
+    </div>
+    <div class="fc">
+      <div class="fc-label">Across All Locations</div>
+      <div class="fc-num" style="font-size:3rem; color:#E63946;">↓ Cost/Order</div>
+      <div class="fc-body" style="font-size:0.8rem;">Cost-per-order is lower on game days everywhere. Volume efficiency exists — but only if staffing keeps pace.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4 -->
+<section class="slide" id="s4">
+  <div class="slide-hd">
+    <div class="slide-num">04</div>
+    <div>
+      <div class="eyebrow">The Bottom Line</div>
+      <div class="slide-title">Financial Impact</div>
+    </div>
+  </div>
+  <div class="fin-grid">
+    <div class="fin-card">
+      <div class="fin-store"><span>Downtown</span> · Game Day vs. Non-Game</div>
+      <div class="fin-row">
+        <div class="fin-metric">Avg Daily Margin</div>
+        <div class="fin-vals">
+          <div class="fin-val"><div class="fvn g">$7,519</div><div class="fvl">Game Day</div></div>
+          <div class="fin-val"><div class="fvn">$1,341</div><div class="fvl">No Game</div></div>
+        </div>
+      </div>
+      <div class="fin-row">
+        <div class="fin-metric">Avg Orders / Day</div>
+        <div class="fin-vals">
+          <div class="fin-val"><div class="fvn g">736</div><div class="fvl">Game Day</div></div>
+          <div class="fin-val"><div class="fvn">246</div><div class="fvl">No Game</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="fin-card">
+      <div class="fin-store"><span>Smyrna</span> · Game Day vs. Non-Game</div>
+      <div class="fin-row">
+        <div class="fin-metric">Avg Daily Margin</div>
+        <div class="fin-vals">
+          <div class="fin-val"><div class="fvn g">$2,953</div><div class="fvl">Game Day</div></div>
+          <div class="fin-val"><div class="fvn">$970</div><div class="fvl">No Game</div></div>
+        </div>
+      </div>
+      <div class="fin-row">
+        <div class="fin-metric">Orders / Staff Member</div>
+        <div class="fin-vals">
+          <div class="fin-val"><div class="fvn r">18.9</div><div class="fvl">Game Day</div></div>
+          <div class="fin-val"><div class="fvn">12.6</div><div class="fvl">No Game</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="insight"><strong>The finding:</strong> Game days generate significantly higher average daily margin at every location — but Downtown and Smyrna are absorbing that volume without adequate staffing. Downtown is leaving money on the table on its most profitable days.</div>
+</section>
+
+<!-- SLIDE 5 -->
+<section class="slide" id="s5">
+  <div class="slide-hd">
+    <div class="slide-num">05</div>
+    <div>
+      <div class="eyebrow">What To Do About It</div>
+      <div class="slide-title">Recommendations</div>
+    </div>
+  </div>
+  <div class="recs">
+    <div class="rec">
+      <div class="rec-n">1</div>
+      <div>
+        <div class="rec-title">Bring Staffing to Budgeted Levels</div>
+        <div class="rec-body">Downtown and Smyrna are running below scheduled headcount on their highest-volume days. Every understaffed game day is a throughput constraint on the most profitable days of the year.</div>
+        <div class="rec-tag">Priority: Downtown · Smyrna · Before July 15</div>
+      </div>
+    </div>
+    <div class="rec">
+      <div class="rec-n">2</div>
+      <div>
+        <div class="rec-title">Fix Scheduling Logic — Staff to Volume</div>
+        <div class="rec-body">Overtime is occurring on slow days across multiple locations. The schedule is flat when it should be dynamic. Match staffing to forecasted order volume to eliminate unnecessary labor cost.</div>
+        <div class="rec-tag">Owner: Store Ops · Timeline: Immediate</div>
+      </div>
+    </div>
+    <div class="rec">
+      <div class="rec-n">3</div>
+      <div>
+        <div class="rec-title">Prioritize Downtown Inventory for July 15</div>
+        <div class="rec-body">Classic Pepperoni and chicken pizzas dominate game day sales. Downtown carries the highest volume and margin. Inventory allocation for the final must be weighted toward Downtown to avoid stockouts on the highest-revenue day.</div>
+        <div class="rec-tag">Owner: Merchandising · Timeline: Before July 15</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="arr" id="prev">←</button>
+  <button class="on" data-i="0">01</button>
+  <button data-i="1">02</button>
+  <button data-i="2">03</button>
+  <button data-i="3">04</button>
+  <button data-i="4">05</button>
+  <button class="arr" id="next">→</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const btns = document.querySelectorAll('.nav [data-i]');
+  let cur = 0;
+
+  function go(n) {
+    slides[cur].classList.remove('active');
+    btns[cur].classList.remove('on');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    btns[cur].classList.add('on');
+  }
+
+  document.getElementById('next').onclick = () => go(cur + 1);
+  document.getElementById('prev').onclick = () => go(cur - 1);
+  btns.forEach((b, i) => b.onclick = () => go(i));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') go(cur + 1);
+    if (e.key === 'ArrowLeft') go(cur - 1);
+  });
+</script>
+
+</body>
+</html>
