@@ -28,6 +28,7 @@ Time frame: April 1, 2022 - March 31, 2026
 |---|----------|
 | Q1 | From 2022 to 2026 firearm related incidents have fallen from 6% to 4%. However, over the same time span the number of crimes in the city has risen from ~38,000 to ~65,000. All the while firearm incidents are between 2300 and ~2600 |
 | Q2 | The homicide rate from 2022-2026 (partial year) has shown a downward trend. One exception, 2023, this year correlates with a spike in firearm related incidents. Otherwise, 120 (2022) - 97 (2025) |
+| Q3 | The over all trajectory of firearm related fatalities is a downward slope, since the inception of constitutional carry. This trajectory and percent of firearm incidents have fallen dramatically since the law has taken effect. The most promising number is the fall of the homicides (down ~30%) |
 --
 
 ## Files
@@ -40,7 +41,7 @@ Time frame: April 1, 2022 - March 31, 2026
 | `acc.db` | SQLite database created through ETL process. Working file for querying |
 | `q1_crimerate.sql` | Determine overall crime rate and firearm involved percentages over time |
 | `q2_homicide.sql` | Determine firearm related homicide rate over time |
-
+| `q3_trajectory.sql` | Combine queries 1 & 2 to reveal trend |
 --
 
 ## Tools
