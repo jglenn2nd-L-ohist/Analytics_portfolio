@@ -3,11 +3,11 @@
 # Filename: 00_profile.py
 # Business Question: Since the inception of Constitutional Carry,
 #                    with the guidance of Mayor Dickens, has Atlanta
-#                    seen a drop in firearm related fatalites?
+#                    seen a drop in firearm related incidents?
 # Purpose: Reveal whether Atlanta is a Safe haven or the Wild west
 #          since the start of Constitutional Carry and the Dickens era
 # Author: J.Glenn
-# Project Date Range: 2026-07-31 - 
+# Date Project Started: 2026-07-31  
 ######################################################
 
 # - Import libraries

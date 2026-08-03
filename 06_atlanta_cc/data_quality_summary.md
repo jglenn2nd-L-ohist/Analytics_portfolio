@@ -23,6 +23,7 @@ The issues documented below reflect the decisions made during that process.
 | IncidentNumber - has mixed values | Low | This column serves no purpose in this analysis | the column was simply imported as a string |
 | CriminalGangActivityInvolved - column has 0 entries | Low | not in scope | Drop column during transformation stage, as it adds no value |
 | ReportDate - string variable  | SEVERE | As a string, impossible to manipulate | Converted to datetime variable & surfaced impossible dates to be fixed in the ETL phase | Removed during ETL date range filtering |
+
 Profiling identified no duplicate records.
 ReportDate has 6 null entries & NIBRS_Offense over 30,000
 Any other issues will be handled during the ETL phase
