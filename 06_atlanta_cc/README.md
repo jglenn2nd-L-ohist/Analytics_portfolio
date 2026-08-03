@@ -29,6 +29,13 @@ Time frame: April 1, 2022 - March 31, 2026
 
 ## Files
 
+| File | Description |
+|------|-------------|
+| `00_profile.py` | Discover size shape and character of the working document |
+| `01_etl.py` | Extract data clean and transform it then load into sqlite |
+| `data_quality_summary.md` | Report the finding of the profile and transform phases |
+| `acc.db` | SQLite database created through ETL process. Working file for querying |
+
 --
 
 ## Tools
