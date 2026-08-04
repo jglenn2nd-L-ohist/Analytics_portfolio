@@ -46,7 +46,7 @@ Time frame: April 1, 2022 - March 31, 2026
 | `firearm.png` | Vis for Percent of firearm related crimes |
 | `homicides.png` | Vis to represent the number of homicides over the years |
 | `trend.png` | Vis to show the trend of crimes and homicides over the years |
-| `atlanta_cc_case_study` | HTML case study deliverable |
+| `atlanta_cc_case_study.html` | HTML case study deliverable |
 --
 
 ## Tools
