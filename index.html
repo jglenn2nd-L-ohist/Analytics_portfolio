@@ -56,7 +56,6 @@
     padding: 0 32px;
   }
 
-  /* ── HEADER ── */
   header {
     padding: 32px 0 24px;
     border-bottom: 1px solid var(--border);
@@ -122,7 +121,6 @@
   }
   .header-links svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-  /* ── METRICS STRIP ── */
   .metrics-strip {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -151,7 +149,6 @@
     line-height: 1.4;
   }
 
-  /* ── BIO ── */
   .bio-section {
     padding: 44px 0 36px;
     display: grid;
@@ -196,7 +193,6 @@
     color: var(--accent2);
   }
 
-  /* ── SKILLS ── */
   .skills-section {
     padding: 32px 0;
     border-bottom: 1px solid var(--border);
@@ -212,7 +208,6 @@
   }
   .tag:hover { border-color: var(--accent2); background: rgba(93,158,120,0.08); }
 
-  /* ── PROJECTS ── */
   .projects-section { padding: 44px 0 60px; }
   .projects-section .section-title {
     font-family: 'EB Garamond', serif;
@@ -229,7 +224,6 @@
     line-height: 1.6;
   }
 
-  /* FEATURED ROW */
   .featured-label {
     font-family: 'Inter', monospace;
     font-size: 0.65rem;
@@ -276,11 +270,10 @@
 
   .standard-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
   }
 
-  /* BASE CARD */
   .project-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -310,7 +303,6 @@
   }
   .project-card:hover::before { opacity: 1; }
 
-  /* FEATURED CARD overrides */
   .project-card.featured {
     background: var(--bg2);
     border-color: rgba(93,158,120,0.2);
@@ -329,13 +321,6 @@
     box-shadow: 0 12px 40px rgba(0,0,0,0.3);
   }
 
-  .card-number {
-    font-size: 0.63rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent2);
-    font-family: 'Inter', monospace;
-  }
   .card-title {
     font-family: 'EB Garamond', serif;
     font-weight: 700;
@@ -386,7 +371,6 @@
   }
   .project-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
 
-  /* ── FOOTER ── */
   footer {
     border-top: 1px solid var(--border);
     padding: 20px 0;
@@ -435,7 +419,6 @@
 
 <div class="page">
 
-  <!-- HEADER -->
   <header>
     <div class="name-block">
       <h1>Jonathan Glenn</h1>
@@ -463,7 +446,6 @@
     </nav>
   </header>
 
-  <!-- METRICS STRIP -->
   <div class="metrics-strip fade">
     <div class="metric">
       <span class="metric-num">$500K+</span>
@@ -482,12 +464,11 @@
       <span class="metric-label">Conversion gap found between near-identical content</span>
     </div>
     <div class="metric">
-      <span class="metric-num">8</span>
+      <span class="metric-num">9</span>
       <span class="metric-label">Industries analyzed across a full analytics stack</span>
     </div>
   </div>
 
-  <!-- BIO -->
   <div class="bio-section fade">
     <div class="bio-text">
       <span class="section-label">&lt;/WHO AM I?&gt;</span>
@@ -496,11 +477,12 @@
       <p>I am a <strong>Google Advanced Data Analytics Professional</strong> and a bridge-builder. When I commit to a problem, that becomes the only thing. I take accountability early, close the loop completely, and deliver something the person across the table can act on — not just read.</p>
     </div>
     <div class="cert-section">
-        <h3>Certifications</h3>
+      <h3>Certifications</h3>
       <div style="margin-bottom:16px;">
         <a href="https://www.credly.com/badges/6bb8aac4-e172-4c6f-9d12-88e9ce252475/public_url" target="_blank" rel="noopener">
           <img src="google_adv_badge.png" alt="Google Advanced Data Analytics Professional Certificate" style="width:150px; height:150px; object-fit:contain;"/>
         </a>
+      </div>
       <ul>
         <li>Google Advanced Data Analytics (Coursera)</li>
         <li>Google Data Analytics (Coursera)</li>
@@ -509,7 +491,6 @@
     </div>
   </div>
 
-  <!-- SKILLS -->
   <div class="skills-section fade">
     <span class="section-label">&lt;/TECHNICAL SKILLS&gt;</span>
     <div class="tags">
@@ -528,13 +509,11 @@
     </div>
   </div>
 
-  <!-- PROJECTS -->
   <div class="projects-section">
     <span class="section-label">&lt;/PROJECTS&gt;</span>
     <h2 class="section-title">9 End-to-End Analyses</h2>
     <p class="section-sub">Retail · Telecom · Healthcare · Marketing · Operations · Public Safety · Customer Analytics. Every project starts with a business question and ends with a decision someone can act on.</p>
 
-    <!-- FEATURED -->
     <div class="featured-label">Featured Work</div>
     <div class="featured-grid">
 
@@ -576,7 +555,6 @@
 
     </div>
 
-    <!-- STANDARD -->
     <div class="standard-label">Additional Work</div>
     <div class="standard-grid">
 
@@ -649,7 +627,6 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
   <footer>
     <span class="left">J. Glenn &nbsp;·&nbsp; Data Analyst &nbsp;·&nbsp; Atlanta, GA &nbsp;·&nbsp; 678-793-8993</span>
     <span class="right">I am not the finished product. I am the person who will not stop until I am.</span>
