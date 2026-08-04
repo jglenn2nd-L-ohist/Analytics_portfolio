@@ -52,15 +52,16 @@ and purchasing trends across an international customer base.
 Root cause analysis of shipping operations, regional performance, and return rates for a global retailer spanning multiple markets and customer segments.
 
 - 51,291 orders across 7 markets | ETL pipeline: Excel → pandas → SQLite | Power BI dashboard
-- Tools: SQL · Python · SQLite · Power BI
+- Tools: Excel · Python · SQLite · Power BI
 - [`View project`](./05_Global_Superstore_Operations/)
 
-### 06 —  Safe haven or Wild west: Atlanta 4yrs after Constitutional Carry | Trend Analysis 🔄 In Progress
+### 06 —  Safe haven or Wild west: Atlanta 4yrs after Constitutional Carry | Trend Analysis ✅ Complete
 Analysis of Atlanta firearm crime data trends since the inception of constitutional carry in 2022.
 
 - April 1,2022 - March 31, 2026 | Atlanta City Crime Records | 220581 entries
-- Tools:
+- Tools: Excel · Python · SQLite
 - [`View project`](./06_atlanta_cc/)
+- [`View Case Study`](06_atlanta_cc/deliverables/atlanta_cc_case_study.html)
 ---
 
 ## Connect
