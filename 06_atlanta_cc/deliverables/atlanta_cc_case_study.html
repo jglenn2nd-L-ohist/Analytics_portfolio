@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safe Haven or Wild West — Atlanta 2022-2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg:        #1a1d23;
+    --bg-raised: #21252d;
+    --border:    #2e3340;
+    --gold:      #c9a84c;
+    --gold-dim:  rgba(201,168,76,0.15);
+    --text:      #e8e6e0;
+    --muted:     #8a8f9a;
+    --stamp:     rgba(201,168,76,0.08);
+    --display:   'Playfair Display', Georgia, serif;
+    --serif:     'Source Serif 4', Georgia, serif;
+    --mono:      'JetBrains Mono', 'Courier New', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(26,29,35,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-mark {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 5rem 2.5rem 4rem;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* CSS skyline built from rectangles */
+  .skyline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 260px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 3px;
+    opacity: 0.07;
+    pointer-events: none;
+  }
+  .skyline .b {
+    background: var(--text);
+    border-radius: 1px 1px 0 0;
+    flex-shrink: 0;
+  }
+  /* Approximate Atlanta skyline silhouette */
+  .skyline .b:nth-child(1)  { width:18px; height:60px; }
+  .skyline .b:nth-child(2)  { width:22px; height:90px; }
+  .skyline .b:nth-child(3)  { width:14px; height:50px; }
+  .skyline .b:nth-child(4)  { width:30px; height:140px; } /* Bank of America */
+  .skyline .b:nth-child(5)  { width:16px; height:75px; }
+  .skyline .b:nth-child(6)  { width:20px; height:100px; }
+  .skyline .b:nth-child(7)  { width:26px; height:180px; } /* 191 Peachtree */
+  .skyline .b:nth-child(8)  { width:18px; height:130px; }
+  .skyline .b:nth-child(9)  { width:34px; height:220px; } /* Westin Peachtree */
+  .skyline .b:nth-child(10) { width:20px; height:160px; }
+  .skyline .b:nth-child(11) { width:28px; height:200px; } /* One Atlantic Center */
+  .skyline .b:nth-child(12) { width:16px; height:110px; }
+  .skyline .b:nth-child(13) { width:22px; height:80px; }
+  .skyline .b:nth-child(14) { width:18px; height:65px; }
+  .skyline .b:nth-child(15) { width:24px; height:95px; }
+  .skyline .b:nth-child(16) { width:30px; height:170px; } /* SunTrust */
+  .skyline .b:nth-child(17) { width:14px; height:55px; }
+  .skyline .b:nth-child(18) { width:20px; height:85px; }
+  .skyline .b:nth-child(19) { width:16px; height:45px; }
+  .skyline .b:nth-child(20) { width:22px; height:70px; }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-title {
+    font-family: var(--display);
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-sub {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    color: var(--muted);
+    margin-top: 1.5rem;
+    max-width: 600px;
+    position: relative;
+    z-index: 1;
+    font-style: italic;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+  }
+  .meta-item { }
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .meta-value {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+
+  /* SECTION STRUCTURE */
+  .section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-wide {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-stamp {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: inline-block;
+    border: 1px solid var(--gold);
+    padding: 0.2rem 0.6rem;
+    margin-bottom: 1.5rem;
+    border-radius: 2px;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+  h3 {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    margin-top: 2rem;
+  }
+  p {
+    color: rgba(232,230,224,0.85);
+    margin-bottom: 1.2rem;
+  }
+  p:last-child { margin-bottom: 0; }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 3px solid var(--gold);
+    padding: 1rem 1.5rem;
+    margin: 2.5rem 0;
+    background: var(--gold-dim);
+    border-radius: 0 4px 4px 0;
+  }
+  .pull-quote p {
+    font-family: var(--display);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* DATA CALLOUT */
+  .data-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin: 2.5rem 0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .data-cell {
+    background: var(--bg-raised);
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .data-num {
+    font-family: var(--mono);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .data-desc {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* CHART EMBED */
+  .chart-block {
+    margin: 3rem 0;
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--gold);
+    background: var(--bg-raised);
+    border-radius: 0 0 4px 4px;
+    overflow: hidden;
+  }
+  .chart-label {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .chart-block img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .chart-caption {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    padding: 0.6rem 1rem;
+    border-top: 1px solid var(--border);
+    font-style: italic;
+  }
+
+  /* ANOMALY CALLOUT */
+  .anomaly-box {
+    border: 1px solid rgba(201,168,76,0.4);
+    background: var(--stamp);
+    padding: 2rem;
+    border-radius: 4px;
+    margin: 2.5rem 0;
+  }
+  .anomaly-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  /* LIMITATIONS */
+  .limit-item {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .limit-item:last-child { border-bottom: none; }
+  .limit-title {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+
+  /* VERDICT */
+  .verdict {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--gold);
+    padding: 3rem;
+    margin: 2.5rem 0;
+    border-radius: 0 0 4px 4px;
+    text-align: center;
+  }
+  .verdict-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .verdict-text {
+    font-family: var(--display);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-brand {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .footer-note {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  @media(max-width: 640px) {
+    nav { padding: 0.75rem 1.25rem; }
+    .nav-links { display: none; }
+    .hero { padding: 3rem 1.25rem 2.5rem; }
+    .section, .section-wide { padding: 3rem 1.25rem; }
+    .hero-meta { gap: 1.5rem; flex-wrap: wrap; }
+    .verdict { padding: 2rem 1.25rem; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-mark">Atlanta 2022 &ndash; 2026</span>
+  <ul class="nav-links">
+    <li><a href="#context">Context</a></li>
+    <li><a href="#findings">Findings</a></li>
+    <li><a href="#anomaly">2023</a></li>
+    <li><a href="#trajectory">Trajectory</a></li>
+    <li><a href="#limitations">Limitations</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="skyline">
+    <div class="b"></div><div class="b"></div><div class="b"></div>
+    <div class="b"></div><div class="b"></div><div class="b"></div>
+    <div class="b"></div><div class="b"></div><div class="b"></div>
+    <div class="b"></div><div class="b"></div><div class="b"></div>
+    <div class="b"></div><div class="b"></div><div class="b"></div>
+    <div class="b"></div><div class="b"></div><div class="b"></div>
+    <div class="b"></div><div class="b"></div>
+  </div>
+  <div class="hero-eyebrow">BI Portfolio &middot; Project 06 &middot; Atlanta Crime Analysis</div>
+  <h1 class="hero-title">Safe Haven<br>or <em>Wild West?</em></h1>
+  <p class="hero-sub">Atlanta. Four years after constitutional carry. Four years into the Dickens era. The data does not deliver a verdict. It delivers a question.</p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="meta-label">Data Source</span>
+      <span class="meta-value">Atlanta PD Open Data Portal</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Time Frame</span>
+      <span class="meta-value">Apr 1, 2022 &ndash; Mar 31, 2026</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Records Analyzed</span>
+      <span class="meta-value">219,787</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Analyst</span>
+      <span class="meta-value">J. Glenn</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTEXT -->
+<section class="section" id="context">
+  <span class="section-stamp">Context</span>
+  <h2>Two Things Changed in 2022</h2>
+  <p>In April 2022, Georgia enacted constitutional carry. The argument behind it was simple: lawbreakers do not follow the law, so why burden law-abiding citizens with what critics called a gun owner tax. From that point forward, any Georgian legally allowed to own a firearm could carry it without a permit.</p>
+  <p>At roughly the same time, Andre Dickens became Mayor of Atlanta. He came in with a thin resume on public safety and a city that had been watching its crime numbers with concern. The two events arriving together created a natural question. What happened next?</p>
+  <p>This analysis uses four years of Atlanta Police Department incident data to look at that question without a predetermined answer. No political framing. No advocacy. Just the numbers and what they say, and what they do not say.</p>
+
+  <h3>Data and Methodology</h3>
+  <p>The raw dataset contained 220,581 incident records across 29 columns pulled from the Atlanta PD Open Data Portal. The data was profiled, cleaned, and loaded into a SQLite database. Five columns were retained for analysis: incident ID, report date, firearm involvement flag, NIBRS offense code, and NIBRS offense description.</p>
+  <p>Records were filtered to the analytical window of April 1, 2022 through March 31, 2026. Five records with physically impossible dates were removed along with six null date entries and records falling outside the window. The final working dataset contained 219,787 records.</p>
+  <p>Three business questions were asked before any data was explored. Firearm involvement rate by year. Firearm-involved homicide trend by year. And the overall trajectory of firearm violence across the four-year period.</p>
+</section>
+
+<!-- FINDINGS: Q1 -->
+<section class="section-wide" id="findings">
+  <span class="section-stamp">Finding 01</span>
+  <h2>The Rate Is Falling. The Story Is More Complicated.</h2>
+
+  <div class="data-row">
+    <div class="data-cell">
+      <span class="data-num">6.13%</span>
+      <span class="data-desc">Firearm Rate 2022</span>
+    </div>
+    <div class="data-cell">
+      <span class="data-num">3.57%</span>
+      <span class="data-desc">Firearm Rate 2025</span>
+    </div>
+    <div class="data-cell">
+      <span class="data-num">~2,400</span>
+      <span class="data-desc">Avg Annual Firearm Incidents</span>
+    </div>
+    <div class="data-cell">
+      <span class="data-num">70%</span>
+      <span class="data-desc">Total Crime Increase</span>
+    </div>
+  </div>
+
+  <p>On the surface, the percentage of crimes involving a firearm dropped from 6.13% in 2022 to 3.57% in 2025. That looks like progress. But the raw numbers behind that percentage tell a different story.</p>
+  <p>Firearm-involved incidents did not fall dramatically. They held relatively flat, ranging between roughly 2,300 and 2,600 incidents each year. What changed was the denominator. Total crime in Atlanta went from approximately 38,000 incidents in 2022 to over 65,000 in 2025. The rate dropped because everything else grew around it.</p>
+
+  <div class="pull-quote">
+    <p>The rate of firearm involvement fell not because firearm crime got better, but because overall crime got significantly worse.</p>
+  </div>
+
+  <div class="chart-block">
+    <div class="chart-label">Figure 01 &mdash; Annual Firearm Involvement Rate</div>
+    <img src="../outputs/firearm.png" alt="Bar chart showing percentage of firearm-involved incidents by year 2022-2026">
+    <div class="chart-caption">2026 represents partial year data (Q1 only). Rate shown as percent of total annual incidents.</div>
+  </div>
+</section>
+
+<!-- ANOMALY: 2023 -->
+<section class="section" id="anomaly">
+  <span class="section-stamp">Finding 02 &mdash; The Anomaly</span>
+  <h2>2023 Does Not Fit the Line</h2>
+
+  <p>Of the four full years in this dataset, 2023 stands out. It produced the highest homicide count of any year in the window, 131, and it coincided with the highest raw count of firearm-involved incidents across the period.</p>
+
+  <div class="anomaly-box">
+    <span class="anomaly-label">Analyst Note</span>
+    <p>One plausible explanation for the 2023 spike is the influx of firearms into circulation following the legalization of constitutional carry. The novelty effect of unrestricted carry may have contributed to a temporary increase in firearm-related incidents before behavior normalized. This is a hypothesis, not a finding. The data does not allow for causal conclusions.</p>
+  </div>
+
+  <p>What the data does show is that 2023 was an outlier. By 2024, homicide counts had returned to 2022 levels and continued declining into 2025. Whether 2023 represents a systemic shift that was then corrected, or simply a year with unusual circumstances, cannot be determined from incident records alone.</p>
+
+  <div class="chart-block">
+    <div class="chart-label">Figure 02 &mdash; Annual Homicide Count</div>
+    <img src="../outputs/homicide.png" alt="Bar chart showing annual homicide counts 2022-2026">
+    <div class="chart-caption">Homicides defined as NIBRS code 09A (Murder and Non-negligent Manslaughter). 2026 represents Q1 only.</div>
+  </div>
+</section>
+
+<!-- TRAJECTORY: Q3 -->
+<section class="section-wide" id="trajectory">
+  <span class="section-stamp">Finding 03 &mdash; The Full Picture</span>
+  <h2>The Overall Trajectory</h2>
+
+  <p>When you put both trends on the same chart, the story becomes harder to ignore. Total crime climbed steadily across all four years. Homicides peaked in 2023 and declined through 2025, with the trajectory continuing into the partial 2026 data.</p>
+  <p>Homicides fell approximately 30% from their 2023 peak to 2025. That is a real reduction in violent deaths. But over that same stretch, the city absorbed nearly 27,000 additional crime incidents per year compared to 2022. The homicide decline did not happen in a quieter city. It happened in a city that was getting louder in almost every other respect.</p>
+
+  <div class="chart-block">
+    <div class="chart-label">Figure 03 &mdash; Total Crime vs. Homicide Trend (Dual Axis)</div>
+    <img src="../outputs/trajectory.png" alt="Combo chart showing total crime incidents as bars and homicide count as a line overlay 2022-2026">
+    <div class="chart-caption">Left axis: total crime incidents. Right axis: homicide count. 2026 represents Q1 only.</div>
+  </div>
+
+  <div class="verdict">
+    <span class="verdict-label">Summary Finding</span>
+    <p class="verdict-text">Since 2022, crime in Atlanta increased by approximately 70%. Firearm violence and firearm-related deaths declined only slightly. The data raises more questions than it answers.</p>
+  </div>
+</section>
+
+<!-- LIMITATIONS -->
+<section class="section" id="limitations">
+  <span class="section-stamp">Limitations</span>
+  <h2>What This Analysis Cannot Tell You</h2>
+  <p>Honest analysis acknowledges its blind spots. There are three worth naming here.</p>
+
+  <div class="limit-item">
+    <div class="limit-title">Firearms in Circulation</div>
+    <p>This analysis has no visibility into how many firearms entered circulation after constitutional carry took effect. That number would be central to understanding whether increased gun ownership correlated with any change in firearm crime. That data does not exist in this dataset.</p>
+  </div>
+
+  <div class="limit-item">
+    <div class="limit-title">Concurrent Policy Factors</div>
+    <p>The Dickens administration implemented multiple public safety initiatives over this period. Court backlogs, policing strategy changes, and economic conditions all influence crime numbers. This analysis cannot isolate the effect of any single factor, constitutional carry included.</p>
+  </div>
+
+  <div class="limit-item">
+    <div class="limit-title">APD Records vs. FBI Records</div>
+    <p>The Atlanta PD Open Data Portal figures used here do not always match official FBI crime statistics. The FBI removes and reclassifies certain incidents during its reporting process. Readers who compare these findings to federal data may find discrepancies. The APD figures are used here because they are the most granular and most current source available for this window.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-brand">J. Glenn &middot; BI Portfolio &middot; Project 06</span>
+  <span class="footer-note">SQL &middot; Python &middot; SQLite &middot; Atlanta PD Open Data &middot; 2026</span>
+</footer>
+
+</body>
+</html>
