@@ -62,6 +62,11 @@ Analysis of Atlanta firearm crime data trends since the inception of constitutio
 - Tools: Excel · Python · SQLite
 - [`View project`](./06_atlanta_cc/)
 - [`View Case Study`](06_atlanta_cc/deliverables/atlanta_cc_case_study.html)
+
+### 07 - Olist - E-commerce Fulfillment Analysis 
+Analysis of Brazilian e-commerce company over 2 year period to determine what effect product arrival time has on product reviews
+
+- [`View Project`](./07_olist_stat/)
 ---
 
 ## Connect
