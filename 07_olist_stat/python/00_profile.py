@@ -2,7 +2,9 @@
 # Project: Olist E-commerce Fulfillment Analysis
 # File name: 00_profile.py
 # Business question: 
-# Purpose:
+# Purpose:       To explore the tables in to determine
+#                steps necessary for the transformation
+#                before analysis
 # Author: J.Glenn
 # Date: August 2026
 ###################################################
@@ -11,7 +13,7 @@
 import pandas as pd
 import numpy as np
 
-# - import libraries
+# - import datasets
 cust = pd.read_csv("../data/customers.csv")
 loca = pd.read_csv("../data/location.csv")
 oitem = pd.read_csv("../data/order_items.csv")
