@@ -270,8 +270,16 @@
 
   .standard-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
+  }
+
+  .card-name {
+    font-family: 'Inter', monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent2);
   }
 
   .project-card {
@@ -343,7 +351,6 @@
     color: var(--muted);
     line-height: 1.55;
   }
-  .project-card:not(.featured) .card-type { display: none; }
 
   .card-tools {
     display: flex; flex-wrap: wrap; gap: 6px;
@@ -404,7 +411,6 @@
     .standard-grid { grid-template-columns: 1fr 1fr; }
     .metrics-strip { grid-template-columns: repeat(2, 1fr); }
     .bio-section { grid-template-columns: 1fr; }
-    .project-card:not(.featured) .card-type { display: none; }
   }
 </style>
 </head>
@@ -559,8 +565,10 @@
     <div class="standard-grid">
 
       <a class="project-card fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/03_wc_pizza/deliverables/wc_pizza_case__study.html" target="_blank" rel="noopener">
+        <span class="card-name">WC Pizza Co</span>
         <span class="card-title">Demand &amp; Staffing Capacity Analysis</span>
-        <span class="card-outcome">267,500+ rows · 5 locations · game day vs. non-game day</span>
+        <span class="card-outcome">Downtown processes 3x more orders on game days — understaffed on its most profitable days</span>
+        <span class="card-type">Operations analysis for a 5-location pizza chain ahead of the 2026 FIFA World Cup. Staffing gaps and cost leakage quantified before the tournament began.</span>
         <div class="card-tools">
           <span class="tool-tag">SQL</span>
           <span class="tool-tag">Python</span>
@@ -570,8 +578,10 @@
       </a>
 
       <a class="project-card fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/01_lead_attribution/deliverables/lead_attribution_case_study.html" target="_blank" rel="noopener">
+        <span class="card-name">Data In Motion</span>
         <span class="card-title">Lead Attribution &amp; Channel Performance Analysis</span>
-        <span class="card-outcome">32% attribution gap · 6x conversion gap</span>
+        <span class="card-outcome">32% attribution gap uncovered · 6x conversion gap between near-identical content</span>
+        <span class="card-type">Four datasets joined across YouTube, paid ads, and Hyros to identify which content drives real business outcomes — not just views.</span>
         <div class="card-tools">
           <span class="tool-tag">SQL</span>
           <span class="tool-tag">Python</span>
@@ -581,8 +591,10 @@
       </a>
 
       <a class="project-card fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/02_pinnacle_retail/deliverables/pinnacle_case_study.html" target="_blank" rel="noopener">
+        <span class="card-name">Pinnacle Retail Group</span>
         <span class="card-title">Retail Performance &amp; Inventory Analysis</span>
-        <span class="card-outcome">63% return rate isolated · 847 orphaned IDs resolved</span>
+        <span class="card-outcome">63% return rate isolated to one location — the linchpin of a VP-level briefing</span>
+        <span class="card-type">End-to-end BI analysis for a 6-store Atlanta chain. 847 orphaned product IDs resolved before a single analysis query ran.</span>
         <div class="card-tools">
           <span class="tool-tag">SQL</span>
           <span class="tool-tag">Python</span>
@@ -592,20 +604,23 @@
       </a>
 
       <a class="project-card fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/deliverables/healthcare-case-study.html" target="_blank" rel="noopener">
+        <span class="card-name">Watson Healthcare</span>
         <span class="card-title">Workforce Attrition Analysis</span>
-        <span class="card-outcome">70% of departing staff held highest credential tier</span>
+        <span class="card-outcome">33% pay gap tied to 77% of departures</span>
+        <span class="card-type">Identified the compensation, tenure, and credential patterns driving attrition. Leadership now knows who is leaving and exactly why.</span>
         <div class="card-tools">
           <span class="tool-tag">SQL</span>
-          <span class="tool-tag">Excel</span>
+          <span class="tool-tag">Python</span>
           <span class="tool-tag">Tableau</span>
-          <span class="tool-tag">Powerpoint</span>
         </div>
         <span class="card-arrow">→</span>
       </a>
 
       <a class="project-card fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/deliverables/karkey-case-study.html" target="_blank" rel="noopener">
+        <span class="card-name">Kar Key</span>
         <span class="card-title">Service Operations &amp; Efficiency Analysis</span>
-        <span class="card-outcome">Bottlenecks surfaced across 2,000+ records</span>
+        <span class="card-outcome">Top technician generates 38% more revenue per minute than company average</span>
+        <span class="card-type">QBR-style operational health review across 2,000+ records. Revenue-suppressing bottlenecks surfaced and quantified for leadership action.</span>
         <div class="card-tools">
           <span class="tool-tag">SQL</span>
           <span class="tool-tag">Excel</span>
@@ -615,11 +630,13 @@
       </a>
 
       <a class="project-card fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/deliverables/telecom_case_study.html" target="_blank" rel="noopener">
+        <span class="card-name">Telecom</span>
         <span class="card-title">Customer Churn &amp; Retention Analysis</span>
-        <span class="card-outcome">7,043 records · churn drivers by segment</span>
+        <span class="card-outcome">Month-to-month contracts churn at 89% vs. 3% for two-year</span>
+        <span class="card-type">Root cause analysis across 7,043 records. Contract type is the single most decisive churn variable — and the most actionable.</span>
         <div class="card-tools">
-          <span class="tool-tag">Excel</span>
           <span class="tool-tag">SQL</span>
+          <span class="tool-tag">Python</span>
           <span class="tool-tag">Tableau</span>
         </div>
         <span class="card-arrow">→</span>
