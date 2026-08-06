@@ -38,10 +38,11 @@ Date Range:
 
 | File | Description |
 |------|-------------|
+| `00_profile.py` | EDA profile to discover shape and anomalies of the date to prepare for transformation process |
 --
 
 ## Tools
-
+Python
 --
 
 ## Status
