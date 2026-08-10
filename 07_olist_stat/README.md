@@ -11,7 +11,7 @@ customer purchases. Olist is theorizing that improving the arrival time as compa
 
 | # | Questions |
 |---|----------|
-| Q1 | What does overall delivery performance look like -- on-time rate, average days late, distribution by order status?|
+| Q1 | What does overall delivery performance look like -- on-time rate, average days late, average days early?|
 | Q2 | Which seller states have the worst on-time delivery rates, and does seller-customer geographic distance correlate with delay? |
 | Q3 | How do review scores distribute across delivery outcome buckets -- early, on-time, 1 to 3 days late, 4 or more days late? |
 | Q4 | Which product categories carry the highest freight cost relative to item price, and does that ratio correlate with review scores? |
@@ -32,6 +32,10 @@ Date Range:
 
 | # | Findings |
 |---|----------|
+| Q1 | Early/On-time rate: 92.08% · Late rate: 7.92% · Average days late: 10 · Average days early: 13 | 
+| Q2 | States with fewer than 50 shipments excluded; sample too small to distinguish 
+performance from noise · MA worst on-time rate at 77% · SP (78,598), MG (8,601), 
+PR (8,487) all sit at 92-95% · MA underperforms high-volume peers by 15+ points (Distance correlation portion will be answered via the python diagnostic phase) |
 --
 
 ## Files
@@ -40,6 +44,7 @@ Date Range:
 |------|-------------|
 | `00_profile.py` | EDA profile to discover shape and anomalies of the date to prepare for transformation process |
 | `01_etl.py` | Remove data quality issues that surfaced during the profiling |
+| `q1_delivery_rate.sql` | SQL script to determine on-time rate & average days early and late |
 --
 
 ## Tools
