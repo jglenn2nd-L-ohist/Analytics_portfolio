@@ -36,6 +36,7 @@ Date Range:
 | Q2 | States with fewer than 50 shipments excluded; sample too small to distinguish 
 performance from noise · MA worst on-time rate at 77% · SP (78,598), MG (8,601), 
 PR (8,487) all sit at 92-95% · MA underperforms high-volume peers by 15+ points (Distance correlation portion will be answered via the python diagnostic phase) |
+| Q3 |  4 or more days late review scores drop by more than 1.5 points; 4 or more (1.93) 1-3 (3.72); Early arrivals have 4.3 rating on +87,000 reviews; On-time total reviews (1,461) v early (87.375) shows a trend of conservative estimated delivery dates |
 --
 
 ## Files
@@ -45,6 +46,8 @@ PR (8,487) all sit at 92-95% · MA underperforms high-volume peers by 15+ points
 | `00_profile.py` | EDA profile to discover shape and anomalies of the date to prepare for transformation process |
 | `01_etl.py` | Remove data quality issues that surfaced during the profiling |
 | `q1_delivery_rate.sql` | SQL script to determine on-time rate & average days early and late |
+| `q2_state__otr.sql` | SQL query to determine on-time rate on state level |
+| `q3_late_review.sql` | SQL query to segment review scores based upon delivery segments |
 --
 
 ## Tools
