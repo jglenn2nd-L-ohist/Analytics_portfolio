@@ -30,7 +30,7 @@ purch = purch[(purch["order_status"] == "delivered") & (purch["order_delivered_c
 loca = loca.drop_duplicates(subset=["geolocation_zip_code_prefix"])
 
 # - Load data sets to SQLite
-# - load customer table
+# - load all 9 tables
 conn = sq.connect("../data/olist.db")
 cust.to_sql("cust", conn, if_exists="replace", index=False )
 loca.to_sql("loca", conn, if_exists="replace", index=False)
