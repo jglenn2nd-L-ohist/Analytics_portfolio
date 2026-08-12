@@ -36,7 +36,8 @@ Date Range:
 | Q2 | States with fewer than 50 shipments excluded; sample too small to distinguish 
 performance from noise · MA worst on-time rate at 77% · SP (78,598), MG (8,601), 
 PR (8,487) all sit at 92-95% · MA underperforms high-volume peers by 15+ points;     
-  -Distance correlation coefficient .077 shows there is effectively no correlation between the distance and the delivery arrival |
+  -Distance correlation coefficient .077 shows there is effectively no correlation between the distance and the delivery arrival 
+   - Scatter plot added to visualize the correlation coefficient|
 | Q3 |  4 or more days late review scores drop by more than 1.5 points; 4 or more (1.93) 1-3 (3.72); Early arrivals have 4.3 rating on +87,000 reviews; On-time total reviews (1,461) v early (87.375) shows a trend of conservative estimated delivery dates |
 | Q4 | Filtered out 1 category that had NULL value; No visible correlation beween freight ratio and reviews; scatterplot and correlation coeffficient to be done in next phase of analysis; Noteworthy: review scores had to be assigned to categories and orders. With that some orders having multiple categories are represented in the output | 
 | Q6 | Determined that the peak season on-time rate dips to 88.47% (November-December) This marks an OTR drop of app 3.5 points from the normal rate of 92.08% |
@@ -45,6 +46,8 @@ PR (8,487) all sit at 92-95% · MA underperforms high-volume peers by 15+ points
 ## Limitations
 
 Upon joining all the tables, 3,000 entries were found to have zip prefixes not found in the loca table. They were dropped due to mismatch. 3,000 entries represents under 2% of the dataset
+
+8,500 km Outlier was not excluded from the data set in order to preserve the scores of sales that were done with buyer and seller in the same zip as well as the legitimate long distance orders that IQR banding would have eliminated.
 --
 
 ## Files
@@ -58,6 +61,8 @@ Upon joining all the tables, 3,000 entries were found to have zip prefixes not f
 | `q3_late_review.sql` | SQL query to segment review scores based upon delivery segments |
 | `q4_freight_review.sql` | SQL query to determine average review score by product category |
 | `q6_peak_otr.sql` | SQL query to determine peak season on-time rate |
+| `q2_distance_delay.py` | Python script to determine delivery distance and delay correlation |
+| `q2_distance_delay.png` | Scatterplot showing Distance delivery coefficient |
 --
 
 ## Tools

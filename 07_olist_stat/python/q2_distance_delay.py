@@ -16,6 +16,7 @@ import pandas as pd
 import numpy as np
 import sqlite3 as sq
 import math as m
+import matplotlib.pyplot as ply
 
 # - import data set
 conn = sq.connect("../data/olist.db")
@@ -73,3 +74,20 @@ def haversine(Cust_lat,Cust_long,Seller_lat,Seller_long):
 distance["km_dist"] = distance.apply(lambda row: haversine(row["Cust_lat"], row["Cust_long"], row["Seller_lat"], row["Seller_long"]), axis=1)
 
 print(distance[["km_dist","arrival_diff"]].corr())
+
+
+# - scatterplot vis to show the correlation between distance and delivery time
+fig, ax = ply.subplots(figsize=(10,6))
+reg = np.polyfit(distance['km_dist'],distance["arrival_diff"], 1)
+trend = np.poly1d(reg)
+x_line = np.linspace(distance["km_dist"].min(), distance["km_dist"].max(), 100)
+ax.plot(x_line, trend(x_line), color="red", linewidth=1.5)
+
+samp = distance.sample(n=10000, random_state= 27)
+ax.scatter(x=samp["km_dist"], y=samp["arrival_diff"],alpha=.3)
+ax.set_xlabel("Shipping Distance")
+ax.set_ylabel("Difference from Expected Delivery Date")
+ax.set_title("No distance delivery time correlation (coef -0.077)")
+
+ply.savefig("../outputs/q2_distance_delay.png")
+ply.show()
