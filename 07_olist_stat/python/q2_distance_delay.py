@@ -78,12 +78,13 @@ print(distance[["km_dist","arrival_diff"]].corr())
 
 # - scatterplot vis to show the correlation between distance and delivery time
 fig, ax = ply.subplots(figsize=(10,6))
-reg = np.polyfit(distance['km_dist'],distance["arrival_diff"], 1)
+
+reg = np.polyfit(distance['km_dist'],distance["arrival_diff"], 1) # establish coefficient line
 trend = np.poly1d(reg)
 x_line = np.linspace(distance["km_dist"].min(), distance["km_dist"].max(), 100)
-ax.plot(x_line, trend(x_line), color="red", linewidth=1.5)
 
-samp = distance.sample(n=10000, random_state= 27)
+ax.plot(x_line, trend(x_line), color="red", linewidth=1.5)
+samp = distance.sample(n=10000, random_state= 27) # determine sample size for visual
 ax.scatter(x=samp["km_dist"], y=samp["arrival_diff"],alpha=.3)
 ax.set_xlabel("Shipping Distance")
 ax.set_ylabel("Difference from Expected Delivery Date")
