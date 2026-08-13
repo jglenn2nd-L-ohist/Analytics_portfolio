@@ -18,7 +18,7 @@ which content drives real business outcomes for a data analytics bootcamp.
 - 2,737 leads analyzed | ~40% attributed to YouTube | 32% attribution gap uncovered
 - Tools: SQL · Python · Tableau
 - [`View project`](./01_lead_attribution/)
-- [`View case study`](01_lead_attribution\deliverables\lead_attribution_case_study.html)
+- [`View case study`](01_lead_attribution/deliverables/lead_attribution_case_study.html)
 - [`View Tableau Dashboard`](https://public.tableau.com/shared/XM7H3HQ3K?:display_count=n&:origin=viz_share_link)
 
 ### 02 — Pinnacle Retail Group | Business Intelligence Analysis ✅ Complete
@@ -28,7 +28,7 @@ and inventory inefficiencies.
 - 2,000+ transactions | 847 orphaned product IDs resolved | VP-level executive briefing
 - Tools: SQL · Python · Tableau
 - [`View project`](./02_pinnacle_retail/)
-- [`View case study`](02_pinnacle_retail\deliverables\pinnacle_case_study.html)
+- [`View case study`](02_pinnacle_retail/deliverables/pinnacle_case_study.html)
 
 ### 03 — WC Pizza Co | Labor & Operations Analysis ✅ Complete
 Operations analysis for a 5-location Atlanta pizza chain through the lens of the
@@ -38,7 +38,7 @@ on game days versus non-game days.
 - January–July 2026 | 5 locations | 267,500+ rows across 11 tables
 - Tools: SQL · Python · Tableau
 - [`View project`](./03_wc_pizza/)
-- [`View case study`](03_wc_pizza\deliverables\wc_pizza_case__study.html)
+- [`View case study`](03_wc_pizza/deliverables/wc_pizza_case__study.html)
 - [`View Tableau Dashboard`](https://public.tableau.com/views/WorldCupPizzaco/Dashboard1)
 
 ### 04 — Customer Lifetime Value Analysis | UCI Online Retail ✅ Complete
@@ -57,7 +57,7 @@ Root cause analysis of shipping operations, regional performance, and return rat
 - 51,291 orders across 7 markets | ETL pipeline: Excel → pandas → SQLite | Power BI dashboard
 - Tools: Excel · Python · SQLite · Power BI
 - [`View project`](./05_Global_Superstore_Operations/)
-- [`View case study`](05_Global_Superstore_Operations\deliverables\global_superstore_operations.html)
+- [`View case study`](05_Global_Superstore_Operations/deliverables/global_superstore_operations.html)
 
 ### 06 —  Safe haven or Wild west: Atlanta 4yrs after Constitutional Carry | Trend Analysis ✅ Complete
 Analysis of Atlanta firearm crime data trends since the inception of constitutional carry in 2022.
