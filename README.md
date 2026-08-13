@@ -18,8 +18,8 @@ which content drives real business outcomes for a data analytics bootcamp.
 - 2,737 leads analyzed | ~40% attributed to YouTube | 32% attribution gap uncovered
 - Tools: SQL · Python · Tableau
 - [`View project`](./01_lead_attribution/)
-- [`View case study`](01_lead_attribution/deliverables/lead_attribution_case_study.html)
-- [`View Tableau Dashboard`](https://public.tableau.com/shared/XM7H3HQ3K?:display_count=n&:origin=viz_share_link)
+- [`View case study`](https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/01_lead_attribution/deliverables/lead_attribution_case_study.html)
+- [`View Tableau Dashboard`](https://public.tableau.com/views/DIMint/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
 ### 02 — Pinnacle Retail Group | Business Intelligence Analysis ✅ Complete
 End-to-end BI analysis for a 6-store Atlanta retail chain facing margin decline
@@ -28,7 +28,7 @@ and inventory inefficiencies.
 - 2,000+ transactions | 847 orphaned product IDs resolved | VP-level executive briefing
 - Tools: SQL · Python · Tableau
 - [`View project`](./02_pinnacle_retail/)
-- [`View case study`](02_pinnacle_retail/deliverables/pinnacle_case_study.html)
+- [`View case study`](https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/02_pinnacle_retail/deliverables/pinnacle_case_study.html)
 
 ### 03 — WC Pizza Co | Labor & Operations Analysis ✅ Complete
 Operations analysis for a 5-location Atlanta pizza chain through the lens of the
@@ -38,7 +38,7 @@ on game days versus non-game days.
 - January–July 2026 | 5 locations | 267,500+ rows across 11 tables
 - Tools: SQL · Python · Tableau
 - [`View project`](./03_wc_pizza/)
-- [`View case study`](03_wc_pizza/deliverables/wc_pizza_case__study.html)
+- [`View case study`](https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/03_wc_pizza/deliverables/wc_pizza_case__study.html)
 - [`View Tableau Dashboard`](https://public.tableau.com/views/WorldCupPizzaco/Dashboard1)
 
 ### 04 — Customer Lifetime Value Analysis | UCI Online Retail ✅ Complete
@@ -49,7 +49,7 @@ and purchasing trends across an international customer base.
 - Early cohorts outspend later ones | Netherlands leads volume | EIRE concentrated in 3 accounts
 - Tools: Python
 - [`View project`](./04_Customer_LTV_Analysis/)
-- [`View Executive Briefing`](./04_Customer_LTV_Analysis/deliverables/ltv_analysis.pdf)
+- [`View Executive Briefing`](04_Customer_LTV_Analysis\deliverables\ltv_analysis.pdf)
 
 ### 05 — Global Superstore Operations Analysis ✅ Complete
 Root cause analysis of shipping operations, regional performance, and return rates for a global retailer spanning multiple markets and customer segments.
@@ -57,7 +57,7 @@ Root cause analysis of shipping operations, regional performance, and return rat
 - 51,291 orders across 7 markets | ETL pipeline: Excel → pandas → SQLite | Power BI dashboard
 - Tools: Excel · Python · SQLite · Power BI
 - [`View project`](./05_Global_Superstore_Operations/)
-- [`View case study`](05_Global_Superstore_Operations/deliverables/global_superstore_operations.html)
+- [`View case study`](https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/05_Global_Superstore_Operations/deliverables/global_superstore_operations.html)
 
 ### 06 —  Safe haven or Wild west: Atlanta 4yrs after Constitutional Carry | Trend Analysis ✅ Complete
 Analysis of Atlanta firearm crime data trends since the inception of constitutional carry in 2022.
@@ -65,7 +65,7 @@ Analysis of Atlanta firearm crime data trends since the inception of constitutio
 - April 1,2022 - March 31, 2026 | Atlanta City Crime Records | 220581 entries
 - Tools: Excel · Python · SQLite
 - [`View project`](./06_atlanta_cc/)
-- [`View Case Study`](06_atlanta_cc/deliverables/atlanta_cc_case_study.html)
+- [`View Case Study`](https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/06_atlanta_cc/deliverables/atlanta_cc_case_study.html)
 
 ### 07 - Olist - E-commerce Fulfillment Analysis 
 Analysis of Brazilian e-commerce company over 2 year period to determine what effect product arrival time has on product reviews
