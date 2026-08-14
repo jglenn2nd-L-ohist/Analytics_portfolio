@@ -41,7 +41,7 @@ PR (8,487) all sit at 92-95% · MA underperforms high-volume peers by 15+ points
 | Q3 |  4 or more days late review scores drop by more than 1.5 points; 4 or more (1.93) 1-3 (3.72); Early arrivals have 4.3 rating on +87,000 reviews; On-time total reviews (1,461) v early (87.375) shows a trend of conservative estimated delivery dates |
 | Q4 | Filtered out 1 category that had NULL value; No visible correlation beween freight ratio and reviews; scatterplot and correlation coeffficient to be done in next phase of analysis; Noteworthy: review scores had to be assigned to categories and orders. With that some orders having multiple categories are represented in the output | 
 | Q5 | Segmented Sellers by tiers based on a weighted scale where Vol (.45), On-Time Rate (.40) & Avg Reviews (.15), weights were applied after all metrics were normalized and indexed from 0.01-2.0; All sellers remain in the data set, even if they are low volume performers |
-| Q6 | Determined that the peak season on-time rate dips to 88.47% (November-December) This marks an OTR drop of app 3.5 points from the normal rate of 92.08% |
+| Q6 | Determined that the peak season on-time rate dips to 88.47% (November-December) This marks an OTR drop of app 3.5 points from the normal rate of 92.08% ; Trend line vis in Python revealed March 2018 at 78.6% OTR, almost a full 7 points below peak season|
 --
 
 ## Limitations
@@ -66,6 +66,8 @@ Upon joining all the tables, 3,000 entries were found to have zip prefixes not f
 | `q2_distance_delay.png` | Scatterplot showing Distance delivery coefficient |
 | `q5_seller_tier.sql` | Query to establish Seller Volume, on-time rate & Avg review score |
 | `q5_seller_tier.py` | Python script to normalize and segment Volume, on-time rate & Avg reviews into tiers |
+| `q6_peak_otr.py` | Python script to reveal monthly OTR |
+| `q6_peak_otr.png` | Line chart vis showing OTR by month |
 --
 
 ## Tools
