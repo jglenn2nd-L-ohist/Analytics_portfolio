@@ -49,15 +49,19 @@ p_cohort = purch.groupby("purchase").agg(
 
 # - establish OTR
 p_cohort["OTR"] = 100.0 * (p_cohort["on_time"]) / p_cohort["total"]
+p_cohort = p_cohort[p_cohort["total"]> 500]
+# - install minimum standard for charting
 
 # - create line chart
-fig, ax = plt.subplots(figsize=(14, 7))
-
+fig, ax = plt.subplots(figsize=(14, 5))
+ax.axhline(92.08, color="red", label="Baseline OTR: 92.08%")
 ax.plot(p_cohort.index.astype(str), p_cohort["OTR"])
 ax.set_xlabel("Months")
 plt.xticks(rotation=45, ha="right")
+ax.set_ybound(lower=60)
 ax.set_ylabel("On Time Rate")
 ax.set_title("March 2018 OTR Dropped 7 Points Below Holiday Season Levels")
-
+ax.legend()
+plt.tight_layout()
 plt.savefig("../outputs/q6_peak_otr.png")
 plt.show()
