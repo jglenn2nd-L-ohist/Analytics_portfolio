@@ -54,6 +54,7 @@ p_cohort = p_cohort[p_cohort["total"]> 500]
 
 # - create line chart
 fig, ax = plt.subplots(figsize=(14, 5))
+
 ax.axhline(92.08, color="red", label="Baseline OTR: 92.08%")
 ax.plot(p_cohort.index.astype(str), p_cohort["OTR"])
 ax.set_xlabel("Months")
