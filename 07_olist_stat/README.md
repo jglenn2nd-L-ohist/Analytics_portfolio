@@ -43,6 +43,7 @@ PR (8,487) all sit at 92-95% · MA underperforms high-volume peers by 15+ points
 | Q5 | Segmented Sellers by tiers based on a weighted scale where Vol (.45), On-Time Rate (.40) & Avg Reviews (.15), weights were applied after all metrics were normalized and indexed from 0.01-2.0; All sellers remain in the data set, even if they are low volume performers |
 | Q6 | Determined that the peak season on-time rate dips to 88.47% (November-December) This marks an OTR drop of app 3.5 points from the normal rate of 92.08% ; Trend line vis in Python revealed March 2018 at 78.6% OTR, almost a full 7 points below peak season|
 | Q7 | Kruskal-Wallis distribution test returned a p-value (p < 0.001). Indicating a strong relationship between the time a product arrived(in relation to its expected time) and review score. Test statistic of 10,089 also confirms the findings |
+| Q8 | Mann-Whitney U test returned a p-value (p < 0.001). Indicating a strong relationship between the time a product arrived(in relation to its expected time) and review scores |
 --
 
 ## Limitations
@@ -69,9 +70,12 @@ Upon joining all the tables, 3,000 entries were found to have zip prefixes not f
 | `q5_seller_tier.py` | Python script to normalize and segment Volume, on-time rate & Avg reviews into tiers |
 | `q6_peak_otr.py` | Python script to reveal monthly OTR |
 | `q6_peak_otr.png` | Line chart vis showing OTR by month |
-| `q7_accuracy.sql` | SQL script to get expection & review score |
+| `q7_accuracy.sql` | SQL script to get expecting & review score |
 | `q7_accuracy.py` | Python script to get Kruskal-Wallis distrbiution score |
 | `q7_accuracy.png` | Box plot showing review score distribution |
+| `q8_expecting.sql` | SQL query to get early v not early & review scoring |
+| `q8_expecting.py` | Python script to get Mann-Whitney U test data |
+| `q8_expecting.png`| Violin plot to show review score distributions |
 --
 
 ## Tools

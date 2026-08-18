@@ -38,6 +38,7 @@ query = """
             p.order_id = r.order_id
         """
 expected = pd.read_sql_query(query, conn)
+conn.close()
 
 # - mask the arrivals
 early = expected[expected["arrival_v_expect"] == '01 - early']

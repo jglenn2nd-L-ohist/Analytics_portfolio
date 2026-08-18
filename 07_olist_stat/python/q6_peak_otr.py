@@ -30,6 +30,7 @@ query = """
 """
 
 purch = pd.read_sql_query(query, conn)
+conn.close()
 
 # - convert data types
 purch["purchase"]  = pd.to_datetime(purch["purchase"])
