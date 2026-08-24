@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Olist Fulfillment & Review Analysis · J. Glenn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #0d0f12;
+      --card-bg: #14171d;
+      --card-border: #232834;
+      --accent-color: #d97736;
+      --accent-glow: rgba(217, 119, 54, 0.15);
+      --text-main: #e6edf3;
+      --text-muted: #8b949e;
+      --text-dim: #5a6270;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Cinzel', Georgia, serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.7;
+      padding: 0 1.5rem 5rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    /* Top Sticky Navigation */
+    .top-nav {
+      padding: 1.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 3.5rem;
+    }
+
+    .nav-brand {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-brand:hover {
+      color: var(--accent-color);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-main);
+    }
+
+    /* Header */
+    .project-header {
+      margin-bottom: 4rem;
+    }
+
+    .project-meta-top {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      color: #ffffff;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent-color);
+      font-family: var(--font-serif);
+    }
+
+    .header-tagline {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Meta Grid */
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.25rem;
+      padding: 1.75rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    .meta-item h4 {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+
+    .meta-item p {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1.4rem;
+      background: rgba(217, 119, 54, 0.12);
+      border: 1px solid rgba(217, 119, 54, 0.4);
+      border-radius: 6px;
+      color: var(--accent-color);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-download:hover {
+      background: var(--accent-color);
+      color: #ffffff;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    /* Content Sections */
+    section {
+      margin-bottom: 4.5rem;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.6rem;
+    }
+
+    h2 {
+      font-family: var(--font-serif);
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 1.25rem;
+      line-height: 1.3;
+    }
+
+    h3 {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      color: var(--text-main);
+      margin: 1.8rem 0 0.8rem;
+    }
+
+    p {
+      margin-bottom: 1.3rem;
+      color: #c9d1d9;
+      font-size: 1.02rem;
+      font-weight: 400;
+    }
+
+    /* Stat Cards */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.2rem;
+      margin: 2rem 0 2.5rem;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: left;
+    }
+
+    .stat-number {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-color);
+      line-height: 1.1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Analyst Note / Callout */
+    .callout {
+      background: #11151c;
+      border-left: 3px solid var(--accent-color);
+      border-radius: 0 8px 8px 0;
+      padding: 1.4rem 1.6rem;
+      margin: 2rem 0;
+    }
+
+    .callout-title {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .callout p {
+      margin-bottom: 0;
+      font-size: 0.95rem;
+      color: #c0c7d0;
+    }
+
+    /* Figures & Images */
+    .figure-container {
+      margin: 2.5rem 0;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .figure-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-bottom: 1px solid var(--card-border);
+      background: #ffffff; /* Preserves chart readability */
+    }
+
+    .figure-caption {
+      padding: 1rem 1.25rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .figure-caption strong {
+      color: var(--text-main);
+    }
+
+    /* Limitations Grid */
+    .limitations-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .limitation-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .limitation-item h4 {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      color: var(--text-main);
+      margin-bottom: 0.4rem;
+    }
+
+    .limitation-item p {
+      margin-bottom: 0;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding-top: 2.5rem;
+      margin-top: 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .top-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .nav-links {
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+      <a href="../../index.html" class="nav-brand">← Back to Portfolio</a>
+      <ul class="nav-links">
+        <li><a href="#context">Context</a></li>
+        <li><a href="#finding-01">Finding 01</a></li>
+        <li><a href="#finding-02">Seller Tiering</a></li>
+        <li><a href="#finding-03">The Anomaly</a></li>
+        <li><a href="#testing">Statistical Rigor</a></li>
+        <li><a href="#limitations">Limitations</a></li>
+      </ul>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="project-header">
+      <div class="project-meta-top">BI Portfolio · Project 07 · Statistical Fulfillment Analysis</div>
+      <h1>Expectation vs. <em>Arrival</em></h1>
+      <p class="header-tagline">
+        Does delivery timing relative to estimated dates drive measurable drops in customer satisfaction? An empirical investigation into 96,470 Brazilian e-commerce orders.
+      </p>
+
+      <div class="meta-grid">
+        <div class="meta-item">
+          <h4>Dataset</h4>
+          <p>Olist Brazilian E-Commerce</p>
+        </div>
+        <div class="meta-item">
+          <h4>Time Frame</h4>
+          <p>Sep 2016 – Aug 2018</p>
+        </div>
+        <div class="meta-item">
+          <h4>Scope</h4>
+          <p>96,470 Delivered Orders</p>
+        </div>
+        <div class="meta-item">
+          <h4>Stack</h4>
+          <p>SQL · Python · SciPy · Pandas</p>
+        </div>
+      </div>
+
+      <a href="07_olist_report_branded.pdf" class="btn-download" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Executive Report (PDF)
+      </a>
+    </header>
+
+    <!-- Context Section -->
+    <section id="context">
+      <div class="section-eyebrow">Context</div>
+      <h2>The Question Behind the Rating</h2>
+      <p>
+        E-commerce operations frequently treat delivery speed as a monolithic metric: faster is always better. However, customer satisfaction is often anchored not to absolute calendar days, but to <strong>commitments kept versus commitments broken</strong>.
+      </p>
+      <p>
+        This analysis leverages the Olist public dataset to evaluate how arrival timing relative to the promised estimated delivery date impacts customer review scoring. The raw dataset was profiled, filtered to delivered orders, and cleaned of approximately 3,000 postal code inconsistencies (~2% of records), establishing a high-integrity analytical cohort of 96,470 orders.
+      </p>
+    </section>
+
+    <!-- Finding 01 -->
+    <section id="finding-01">
+      <div class="section-eyebrow">Finding 01</div>
+      <h2>The 4-Day Satisfaction Cliff</h2>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-number">92.08%</div>
+          <div class="stat-label">Platform Baseline On-Time Rate (OTR)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">4.30 / 5</div>
+          <div class="stat-label">Average Rating for Early Deliveries</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">1.93 / 5</div>
+          <div class="stat-label">Average Rating at 4+ Days Late</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">-0.077</div>
+          <div class="stat-label">Distance vs. Delay Correlation (r)</div>
+        </div>
+      </div>
+
+      <p>
+        Across the platform, fulfillment operations maintain a strong 92.08% baseline on-time delivery rate. When packages arrive ahead of schedule, customer ratings remain consistently high at an average of 4.30 out of 5.
+      </p>
+      <p>
+        However, the impact of delays is non-linear. Minor delays (1–3 days late) show moderate rating resilience (median score 4.0), but once a package exceeds <strong>4 days past the estimated delivery date, customer satisfaction collapses to an average 1.93 rating</strong> (with a median of 1.0).
+      </p>
+
+      <div class="figure-container">
+        <img src="../outputs/q8_expecting.png" alt="Early & On-time arrivals lead to higher review scores">
+        <div class="figure-caption">
+          <strong>Figure 01 — Arrival Category vs. Review Score Distribution:</strong> Distinct collapse in median review score observed once shipments cross into the 4+ days late bucket.
+        </div>
+      </div>
+
+      <p>
+        Crucially, operations cannot blame geography alone: a Pearson correlation test between customer-to-seller distance and delivery variance against promise yielded <code>r = -0.077</code>. Physical distance is virtually uncorrelated with missing promised delivery windows. Regional performance disparities exist—such as Maranhão (MA) exhibiting a 77% OTR (~15 points below baseline)—but fulfillment variance is driven by process breakdowns and localized logistics bottlenecks rather than mileage.
+      </p>
+
+      <div class="figure-container">
+        <img src="../outputs/q2_distance_delay.png" alt="Distance vs. delivery delay">
+        <div class="figure-caption">
+          <strong>Figure 02 — Seller-Customer Distance vs. Delivery Time Difference:</strong> Pearson coefficient of -0.077 confirms physical transit distance has negligible linear correlation with broken delivery commitments.
+        </div>
+      </div>
+    </section>
+
+    <!-- Finding 02: Seller Tiering -->
+    <section id="finding-02">
+      <div class="section-eyebrow">Finding 02</div>
+      <h2>Weighted Seller Performance Tiering</h2>
+      <p>
+        Because shipping cost relative to freight weight also showed no direct correlation with delays, the diagnostic turned to merchant operational health. A weighted composite index was engineered to tier sellers into clear operational segments:
+      </p>
+      
+      <div class="callout">
+        <div class="callout-title">Seller Composite Score Index Formula</div>
+        <p>
+          <code>Composite Score = (Volume Index × 0.45) + (OTR Index × 0.40) + (Review Score Index × 0.15)</code>
+        </p>
+      </div>
+
+      <p>
+        This multi-criteria segmentation balances fulfillment consistency against pure transaction volume, preventing high-volume sellers with chronic fulfillment issues from masquerading as top platform partners while highlighting high-reliability regional merchants.
+      </p>
+    </section>
+
+    <!-- Finding 03: The Anomaly -->
+    <section id="finding-03">
+      <div class="section-eyebrow">Finding 03 — Operational Anomaly</div>
+      <h2>The March 2018 Delivery Breakdown</h2>
+      
+      <p>
+        While Q4 holiday peak season experiences expected fulfillment pressure (with OTR dipping to 88.47%, roughly 3.6 percentage points below baseline), the historical timeline revealed a much more severe operational anomaly in <strong>March 2018</strong>.
+      </p>
+
+      <div class="figure-container">
+        <img src="../outputs/q6_peak_otr.png" alt="March 2018 OTR Breakdown Chart">
+        <div class="figure-caption">
+          <strong>Figure 03 — Longitudinal On-Time Rate Trajectory (2017–2018):</strong> March 2018 dropped to 78.6% OTR, falling 13.5 percentage points below platform baseline and nearly 10 points below holiday peak season.
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">Analyst Note on Macro Anomalies</div>
+        <p>
+          The data clearly surfaces a 78.6% OTR collapse in March 2018. The dataset itself is silent on the root mechanism (e.g., regional carrier strikes, carrier system migrations, or severe climatic disruption). This is documented as an operational anomaly requiring broader contextual records.
+        </p>
+      </div>
+    </section>
+
+    <!-- Statistical Rigor -->
+    <section id="testing">
+      <div class="section-eyebrow">Methodology & Rigor</div>
+      <h2>Non-Parametric Statistical Testing</h2>
+      <p>
+        Because customer review scores are ordinal and heavily skewed toward 5-star ratings, standard parametric assumptions (ANOVA / t-tests) were rejected in favor of non-parametric hypothesis testing.
+      </p>
+
+      <div class="figure-container">
+        <img src="../outputs/q7_accuracy.png" alt="Early vs Not Early Arrival Review Score Distributions">
+        <div class="figure-caption">
+          <strong>Figure 04 — Early vs. Not Early Review Distributions (Mann-Whitney U):</strong> Distribution comparison demonstrating severe downward rating shifts for deliveries missing early arrival status.
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-number">H = 10,089</div>
+          <div class="stat-label">Kruskal-Wallis Statistic (p < 0.001) across 4 arrival buckets</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">p < 0.001</div>
+          <div class="stat-label">Mann-Whitney U Test confirming early vs. not early rating disparity</div>
+        </div>
+      </div>
+      <p>
+        Both the 4-tier Kruskal-Wallis test (<code>H = 10,089, p < 0.001</code>) and the two-sample Mann-Whitney U test confirmed that the differences in review scores across delivery timing groups are statistically significant and not artifacts of random sampling variation.
+      </p>
+    </section>
+
+    <!-- Limitations -->
+    <section id="limitations">
+      <div class="section-eyebrow">Limitations</div>
+      <h2>What This Analysis Cannot Tell You</h2>
+
+      <div class="limitations-list">
+        <div class="limitation-item">
+          <h4>Geographic & Temporal Bounds</h4>
+          <p>This study reflects Brazilian e-commerce logistics between September 2016 and August 2018. Generalization to other geographic territories or modern logistics ecosystems should not be assumed.</p>
+        </div>
+        <div class="limitation-item">
+          <h4>Causality vs. Association</h4>
+          <p>Statistical tests demonstrate a strong association between late delivery and lower customer sentiment. However, observational data cannot isolate whether unobserved variables (e.g., product damage during transit or customer support friction) contributed to the lower rating alongside the delay.</p>
+        </div>
+        <div class="limitation-item">
+          <h4>Carrier Milestone Granularity</h4>
+          <p>The dataset records purchase, approval, carrier pickup, estimated date, and customer receipt dates. It does not contain intermediate hub tracking scans, carrier handoff delays, or customs holds that pinpoint exactly where in the fulfillment chain delays originated.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div>J. Glenn · Analytics Portfolio · Project 07</div>
+      <div>SQL · Python · Pandas · SciPy · Matplotlib</div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

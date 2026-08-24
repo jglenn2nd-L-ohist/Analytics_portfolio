@@ -25,7 +25,7 @@ customer purchases. Olist is theorizing that improving the arrival time as compa
 
 Brazilian E-Commerce Public Dataset
 https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?select=olist_customers_dataset.csv
-Date Range:
+Date Range: 2016-2018
 --
 
 ## Key Findings
@@ -76,12 +76,14 @@ Upon joining all the tables, 3,000 entries were found to have zip prefixes not f
 | `q8_expecting.sql` | SQL query to get early v not early & review scoring |
 | `q8_expecting.py` | Python script to get Mann-Whitney U test data |
 | `q8_expecting.png`| Violin plot to show review score distributions |
+| `olist_case_study.html` | Case study deliverable |
+| `07_olist_report_branded.pdf` | Technical report - deliverable |
 --
 
 ## Tools
-Python · SQL 
+Python · SQL · Word
 --
 
 ## Status
 
-in progress
+Completed

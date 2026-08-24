@@ -2,7 +2,8 @@
 # Project: Olist E-commerce Fulfillment Analysis
 # File name: 01_etl.py
 # Business question: 
-# Purpose:   
+# Purpose:    To clean, transform and load data into
+#             SQL database for analysis
 # Author: J.Glenn
 # Date: August 2026
 ###################################################
