@@ -117,7 +117,10 @@
 
   /* STAT CARDS */
   .hero-right {
-    display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+    display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-content:start;
+  }
+  .hero-right > div:first-child {
+    grid-column: 1 / -1;
   }
   .stat-card {
     background:var(--card);
@@ -412,14 +415,24 @@
         <span class="meta-label">Countries</span>
         <span class="meta-val">37</span>
       </div>
-      <div class="meta-item">
-        <span class="meta-label">Stack</span>
-        <span class="meta-val">Python</span>
-      </div>
     </div>
   </div>
 
   <div class="hero-right fade">
+    <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; grid-column:1/-1;">
+      <a href="https://github.com/jglenn2nd-L-ohist/Analytics_portfolio/tree/main/04_Customer_LTV_Analysis/python" target="_blank" rel="noopener"
+         style="display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border:1px solid rgba(155,127,232,0.5); border-radius:3px; color:#9b7fe8; text-decoration:none; font-family:monospace; font-size:10px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; background:rgba(155,127,232,0.08);">
+        ⌥ Python Scripts
+      </a>
+      <a href="ltv_analysis.pdf" target="_blank" rel="noopener"
+         style="display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border:1px solid rgba(155,127,232,0.5); border-radius:3px; color:#9b7fe8; text-decoration:none; font-family:monospace; font-size:10px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; background:rgba(155,127,232,0.08);">
+        ↓ Technical Report
+      </a>
+      <a href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/"
+         style="display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border:1px solid rgba(255,255,255,0.12); border-radius:3px; color:#6e6e8a; text-decoration:none; font-family:monospace; font-size:10px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; background:rgba(255,255,255,0.03);">
+        ← Portfolio
+      </a>
+    </div>
     <div class="stat-card">
       <div class="stat-num">541K</div>
       <div class="stat-lbl">Raw Entries Processed</div>
@@ -615,7 +628,7 @@
   <p>
     <a href="https://www.linkedin.com/in/j-glenn-2nd" target="_blank">LinkedIn</a>
     &nbsp;·&nbsp;
-    <a href="https://jglennportfolio.my.canva.site/" target="_blank">Portfolio</a>
+    <a href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/" target="_blank">Portfolio</a>
     &nbsp;·&nbsp;
     <a href="https://github.com/jglenn2nd-L-ohist/Analytics_portfolio/tree/main/04_Customer_LTV_Analysis" target="_blank">GitHub</a>
   </p>
