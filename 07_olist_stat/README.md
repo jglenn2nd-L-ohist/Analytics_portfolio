@@ -89,6 +89,11 @@ Time-based train-test split will be used to ensure model evaluates future data.
 
 --
 
+## Feature Engineering (Methodology) Notes
+bare non-aggregated columns under GROUP BY (`seller_id`) silently corrupted rolling OTR/volume for any seller who wasn't SQLite's arbitrary pick on a multi-seller order, a bug that affected every seller's calculation, not just a visible subset. The fix required regrounding `roll_otr`/`roll_vol` to the seller-item grain and reasoning through why OTR collapses via MIN (weakest link drives risk) while volume collapses via MAX (presence of a strong seller is the meaningful signal, not the average or sum).
+
+--
+
 ## Files
 
 ### Leg 1
