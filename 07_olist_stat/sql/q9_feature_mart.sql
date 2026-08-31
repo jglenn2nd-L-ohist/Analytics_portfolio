@@ -96,6 +96,7 @@ WITH arrival AS (-- CTE to create on_time flag and late_flag
     )
 SELECT
     ar.order_id
+,   ar.timestamp 
 ,	s.customer_id
 ,	s.customer_state
 ,	CASE WHEN COUNT(DISTINCT otr.seller_id) = 1 THEN MIN(otr.seller_id) ELSE "Various" END AS seller_id
@@ -113,10 +114,14 @@ SELECT
 ,	ao.category
 FROM
     arrival ar
-LEFT JOIN ag_orders ao ON ar.order_id = ao.order_id 
-JOIN excl_otr otr ON ar.order_id = otr.order_id
-JOIN excl_vol vol ON otr.order_id = vol.order_id AND otr.order_item_id = vol.order_item_id
-LEFT JOIN states s ON ar.order_id = s.order_id 
+JOIN ag_orders ao 
+ON ar.order_id = ao.order_id 
+JOIN excl_otr otr 
+ON ar.order_id = otr.order_id
+JOIN excl_vol vol 
+ON otr.order_id = vol.order_id AND otr.order_item_id = vol.order_item_id
+JOIN states s 
+ON ar.order_id = s.order_id 
 GROUP BY
     ar.order_id
 

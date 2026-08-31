@@ -66,7 +66,7 @@ Date Range: 2016–2018
 
 | # | Findings |
 |---|----------|
-| Q9 | In progress |
+| Q9 | Logistic regression built on feature mart; did not produce an operationally productive classifier · class_weight='balanced' raised recall 0.2% to 12%, at the cost of precision dropping 0.22 to 0.06 and accuracy falling 10 points · Threshold lowered 0.5 to 0.3 raised recall to 31%, but accuracy fell to 62% with precision dropping slightly to 0.05 · Result mirrors Leg 1 distance-delay finding (Q2): available data does not capture the operational factors driving late delivery |
 | Q10 | In progress |
 | Q11 | In progress |
 | Q12 | In progress |
@@ -86,6 +86,8 @@ A seller's first-ever order is excluded from the training data. The rolling on-t
 All predictive features are constructed using only data available at the moment of order placement. No post-fulfillment information is included. This leakage control is the primary methodological discipline of Leg 2.
 
 Time-based train-test split will be used to ensure model evaluates future data.
+
+15 orders were excluded from the feature mart due to missing product weight/dimension data at the source (prods table), which caused `tot_weight`/`tot_volume` to compute as NULL. This affects roughly 0.016% of orders and was addressed by dropping the affected rows prior to modeling.
 
 --
 
