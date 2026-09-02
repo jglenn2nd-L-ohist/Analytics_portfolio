@@ -67,7 +67,7 @@ Date Range: 2016–2018
 | # | Findings |
 |---|----------|
 | Q9 | Logistic regression built on feature mart; did not produce an operationally productive classifier · class_weight='balanced' raised recall 0.2% to 12%, at the cost of precision dropping 0.22 to 0.06 and accuracy falling 10 points · Threshold lowered 0.5 to 0.3 raised recall to 31%, but accuracy fell to 62% with precision dropping slightly to 0.05 · Result mirrors Leg 1 distance-delay finding (Q2): available data does not capture the operational factors driving late delivery |
-| Q10 | In progress |
+| Q10 | Feature importance shows minimal predictive weight overall, consistent with the near-zero distance correlation and the logistic regression's inability to classify late orders in Q9. Noteworthy, March had one of the highest predictive weights for late arrival, which is consistent with the OTR findings in Leg 1. Also of note, São Paulo was a strong predictor of on-time arrival. One hypothesis for this is that the state's highly developed logistics network leads to smoother deliveries. Lastly, December was investigated and revealed almost no predictive weight (March 0.357 vs. December 0.038). |
 | Q11 | In progress |
 | Q12 | In progress |
 
