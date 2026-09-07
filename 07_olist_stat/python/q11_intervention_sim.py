@@ -1,13 +1,13 @@
 #########################################################
 ## Project: Olist E-commerce Fulfillment Analysis
-## File name: q10_feature_importance.py
-## Business question: Q10 What patterns are most associated 
-##                      with late delivery risk? 
-##                      which features carry the most 
-##                      predictive weight? 
-## Purpose:   Reveal any patterns hidden in late arrival risk
-##            Determine which features are most associated 
-##            with late arrival risk   
+## File name: q11_intervention_sim.py
+## Business question: Q11 Across simulated intervention 
+##                        capacities (top 5%, 10%, and 20% 
+##                        of flagged orders), how many late 
+##                        deliveries could an operations team 
+##                        realistically capture?
+## Purpose:   Determine risk reward associated with flagging 
+##            orders and working to prevent late deliveries  
 ## Author: J.Glenn
 ## Date: August 2026
 #########################################################
@@ -16,6 +16,7 @@
 import pandas as pd
 import numpy as np
 import sqlite3 as sq
+import matplotlib.pyplot as plt
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
@@ -171,8 +172,6 @@ vif_data = pd.DataFrame()
 vif_data["feature"] = X_num.columns
 vif_data["VIF"] = [variance_inflation_factor(X_num.values,i) for i in range(X_num.shape[1])]
 
-print(vif_data)
-
 # - reunite the separate dataframes
 combined = pd.concat([x,y,timestamp], axis=1)
 
@@ -196,20 +195,53 @@ lr_model.fit(x_train,y_train)
 y_prob = lr_model.predict_proba(x_test)[:,1]
 pred_adj = (y_prob >= 0.3).astype(int)
 
-# - standardize every x_train column
-feature_std = x_train.std()
+# - create dataframe for comparing late v probabilty
+compare = pd.DataFrame({"late_flag" : y_test, "y_prob" : y_prob})
 
-coef_df = pd.DataFrame({
-    "feature": x_train.columns,
-    "raw_coef": lr_model.coef_[0]
-})
+sort_compare = compare.sort_values("y_prob", ascending=False)
+late = sort_compare[sort_compare["late_flag"]== 1]
 
-coef_df["std_coef"] = coef_df["raw_coef"] * feature_std.values 
-coef_df["abs_std_coef"] = coef_df["std_coef"].abs()
+# - segmenting top 5, 10, 20%
+split_5 = int(len(sort_compare) * 0.05)
+split_10 = int(len(sort_compare) * 0.1)
+split_20 = int(len(sort_compare) * 0.2)
 
-# - Reveal top 10% of features and their effects on arrival times
-top15 = coef_df.sort_values("abs_std_coef", ascending=False).head(15)[["feature","std_coef","abs_std_coef"]]
-print(top15)
+late_5 = sort_compare.iloc[:split_5]
+late_10 = sort_compare.iloc[:split_10]
+late_20 = sort_compare.iloc[:split_20]
 
-# - Determine December's effects on arrival risk
-print(coef_df[coef_df["feature"] == "Month_num_12"])
+# - late count
+
+cnt_late_5 = late_5["late_flag"].sum()
+cnt_late_10 = late_10["late_flag"].sum()
+cnt_late_20 = late_20["late_flag"].sum()
+print("count of top 5%:", len(late_5), "num_late:",cnt_late_5, "total:", len(late), "Percent of total:", round(100 *(cnt_late_5/len(late)),2),"%")
+print("lift rate:", round((100 *(cnt_late_5/len(late))/5),2) )
+print('*******')
+print("count of top 10%:", len(late_10),"num_late:",cnt_late_10, "total", len(late), "Percent of total:", round(100 *(cnt_late_10/len(late)),2),"%")
+print("lift rate:", round((100 *(cnt_late_10/len(late))/10),2) )
+print('*******')
+print("count of top 20%:", len(late_20), "num_late:",cnt_late_20, "total", len(late), "Percent of total:", round(100 *(cnt_late_20/len(late)),2),"%")
+print("lift rate:", round((100 *(cnt_late_20/len(late))/20),2) )
+
+# - Vis bar chart comparison in segment check probability
+category = [5,10,20]
+capture = [5.73,10.36,18.21]
+base = [5,10,20]
+
+x = np.arange(len(category))
+
+fig, ax = plt.subplots(figsize=(10,6))
+
+width = 0.3
+
+ax.bar(x - width/2, capture, width, label="flagged")
+ax.bar(x + width/2, base, width, label="baseline")
+ax.set_xticks(x)
+ax.set_xticklabels(category)
+ax.legend()
+ax.set_xlabel("Flagged capture vs Random capture")
+ax.set_title("Modeling adds no benefit over Random Selection")
+
+plt.savefig("../outputs/q11_intervention_sim.png")
+plt.show()
