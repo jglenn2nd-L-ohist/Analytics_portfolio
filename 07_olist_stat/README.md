@@ -68,8 +68,9 @@ Date Range: 2016–2018
 |---|----------|
 | Q9 | Logistic regression built on feature mart; did not produce an operationally productive classifier · class_weight='balanced' raised recall 0.2% to 12%, at the cost of precision dropping 0.22 to 0.06 and accuracy falling 10 points · Threshold lowered 0.5 to 0.3 raised recall to 31%, but accuracy fell to 62% with precision dropping slightly to 0.05 · Result mirrors Leg 1 distance-delay finding (Q2): available data does not capture the operational factors driving late delivery |
 | Q10 | Feature importance shows minimal predictive weight overall, consistent with the near-zero distance correlation and the logistic regression's inability to classify late orders in Q9. Noteworthy, March had one of the highest predictive weights for late arrival, which is consistent with the OTR findings in Leg 1. Also of note, São Paulo was a strong predictor of on-time arrival. One hypothesis for this is that the state's highly developed logistics network leads to smoother deliveries. Lastly, December was investigated and revealed almost no predictive weight (March 0.357 vs. December 0.038). |
-| Q11 | In progress |
-| Q12 | In progress |
+| Q11 | Comparing the model's ranked order against random selection, capture rates at the top 5%, 10%, and 20% thresholds were 5.73%, 10.36%, and 18.21% respectively — against random baselines of 5%, 10%, and 20%. This produced lift values of 1.15, 1.04, and 0.91. Lift near 1.0 at the 5% and 10% thresholds indicates the model performs only marginally better than random selection. At the 20% threshold, lift falls below 1.0, meaning the model performs worse than random selection at that capture width. Combined with Q9's classification failure and Q10's diffuse feature importance, this confirms the model provides no meaningful operational value for prioritizing late-delivery intervention. |
+| Q12 | For this test, a capacity level was set for the intervention team of 5%. With that level set, the y_prob of .575 was determined as the lower limit. All orders above this would be flagged. Having run the tests, it is shown that this is not operationally feasible because at this level of the flagged orders there would be a 94% error rate. Looking at the recall rate, we can see at 5.73%, intervention would not be much more effective than random selection.
+When viewed in the scope of Leg 2, the findings have shown little to no path for credibly predicting late arrivals. |
 
 --
 
@@ -132,6 +133,7 @@ bare non-aggregated columns under GROUP BY (`seller_id`) silently corrupted roll
 | `q9_model.py` | Python script to train baseline and comparison models and evaluate performance |
 | `q10_feature_importance.py` | Python script to extract and visualize feature importance |
 | `q11_intervention_sim.py` | Python script to simulate intervention capacity scenarios |
+| `q11_intervention_sim.png` | Intervention png showing intervention lift rate |
 | `q12_threshold_analysis.py` | Python script to evaluate precision/recall tradeoffs across risk thresholds |
 
 --
