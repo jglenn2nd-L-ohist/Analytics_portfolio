@@ -67,14 +67,17 @@ Analysis of Atlanta firearm crime data trends since the inception of constitutio
 - [`View project`](./06_atlanta_cc/)
 - [`View Case Study`](https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/06_atlanta_cc/deliverables/atlanta_cc_case_study.html)
 
-### 07 - Olist - E-commerce Fulfillment Analysis - In Progress
-Analysis of Brazilian e-commerce company over 2 year period to determine what effect product arrival time has on product reviews
+### 07 — Olist E-Commerce Fulfillment Analysis | Statistical & Predictive Modeling ✅ Complete
+Two-phase analysis of a Brazilian e-commerce platform: first establishing whether delivery
+timing drives customer review scores, then testing whether that risk can be predicted
+before it happens.
 
-- Sep 2016 - Aug 2018 | 9 CSV files | 1M+ raw records | 96,470 delivered orders analysed
-- Tools: SQL · Python · pandas · SciPy · Matplotlib
+- 96,470 delivered orders analysed | p<0.001 association confirmed (Phase 1) | predictive
+  modeling ruled out via 4 independent tests, no viable signal at order-placement time (Phase 2)
+- Tools: SQL · Python · pandas · SciPy · scikit-learn · Matplotlib
 - [`View Project`](./07_olist_stat/)
 - [`View Technical Report (PDF)`](./07_olist_stat/deliverables/07_olist_report_branded.pdf)
--[`View Case Study`](./07_olist_stat/deliverables/olist_case_study.html)
+- [`View Case Study`](./07_olist_stat/deliverables/olist_case_study.html)
 ---
 
 ## Connect

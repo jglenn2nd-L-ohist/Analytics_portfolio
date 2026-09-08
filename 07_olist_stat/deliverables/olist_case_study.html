@@ -375,6 +375,7 @@
         <li><a href="#finding-02">Seller Tiering</a></li>
         <li><a href="#finding-03">The Anomaly</a></li>
         <li><a href="#testing">Statistical Rigor</a></li>
+        <li><a href="#phase2">Phase 2: Modeling</a></li>
         <li><a href="#limitations">Limitations</a></li>
       </ul>
     </nav>
@@ -384,7 +385,7 @@
       <div class="project-meta-top">BI Portfolio · Project 07 · Statistical Fulfillment Analysis</div>
       <h1>Expectation vs. <em>Arrival</em></h1>
       <p class="header-tagline">
-        Does delivery timing relative to estimated dates drive measurable drops in customer satisfaction? An empirical investigation into 96,470 Brazilian e-commerce orders.
+        Does delivery timing relative to estimated dates drive measurable drops in customer satisfaction? An empirical investigation into 96,470 Brazilian e-commerce orders — followed by a Phase 2 test of whether that risk can be predicted before it happens.
       </p>
 
       <div class="meta-grid">
@@ -402,7 +403,7 @@
         </div>
         <div class="meta-item">
           <h4>Stack</h4>
-          <p>SQL · Python · SciPy · Pandas</p>
+          <p>SQL · Python · SciPy · scikit-learn</p>
         </div>
       </div>
 
@@ -557,8 +558,69 @@
       </p>
     </section>
 
-    <!-- Limitations -->
-    <section id="limitations">
+    <!-- Phase 2: Predictive Modeling -->
+    <section id="phase2">
+      <div class="section-eyebrow">Phase 2 · Predictive Modeling</div>
+      <h2>Can the Risk Be Predicted Before It Happens?</h2>
+      <p>
+        Phase 1 established a strong statistical association between delivery timing and review scores. The natural follow-up question: could a model, using information available at or before the time an order is placed, flag at-risk orders in time for an operations team to intervene? A logistic regression classifier was built and tested four separate ways to answer this.
+      </p>
+
+      <h3>Q9 — Classification</h3>
+      <p>
+        The default model did not produce an operationally productive classifier. Applying <code>class_weight='balanced'</code> raised recall from 0.2% to 12%, at the cost of precision dropping from 0.22 to 0.06 and accuracy falling 10 points. Lowering the decision threshold from 0.5 to 0.3 raised recall further to 31%, but accuracy fell to 62% with precision dropping slightly to 0.05.
+      </p>
+
+      <h3>Q10 — Feature Importance</h3>
+      <p>
+        Standardized coefficients showed minimal predictive weight overall, consistent with Phase 1's near-zero distance correlation. <strong>March</strong> had one of the highest predictive weights for late arrival, corroborating the Phase 1 OTR-by-month finding. <strong>São Paulo</strong> was the strongest predictor of on-time arrival, plausibly reflecting the state's developed logistics network. December was checked directly and confirmed negligible (std_coef 0.038 vs. March's 0.357).
+      </p>
+
+      <h3>Q11 — Capture Rate vs. Random Selection</h3>
+      <p>
+        Ranking orders by predicted probability and comparing the top 5%, 10%, and 20% against random baselines produced capture rates of 5.73%, 10.36%, and 18.21%, against random baselines of 5%, 10%, and 20% respectively. Resulting lift sits at or below 1.0 across the board.
+      </p>
+
+      <div class="figure-container">
+        <img src="../outputs/q11_intervention_sim.png" alt="Modeling adds no benefit over random selection">
+        <div class="figure-caption">
+          <strong>Figure 05 — Capture Rate: Flagged vs. Random Baseline (Q11):</strong> Bars track their random baselines almost exactly at every capture width, the signature of a model with no meaningful lift.
+        </div>
+      </div>
+
+      <h3>Q12 — Capacity-Constrained Precision & Recall</h3>
+      <p>
+        Assuming an intervention team capacity of 5% of daily order volume (an estimate, since no actual team size exists to reference), the corresponding probability threshold was <strong>0.575</strong>. At that cutoff, precision was <strong>6.1%</strong> (roughly 94% of flagged orders would be false alarms), and recall was 5.73%, in line with random selection.
+      </p>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-number">5.73%</div>
+          <div class="stat-label">Recall at Chosen Capacity (Q11/Q12)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">6.1%</div>
+          <div class="stat-label">Precision (~94% False Alarm Rate)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">0.575</div>
+          <div class="stat-label">Probability Threshold at 5% Capacity</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">≤ 1.0</div>
+          <div class="stat-label">Lift vs. Random, Every Capture Width Tested</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">Analyst Note on the Modeling Outcome</div>
+        <p>
+          Four independent tests, classification, feature weight, ranked capture rate, and capacity-constrained precision/recall, converge on the same conclusion: the dataset available at order-placement time does not support a credible, operationally useful prediction of late delivery. This is documented as a legitimate negative finding, not a failed attempt. Intervening on the flagged 5% would mean acting on false alarms roughly 94% of the time to catch orders no better than random selection would.
+        </p>
+      </div>
+    </section>
+
+
       <div class="section-eyebrow">Limitations</div>
       <h2>What This Analysis Cannot Tell You</h2>
 
@@ -575,13 +637,21 @@
           <h4>Carrier Milestone Granularity</h4>
           <p>The dataset records purchase, approval, carrier pickup, estimated date, and customer receipt dates. It does not contain intermediate hub tracking scans, carrier handoff delays, or customs holds that pinpoint exactly where in the fulfillment chain delays originated.</p>
         </div>
+        <div class="limitation-item">
+          <h4>Predictability, Not Ruled Out</h4>
+          <p>Phase 2's classifier failing to discriminate late orders does not mean late delivery is unpredictable in principle. It indicates that the features available in this dataset at order-placement time are insufficient. Real-time signals such as carrier scan events or live traffic conditions were not available.</p>
+        </div>
+        <div class="limitation-item">
+          <h4>Intervention Capacity Is an Estimate</h4>
+          <p>The 5% team capacity used in Q12 is an assumption, not a figure derived from an actual operations team's throughput. The conclusion holds directionally even if the true capacity differs, since precision and recall were both near baseline across the full 5/10/20% range tested in Q11.</p>
+        </div>
       </div>
     </section>
 
     <!-- Footer -->
     <footer>
       <div>J. Glenn · Analytics Portfolio · Project 07</div>
-      <div>SQL · Python · Pandas · SciPy · Matplotlib</div>
+      <div>SQL · Python · Pandas · SciPy · scikit-learn · Matplotlib</div>
     </footer>
 
   </div>
