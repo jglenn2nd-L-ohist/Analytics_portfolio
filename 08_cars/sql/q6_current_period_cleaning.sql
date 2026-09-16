@@ -1,5 +1,9 @@
 -- ============================================================
--- 05_current_period_cleaning.sql
+-- q6_current_period_cleaning.sql
+-- Question answered: can current-period franchise status and
+-- precise dealer zip be recovered where the auto.dev data does
+-- not provide them directly? (geography half of Q6)
+--
 -- Purpose: diagnose and resolve two data-quality issues found in
 -- the raw auto.dev pull before it's usable for comparison.
 -- ============================================================

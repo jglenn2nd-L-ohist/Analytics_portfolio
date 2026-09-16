@@ -1,66 +1,100 @@
-# Metro Atlanta Used-Car Inventory Study
+# 08 - Metro Atlanta Used Car Inventory Study
 
-## What this project is
+## Business Context
 
-A hypothesis-driven comparison of franchise-dealer used-vehicle inventory in metro Atlanta, testing whether dealer offerings have shifted toward lower quality (older, higher-mileage, pricier) between **September 2020** and the **current period (Sept 2026)**.
+J. hypothesized that metro Atlanta franchise dealer used vehicle inventory has shifted toward lower quality (older, higher mileage) at a higher price since September 2020. This project tests that hypothesis by matching a September 2020 CarGurus crawl against a live auto.dev pull for the current period, across a fixed set of metro Atlanta zip codes.
 
-**This is deliberately framed as "September 2020 vs. current," not "pre-COVID vs. post-COVID."** The pandemic's supply-chain effects were already underway by September 2020, so that snapshot is not a clean undisturbed baseline. See `docs/methodology.md` for the full reasoning.
+The comparison is framed as September 2020 vs. current, not pre-COVID vs. post-COVID. Pandemic driven supply chain disruption was already underway by September 2020, so it is not a clean undisturbed baseline.
 
-## Hypotheses
+--
 
-Three independent tests, each with a pre-registered practical-significance threshold (set before results were seen, to avoid post-hoc rationalization):
+## Analyst Questions
 
-| Metric | H₀ | Threshold for "meaningful" |
-|---|---|---|
-| Age | Mean vehicle age unchanged | ≥ 18 months increase |
-| Mileage | Mean mileage unchanged | ≥ 15,000 miles increase |
-| Price | Mean inflation-adjusted price unchanged | ≥ $2,000 increase |
+| # | Question |
+|---|----------|
+| Q1 | Has average vehicle age increased by 18 months or more from September 2020 to the current period? |
+| Q2 | Has average mileage increased by 15,000 miles or more? |
+| Q3 | Has average price increased by $2,000 or more in real, inflation adjusted terms? |
+| Q4 | Which metro Atlanta zip codes contain a defensible sample of franchise dealer, used only inventory in both periods? |
+| Q5 | Does the September 2020 franchise_dealer flag reliably identify true franchise dealers, and where does it fail? |
+| Q6 | Can current period franchise status and precise dealer location be recovered where the auto.dev data does not provide them directly? |
 
-Metrics are pooled **metro-wide**, using 2020 zip-level listing volume as fixed weights applied to both periods — this avoids conflating a real market shift with an artifact of the two periods having different sampling designs (2020 = natural volume; current period = deliberately equal-weighted across zips).
+--
 
-## Project status (as of this writeup)
+## Data
 
-- ✅ Zip/city selection finalized and fully traced (see `docs/methodology.md`)
-- ✅ 2020 data cleaned (new/used contamination, city-label mismatches, ZIP+4 formatting)
-- ✅ Current-period data pulled (auto.dev, ~6,549 raw listings across 15 zips)
-- ✅ Current-period data cleaned (NULL-zip issue resolved via `searchZip`, cross-zip VIN duplicates identified and resolved)
-- ✅ Franchise-dealer status cross-referenced between periods; manual overrides applied for unmatched/mislabeled dealers
-- ⬜ **Not yet done:** final weighted comparison calculation, inflation adjustment, hypothesis test execution, write-up/visualization
+Two sources, six years apart, same metro area.
 
-## Folder structure
+| Period | Source | Rows | Location |
+|---|---|---|---|
+| September 2020 | Kaggle CarGurus crawl (`used_cars_data.csv`) | approx. 3M total, approx. 8,026 across the 15 target zips (franchise, used only) | `C:\Users\jglen\Downloads\archive (3)\` |
+| Current (Sept 2026) | auto.dev API pull (`atlanta_listings_2026-09-10.csv`) | 6,549 raw, 6,500 after dedup | `C:/users/jglen/analytics_portfolio/08_cars/` |
 
-```
-metro_atlanta_used_car_study/
-├── README.md                          — this file
-├── docs/
-│   └── methodology.md                 — full decision log: zip selection, exclusions, corrections
-├── sql/
-│   ├── 01_schema_reference.sql        — DESCRIBE output for both data sources
-│   ├── 02_zip_selection_screening.sql — zip candidate testing, franchise/used filters
-│   ├── 03_outlier_zscore.sql          — price outlier screen (±2 SD threshold)
-│   ├── 04_franchise_overrides.sql     — manual dealer corrections (create + seed data)
-│   ├── 05_current_period_cleaning.sql — NULL-zip fix, cross-zip VIN dedup
-│   └── 06_final_matched_dataset.sql   — combined join: franchise status + zip, both periods
-└── data/
-    └── README.md                      — file locations (raw data not stored in repo — too large)
-```
+--
 
-## Data sources
+## Key Findings
 
-| Period | File | Location |
-|---|---|---|
-| Sept 2020 | `used_cars_data.csv` (Kaggle, CarGurus crawl, ~3M rows) | `C:\Users\jglen\Downloads\archive (3)\` |
-| Current | `atlanta_listings_2026-09-10.csv` (auto.dev API pull) | `C:/users/jglen/analytics_portfolio/08_cars/` |
+| # | Findings |
+|---|----------|
+| Q1-Q3 | Pending. Data cleaning is complete. Weighted pooling and CPI adjustment have not been run yet. |
+| Q4 | 15 zips finalized: Duluth (30096), Union City (30291), Buford (30519, 30518), Kennesaw (30144), Marietta (30060, 30067, 30062), Alpharetta (30009, 30004), Conyers (30013, 30012, 30094), Chamblee (30341), Vinings (30339), Morrow (30260). Douglasville and Stockbridge returned 0 franchise listings and were dropped. Doraville (30360) was screened out as a price outlier, z-score approximately 2.70 against a +/- 2 threshold on n=16 zip level averages. |
+| Q5 | The flag contains at least one confirmed error. Southern Star Automotive (30096) is flagged franchise_dealer = true but is not a franchise. Atlanta Classic Cars was suspected of the same issue on review but verified as a legitimate Mercedes-Benz franchise, the flag is correct. |
+| Q6 | Recovered through a name and zip matched join against the 2020 data, loosened to substring matching after exact match under-recovered known franchises (current period "Palmer Dodge" only matches 2020 "Palmer Dodge Chrysler Jeep Ram" under substring logic). 11 dealers required manual override after the join. One dealer, Nalley Lexus Smyrna, was excluded entirely after independent address verification placed its real location (30080) outside the 15 zip study area. |
 
-## Known limitations (carry into the write-up)
+--
 
-- Sept 2020 baseline is early-pandemic, not true pre-COVID.
-- Price comparison requires CPI adjustment — flagged, not yet executed.
-- Both datasets are live-lot snapshots (right-censored), not sales records.
-- "Degradation" is the thesis under test, not an assumed conclusion — a supply-constraint story is equally consistent with the same data.
-- Franchise-dealer status is verified ground truth on the 2020 side (with a small number of confirmed corrections) but partially inferred (name-match + manual review) on the current-period side.
-- One dealer (Nalley Lexus Smyrna) was found via radius-search overspill and excluded — its real location (30080) falls outside the 15-zip study area. Other current-period zip assignments rely on `searchZip`, not independently confirmed addresses, except where noted.
+## Limitations
 
-## Next step
+Both datasets are live lot inventory snapshots, not sales records. Neither reflects completed transactions.
 
-Build the 2020-weighted pooled comparison (age, mileage, price) across both periods, apply the CPI adjustment to price, and test each metric against its threshold. See `docs/methodology.md` §10 for full context before starting.
+Franchise dealer status is verified ground truth on the 2020 side, with confirmed corrections applied where the flag was wrong. On the current period side it is partially inferred through name matching and manual review, a lower certainty standard than the source data it is being compared against.
+
+auto.dev's scraped zip field was NULL on more than half of all pulled rows, across nearly every target city. searchZip, the zip used to generate each API call, was fully populated and used as the geography field of record instead.
+
+49 VINs appeared under more than one searchZip due to overlapping 2 mile radius searches on neighboring zips. Resolved to one row per VIN using a confirmed dealer zip where available, falling back to each dealer's single most common searchZip otherwise. The fallback is an assumption, not a verified address, for any dealer without a manual override.
+
+z-scores used to screen for zip level price outliers were calculated on n=16 zip level averages. This is a directional screening tool, not a statistically rigorous outlier test at that sample size.
+
+Current period sampling is equal weighted across zips (25 API calls each) rather than proportional to real market size, due to a monthly call budget. The final comparison corrects for this by weighting both periods using 2020 listing share, so a difference in results reflects a real shift rather than a sampling artifact.
+
+--
+
+## Feature Engineering (Methodology) Notes
+
+Zip code, not city name, is the only reliable geography filter in the 2020 source. The same zip code can carry more than one raw city label (30341 appears as both "Atlanta" and "Chamblee", 30038 appears as both "Lithonia" and "Stonecrest"). Grouping by city and zip together, rather than zip alone, is what exposes this before it silently double counts a zip's listings under two labels.
+
+dealer_zip in the 2020 source is stored as varchar, not integer. A small number of rows use ZIP+4 format (example: 08816-4351). Casting this column to an integer type fails on those rows. Comparisons and joins on dealer_zip use LEFT(dealer_zip, 5), never a numeric cast.
+
+The current period pull's scraped zip field cannot be trusted as the primary geography key. searchZip, not zip, is the field used throughout every downstream query.
+
+Sample size alone does not determine whether a small-n zip average is trustworthy. The check that matters is the gap between the median and the mean within that zip. A small gap means the average reflects the group as a whole. A large gap means a handful of outlier listings are driving the number.
+
+--
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `docs/methodology.md` | Full decision log: zip selection and screening, every exclusion and substitution, data corrections, sampling design |
+| `sql/00_schema_reference.sql` | Column reference for both data sources, key fields to use and avoid |
+| `sql/q4_zip_selection_screening.sql` | Zip candidate testing, franchise and used only filters, city label resolution |
+| `sql/q4_outlier_zscore.sql` | Price outlier screen across the 16 candidate zips, +/- 2 SD threshold |
+| `sql/q5_franchise_flag_reliability.sql` | Spot-check method for the 2020 franchise_dealer flag, confirmed error and false-alarm findings |
+| `sql/q6_franchise_overrides.sql` | Manual dealer corrections: create statement, confirmed overrides, known flag errors |
+| `sql/q6_current_period_cleaning.sql` | NULL zip diagnostic and fix, cross-zip VIN duplication diagnostic |
+| `sql/q6_final_matched_dataset.sql` | Combined join producing the final cleaned, deduplicated current period dataset |
+| `data/README.md` | Raw data file locations |
+
+--
+
+## Tools
+
+SQL (DuckDB). Python planned for weighted pooling, CPI adjustment, and hypothesis testing, not yet built.
+
+--
+
+## Status
+
+Data cleaning: Complete
+Franchise and zip resolution: Complete
+Weighted comparison and hypothesis testing: Not started

@@ -1,5 +1,5 @@
 -- ============================================================
--- 02_zip_selection_screening.sql
+-- q4_zip_selection_screening.sql
 -- Purpose: derive the final 15-zip study set from the 2020 data.
 -- See docs/methodology.md sec. 2 for the full reasoning behind
 -- every inclusion/exclusion/substitution.
@@ -19,7 +19,7 @@ FROM 'C:\Users\jglen\Downloads\archive (3)\used_cars_data.csv'
 WHERE dealer_zip IN (
     '30096','30291','30519','30518','30144','30060','30067','30062',
     '30009','30013','30012','30094','30260','30341','30339'
-    -- 30360 intentionally excluded -- see 03_outlier_zscore.sql
+    -- 30360 intentionally excluded -- see q4_outlier_zscore.sql
 )
 AND franchise_dealer = true
 AND is_new = false

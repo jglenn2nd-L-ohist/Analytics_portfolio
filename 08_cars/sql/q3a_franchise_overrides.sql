@@ -1,9 +1,14 @@
 -- ============================================================
--- 04_franchise_overrides.sql
+-- q6_franchise_overrides.sql
+-- Question answered: can current-period franchise status and
+-- precise dealer zip be recovered where the auto.dev data does
+-- not provide them directly?
+--
 -- Purpose: manual corrections layered on top of the automated
 -- 2020-CSV join, for current-period dealers that either (a) had
 -- no clean name+zip match in the 2020 data, or (b) had a confirmed
--- WRONG franchise flag in the 2020 data itself.
+-- WRONG franchise flag in the 2020 data itself (see
+-- q5_franchise_flag_reliability.sql for how that error was found).
 --
 -- This table does THREE jobs at once:
 --   1. Supplies franchise_dealer status where the automated join
@@ -41,7 +46,7 @@ INSERT INTO franchise_overrides VALUES
     -- Nalley Lexus Smyrna (d_1852bc615f5076d1) deliberately NOT included --
     -- independently verified real address is 2750 Cobb Pkwy SE, Smyrna GA
     -- 30080, outside the 15-zip study area. All its listings are excluded
-    -- via the zip-membership filter in 06_final_matched_dataset.sql, not
+    -- via the zip-membership filter in q6_final_matched_dataset.sql, not
     -- via this override table.
 
 -- Known correction to a WRONG 2020-source flag (not an unmatched dealer --

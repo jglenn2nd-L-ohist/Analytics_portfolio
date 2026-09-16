@@ -1,5 +1,5 @@
 -- ============================================================
--- 01_schema_reference.sql
+-- 00_schema_reference.sql
 -- Purpose: confirm the shape of both data sources before writing
 -- any downstream query. Run this first if picking the project
 -- back up after a break.

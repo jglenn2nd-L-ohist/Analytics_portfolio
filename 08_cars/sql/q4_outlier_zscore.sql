@@ -1,5 +1,5 @@
 -- ============================================================
--- 03_outlier_zscore.sql
+-- q4_outlier_zscore.sql
 -- Purpose: screen the 16 candidate zips for price outliers before
 -- finalizing the 15-zip study set.
 --
