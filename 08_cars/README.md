@@ -10,14 +10,16 @@ The comparison is framed as September 2020 vs. current, not pre-COVID vs. post-C
 
 ## Analyst Questions
 
+Numbered by dependency order: Q1-Q3 establish whether a valid comparison is even possible (zip set, flag reliability, franchise recovery). Q4-Q6 are the substantive hypotheses that comparison makes possible.
+
 | # | Question |
 |---|----------|
-| Q1 | Has average vehicle age increased by 18 months or more from September 2020 to the current period? |
-| Q2 | Has average mileage increased by 15,000 miles or more? |
-| Q3 | Has average price increased by $2,000 or more in real, inflation adjusted terms? |
-| Q4 | Which metro Atlanta zip codes contain a defensible sample of franchise dealer, used only inventory in both periods? |
-| Q5 | Does the September 2020 franchise_dealer flag reliably identify true franchise dealers, and where does it fail? |
-| Q6 | Can current period franchise status and precise dealer location be recovered where the auto.dev data does not provide them directly? |
+| Q1 | Which metro Atlanta zip codes contain a defensible sample of franchise dealer, used only inventory in both periods? |
+| Q2 | Does the September 2020 franchise_dealer flag reliably identify true franchise dealers, and where does it fail? |
+| Q3 | Can current period franchise status and precise dealer location be recovered where the auto.dev data does not provide them directly? |
+| Q4 | Has average vehicle age increased by 18 months or more from September 2020 to the current period? |
+| Q5 | Has average mileage increased by 15,000 miles or more? |
+| Q6 | Has average price increased by $2,000 or more in real, inflation adjusted terms? |
 
 --
 
@@ -27,8 +29,10 @@ Two sources, six years apart, same metro area.
 
 | Period | Source | Rows | Location |
 |---|---|---|---|
-| September 2020 | Kaggle CarGurus crawl (`used_cars_data.csv`) | approx. 3M total, approx. 8,026 across the 15 target zips (franchise, used only) | `C:\Users\jglen\Downloads\archive (3)\` |
-| Current (Sept 2026) | auto.dev API pull (`atlanta_listings_2026-09-10.csv`) | 6,549 raw, 6,500 after dedup | `C:/users/jglen/analytics_portfolio/08_cars/` |
+| September 2020 | Kaggle CarGurus crawl (`used_cars_data.csv`) | approx. 3M total, approx. 8,723 across the 15 target zips (franchise, used only) | `C:/Users/jglen/Analytics_portfolio/08_cars/data/` |
+| Current (Sept 2026) | auto.dev API pull (`atlanta_listings_2026-09-10.csv`) | 6,549 raw, 6,498 after VIN dedup (`cars_2026_clean`) | `C:/Users/jglen/Analytics_portfolio/08_cars/data/` |
+
+Both sources are loaded into a persistent DuckDB database (`08_cars.duckdb`) as base tables (`cars_2020`, `cars_2026`) rather than queried live from CSV in every script, except where a file still reads directly from the raw CSV by design (Q1, Q2).
 
 --
 
@@ -36,10 +40,10 @@ Two sources, six years apart, same metro area.
 
 | # | Findings |
 |---|----------|
-| Q1-Q3 | Pending. Data cleaning is complete. Weighted pooling and CPI adjustment have not been run yet. |
-| Q4 | 15 zips finalized: Duluth (30096), Union City (30291), Buford (30519, 30518), Kennesaw (30144), Marietta (30060, 30067, 30062), Alpharetta (30009, 30004), Conyers (30013, 30012, 30094), Chamblee (30341), Vinings (30339), Morrow (30260). Douglasville and Stockbridge returned 0 franchise listings and were dropped. Doraville (30360) was screened out as a price outlier, z-score approximately 2.70 against a +/- 2 threshold on n=16 zip level averages. |
-| Q5 | The flag contains at least one confirmed error. Southern Star Automotive (30096) is flagged franchise_dealer = true but is not a franchise. Atlanta Classic Cars was suspected of the same issue on review but verified as a legitimate Mercedes-Benz franchise, the flag is correct. |
-| Q6 | Recovered through a name and zip matched join against the 2020 data, loosened to substring matching after exact match under-recovered known franchises (current period "Palmer Dodge" only matches 2020 "Palmer Dodge Chrysler Jeep Ram" under substring logic). 11 dealers required manual override after the join. One dealer, Nalley Lexus Smyrna, was excluded entirely after independent address verification placed its real location (30080) outside the 15 zip study area. |
+| Q1 | 15 zips finalized: Duluth (30096), Union City (30291), Buford (30519, 30518), Kennesaw (30144), Marietta (30060, 30067, 30062), Alpharetta (30009), Conyers (30013, 30012, 30094), Chamblee (30341), Vinings (30339), Morrow (30260). Douglasville and Stockbridge returned 0 franchise listings and were dropped. Jonesboro (30236) was dropped for an insufficient current-period sample (n=8) and replaced by Morrow. Doraville (30360) was screened out as a price outlier, z-score approximately 2.70 against a +/- 2 threshold on n=16 zip level averages. |
+| Q2 | The flag contains at least one confirmed error. Southern Star Automotive (30096) is flagged franchise_dealer = true but is not a franchise. Atlanta Classic Cars was suspected of the same issue on review but verified as a legitimate Mercedes-Benz franchise, the flag is correct. |
+| Q3 | Recovered through a name and zip matched join against the 2020 data, loosened to substring matching in both directions after exact match under-recovered known franchises. Nalley Lexus Smyrna was excluded entirely after independent address verification placed its real location (30080) outside the 15 zip study area. A second wave of recovery, run after rebuilding the pipeline against a persistent database, found 22 additional franchise dealers missed by the original join: one confirmed rebrand (Group 1 Ford of Kennesaw, formerly Jim Tidwell Ford), one confirmed relocation within the study area (Marietta Toyota, 30062 to 30060), and 20 confirmed market entries verified as having no 2020 record under any name or manufacturer affiliation. `franchise_overrides` now holds 33 total dealers. `final_matched` grew from 2,593 rows (original 11 overrides, minus Nalley Lexus) to 3,279 rows. See `docs/methodology.md` sec. 12 for the full reasoning. |
+| Q4-Q6 | Pending. Data cleaning and franchise recovery are complete. Weighted pooling and CPI adjustment have not been run yet. |
 
 --
 
@@ -47,7 +51,9 @@ Two sources, six years apart, same metro area.
 
 Both datasets are live lot inventory snapshots, not sales records. Neither reflects completed transactions.
 
-Franchise dealer status is verified ground truth on the 2020 side, with confirmed corrections applied where the flag was wrong. On the current period side it is partially inferred through name matching and manual review, a lower certainty standard than the source data it is being compared against.
+Franchise dealer status is verified ground truth on the 2020 side, with confirmed corrections applied where the flag was wrong. On the current period side it is partially inferred through name matching, manual review, and (for the second-wave additions) a manufacturer-name heuristic rather than individual external verification against each manufacturer's own dealer locator. This is a stated tradeoff of coverage over per-dealer rigor, judged appropriate at portfolio scale.
+
+Attrition (a dealer that closed between 2020 and 2026) is structurally invisible to this design: a closed dealer has no current-period listing to appear in the auto.dev pull at all, matched or unmatched. Market entry (a dealer that opened since 2020) is visible and is counted, provided it can be confirmed as a genuine franchise. This means the comparison may understate total inventory turnover even where it correctly counts new franchise entrants.
 
 auto.dev's scraped zip field was NULL on more than half of all pulled rows, across nearly every target city. searchZip, the zip used to generate each API call, was fully populated and used as the geography field of record instead.
 
@@ -69,32 +75,35 @@ The current period pull's scraped zip field cannot be trusted as the primary geo
 
 Sample size alone does not determine whether a small-n zip average is trustworthy. The check that matters is the gap between the median and the mean within that zip. A small gap means the average reflects the group as a whole. A large gap means a handful of outlier listings are driving the number.
 
+Name-matching between the two periods must check both directions (2020 name containing the current name, and current name containing the 2020 name). Checking only one direction misses real matches whose naming convention runs the other way (a dealer that grew a more specific name over time, or vice versa). Both name conditions and the zip condition must be grouped together with explicit parentheses in the join, since SQL evaluates AND before OR by default, and an ungrouped version silently drops the zip requirement from two of the three name conditions.
+
+A name search alone cannot distinguish "this dealer is new to the market" from "this dealer exists under an unrelated name." Confirming genuine absence from the 2020 data requires checking both the dealer's business name (`sp_name`) and the brand it sells (`franchise_make`) independently. A dealer confirmed absent from the 2020 data by both methods is still counted as a real current-period franchise if it meets the manufacturer-name heuristic; it is not disqualified for lacking a 2020 counterpart.
+
 --
 
 ## Files
 
 | File | Description |
 |------|-------------|
-| `docs/methodology.md` | Full decision log: zip selection and screening, every exclusion and substitution, data corrections, sampling design |
+| `docs/methodology.md` | Full decision log: zip selection and screening, every exclusion and substitution, data corrections, sampling design, second-wave franchise recovery |
 | `sql/00_schema_reference.sql` | Column reference for both data sources, key fields to use and avoid |
-| `sql/q4_zip_selection_screening.sql` | Zip candidate testing, franchise and used only filters, city label resolution |
-| `sql/q4_outlier_zscore.sql` | Price outlier screen across the 16 candidate zips, +/- 2 SD threshold |
-| `sql/q5_franchise_flag_reliability.sql` | Spot-check method for the 2020 franchise_dealer flag, confirmed error and false-alarm findings |
-| `sql/q6_franchise_overrides.sql` | Manual dealer corrections: create statement, confirmed overrides, known flag errors |
-| `sql/q6_current_period_cleaning.sql` | NULL zip diagnostic and fix, cross-zip VIN duplication diagnostic |
-| `sql/q6_final_matched_dataset.sql` | Combined join producing the final cleaned, deduplicated current period dataset |
+| `sql/q1_zip_selection_screening.sql` | Full zip selection process: 16-candidate pool, outlier screen, Jonesboro-to-Morrow substitution, final 15-zip set |
+| `sql/q2_franchise_flag_reliability.sql` | Spot-check method for the 2020 franchise_dealer flag, confirmed error and false-alarm findings |
+| `sql/q3a_franchise_overrides.sql` | Manual dealer corrections table: original 10 unmatched dealers plus 22 second-wave additions (rebrand, relocation, market entry) |
+| `sql/q3b_current_period_cleaning.sql` | NULL zip diagnostic, cross-zip VIN duplication resolution, outputs `cars_2026_clean` |
+| `sql/q3c_final_matched_dataset.sql` | Franchise join against 2020 data plus overrides, zip-membership filter, outputs `final_matched` |
 | `data/README.md` | Raw data file locations |
 
 --
 
 ## Tools
 
-SQL (DuckDB). Python planned for weighted pooling, CPI adjustment, and hypothesis testing, not yet built.
+SQL (DuckDB), persistent database (`08_cars.duckdb`). Python planned for weighted pooling, CPI adjustment, and hypothesis testing, not yet built.
 
 --
 
 ## Status
 
-Data cleaning: Complete
-Franchise and zip resolution: Complete
-Weighted comparison and hypothesis testing: Not started
+Zip selection and flag reliability (Q1, Q2): Complete
+Franchise and zip resolution (Q3): Complete, including second-wave recovery
+Weighted comparison and hypothesis testing (Q4-Q6): Not started
