@@ -20,21 +20,23 @@
 -- before leaning on it heavily in the write-up.
 -- ============================================================
 
+CREATE TABLE final_matched AS (
 WITH csv_lookup AS (
     SELECT DISTINCT sp_name, dealer_zip, franchise_dealer
     FROM 'C:\Users\jglen\Downloads\archive (3)\used_cars_data.csv'
+    WHERE is_new = false
 ),
 matched AS (
     SELECT
         c.*,
         l.franchise_dealer,
         l.dealer_zip AS csv_matched_zip
-    FROM "C:/users/jglen/analytics_portfolio/08_cars/atlanta_listings_2026-09-10.csv" c
+    FROM cars_2026 c
     LEFT JOIN csv_lookup l
         ON (LOWER(TRIM(c.dealer)) = LOWER(TRIM(l.sp_name))
             OR l.sp_name ILIKE '%' || TRIM(c.dealer) || '%')
        AND LEFT(l.dealer_zip, 5) = CAST(c.searchZip AS VARCHAR)
-)
+),
 filtered AS (
     SELECT
         m.*,
@@ -83,7 +85,9 @@ deduped AS (
     FROM filtered f
     LEFT JOIN dealer_dominant_zip d ON f.dealerId = d.dealerId AND d.rn = 1
 )
-SELECT * FROM deduped WHERE keep_rank = 1;
+SELECT * FROM deduped WHERE keep_rank = 1
+)
+;
 
 -- Verification run alongside this query (2026-09-11): 6,500 total rows,
 -- 6,500 distinct VINs -- confirms clean 1-row-per-vehicle resolution.
