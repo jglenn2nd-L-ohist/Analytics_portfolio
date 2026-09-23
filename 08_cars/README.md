@@ -44,7 +44,8 @@ Both sources are loaded into a persistent DuckDB database (`08_cars.duckdb`) as 
 | Q2 | The flag contains at least one confirmed error. Southern Star Automotive (30096) is flagged franchise_dealer = true but is not a franchise. Atlanta Classic Cars was suspected of the same issue on review but verified as a legitimate Mercedes-Benz franchise, the flag is correct. |
 | Q3 | Recovered through a name and zip matched join against the 2020 data, loosened to substring matching in both directions after exact match under-recovered known franchises. Nalley Lexus Smyrna was excluded entirely after independent address verification placed its real location (30080) outside the 15 zip study area. A second wave of recovery, run after rebuilding the pipeline against a persistent database, found 22 additional franchise dealers missed by the original join: one confirmed rebrand (Group 1 Ford of Kennesaw, formerly Jim Tidwell Ford), one confirmed relocation within the study area (Marietta Toyota, 30062 to 30060), and 20 confirmed market entries verified as having no 2020 record under any name or manufacturer affiliation. `franchise_overrides` now holds 33 total dealers. `final_matched` grew from 2,593 rows (original 11 overrides, minus Nalley Lexus) to 3,279 rows. See `docs/methodology.md` sec. 12 for the full reasoning. |
 | Q4 | No. Weighted average age rose from 2.66 years (September 2020) to 3.07 years (September 2026), an increase of 4.97 months against an 18 month threshold. Direction matches the hypothesis, magnitude does not. Zip 30062 was excluded from both periods because its only 2020 franchise dealer (Marietta Toyota) relocated to 30060; the remaining 14 zip weights were renormalized. |
-| Q5-Q6 | Pending. Q6 requires CPI adjustment before comparison. |
+| Q5 | No. Weighted average mileage rose from 41,594 miles (September 2020) to 45,962 miles (September 2026), an increase of 4,368 miles against a 15,000 mile threshold. The increase is consistent with the Q4 age shift: 4,368 miles over about 0.41 additional years is roughly 10,500 miles per year, close to typical annual driving. Inventory is older, not driven harder. |
+| Q6 | Pending. Requires CPI adjustment before comparison. |
 
 --
 
@@ -66,7 +67,9 @@ Current period sampling is equal weighted across zips (25 API calls each) rather
 
 Vehicle age is calculated from model year only (snapshot year minus model year), so it is measured in whole-year steps at the listing level. The 2020 crawl window was confirmed as September 9 to 17, which supports a flat 2020 snapshot year.
 
-Q4 is judged against a pre-registered practical significance threshold, not a statistical significance test. Because the observed difference (4.97 months) falls well below the threshold, a significance test would not change the conclusion.
+Q4 and Q5 are judged against pre-registered practical significance thresholds, not statistical significance tests. Because both observed differences (4.97 months, 4,368 miles) fall well below their thresholds, a significance test would not change either conclusion.
+
+Mileage is missing (NULL) on 99 of 8,630 2020 rows and 37 of 3,279 2026 rows, about 1.1% on each side, and those rows are excluded from the mileage averages. In 2020, all 25 missing values in 30339 belong to Global Imports BMW, the only franchise dealer in that zip, leaving its average based on 173 of 198 listings. No zero-mileage placeholder values were found in either table.
 
 --
 
@@ -88,7 +91,9 @@ Pooled averages are weighted at the zip level, not the row level. Each period's 
 
 Exclusions filter on the zip itself (`dealer_zip <> '30062'`), not on a weight cutoff. A cutoff happened to isolate 30062 but sat about one thousandth above the next smallest weight (30094), so a small data correction could have silently dropped a second zip.
 
-Because the zip weights are the 2020 listing shares, the weighted 2020 average must equal the plain average across all 2020 rows in the included zips. This was verified for Q4 (2.66 years both ways) and serves as a built-in check on the weighting mechanics.
+Because the zip weights are the 2020 listing shares, the weighted 2020 average must equal the plain average across all 2020 rows in the included zips. This was verified for Q4 (2.66 years both ways) and serves as a built-in check on the weighting mechanics. It does not hold exactly for Q5: the weights count every listing, but AVG() skips NULL mileage rows, so a small gap between the weighted and plain 2020 averages is expected there.
+
+A missing value can hide as a zero. Some dealer feeds write 0 when mileage was not entered, and AVG() counts a 0 as a real reading while it skips a NULL. Both tables were checked for exact-zero mileage before Q5 was built.
 
 --
 
@@ -108,6 +113,7 @@ Because the zip weights are the 2020 listing shares, the weighted 2020 average m
 | `sql/q3c_final_filtered_2020.sql` | 2020 reconciled population (franchise, used only, 15 zips, VIN-unique), outputs `cars_2020_fltrd` (8,722 rows) |
 | `sql/q3d_zip_weights.sql` | Fixed zip weights from 2020 listing share, outputs `zip_weights`, shared by Q4-Q6 |
 | `sql/q4_weighted_avg_age.sql` | Weighted average age comparison, 30062 excluded from both periods, 14 weights renormalized |
+| `sql/q5_weighted_avg_mileage.sql` | Weighted average mileage comparison, same weighting and exclusions as Q4 |
 | `data/README.md` | Raw data file locations |
 
 --
@@ -123,4 +129,5 @@ SQL (DuckDB), persistent database (`08_cars.duckdb`). Weighted pooling is done i
 Zip selection and flag reliability (Q1, Q2): Complete
 Franchise and zip resolution (Q3): Complete, including second-wave recovery and 2020-side reconciliation
 Weighted age comparison (Q4): Complete, threshold not met
-Mileage and price comparisons (Q5, Q6): Not started
+Weighted mileage comparison (Q5): Complete, threshold not met
+Price comparison (Q6): Not started
