@@ -29,8 +29,8 @@ Two sources, six years apart, same metro area.
 
 | Period | Source | Rows | Location |
 |---|---|---|---|
-| September 2020 | Kaggle CarGurus crawl (`used_cars_data.csv`) | approx. 3M total, approx. 8,723 across the 15 target zips (franchise, used only) | `C:/Users/jglen/Analytics_portfolio/08_cars/data/` |
-| Current (Sept 2026) | auto.dev API pull (`atlanta_listings_2026-09-10.csv`) | 6,549 raw, 6,498 after VIN dedup (`cars_2026_clean`) | `C:/Users/jglen/Analytics_portfolio/08_cars/data/` |
+| September 2020 | Kaggle CarGurus crawl (`used_cars_data.csv`) | approx. 3M total, 8,722 across the 15 target zips (franchise, used only, `cars_2020_fltrd`) | `C:/Users/jglen/Analytics_portfolio/08_cars/data/` |
+| Current (Sept 2026) | auto.dev API pull (`atlanta_listings_2026-09-10.csv`) | 6,549 raw, 6,498 after VIN dedup (`cars_2026_clean`), 3,279 in `final_matched` | `C:/Users/jglen/Analytics_portfolio/08_cars/data/` |
 
 Both sources are loaded into a persistent DuckDB database (`08_cars.duckdb`) as base tables (`cars_2020`, `cars_2026`) rather than queried live from CSV in every script, except where a file still reads directly from the raw CSV by design (Q1, Q2).
 
@@ -43,7 +43,8 @@ Both sources are loaded into a persistent DuckDB database (`08_cars.duckdb`) as 
 | Q1 | 15 zips finalized: Duluth (30096), Union City (30291), Buford (30519, 30518), Kennesaw (30144), Marietta (30060, 30067, 30062), Alpharetta (30009), Conyers (30013, 30012, 30094), Chamblee (30341), Vinings (30339), Morrow (30260). Douglasville and Stockbridge returned 0 franchise listings and were dropped. Jonesboro (30236) was dropped for an insufficient current-period sample (n=8) and replaced by Morrow. Doraville (30360) was screened out as a price outlier, z-score approximately 2.70 against a +/- 2 threshold on n=16 zip level averages. |
 | Q2 | The flag contains at least one confirmed error. Southern Star Automotive (30096) is flagged franchise_dealer = true but is not a franchise. Atlanta Classic Cars was suspected of the same issue on review but verified as a legitimate Mercedes-Benz franchise, the flag is correct. |
 | Q3 | Recovered through a name and zip matched join against the 2020 data, loosened to substring matching in both directions after exact match under-recovered known franchises. Nalley Lexus Smyrna was excluded entirely after independent address verification placed its real location (30080) outside the 15 zip study area. A second wave of recovery, run after rebuilding the pipeline against a persistent database, found 22 additional franchise dealers missed by the original join: one confirmed rebrand (Group 1 Ford of Kennesaw, formerly Jim Tidwell Ford), one confirmed relocation within the study area (Marietta Toyota, 30062 to 30060), and 20 confirmed market entries verified as having no 2020 record under any name or manufacturer affiliation. `franchise_overrides` now holds 33 total dealers. `final_matched` grew from 2,593 rows (original 11 overrides, minus Nalley Lexus) to 3,279 rows. See `docs/methodology.md` sec. 12 for the full reasoning. |
-| Q4-Q6 | Pending. Data cleaning and franchise recovery are complete. Weighted pooling and CPI adjustment have not been run yet. |
+| Q4 | No. Weighted average age rose from 2.66 years (September 2020) to 3.07 years (September 2026), an increase of 4.97 months against an 18 month threshold. Direction matches the hypothesis, magnitude does not. Zip 30062 was excluded from both periods because its only 2020 franchise dealer (Marietta Toyota) relocated to 30060; the remaining 14 zip weights were renormalized. |
+| Q5-Q6 | Pending. Q6 requires CPI adjustment before comparison. |
 
 --
 
@@ -63,6 +64,10 @@ z-scores used to screen for zip level price outliers were calculated on n=16 zip
 
 Current period sampling is equal weighted across zips (25 API calls each) rather than proportional to real market size, due to a monthly call budget. The final comparison corrects for this by weighting both periods using 2020 listing share, so a difference in results reflects a real shift rather than a sampling artifact.
 
+Vehicle age is calculated from model year only (snapshot year minus model year), so it is measured in whole-year steps at the listing level. The 2020 crawl window was confirmed as September 9 to 17, which supports a flat 2020 snapshot year.
+
+Q4 is judged against a pre-registered practical significance threshold, not a statistical significance test. Because the observed difference (4.97 months) falls well below the threshold, a significance test would not change the conclusion.
+
 --
 
 ## Feature Engineering (Methodology) Notes
@@ -79,31 +84,43 @@ Name-matching between the two periods must check both directions (2020 name cont
 
 A name search alone cannot distinguish "this dealer is new to the market" from "this dealer exists under an unrelated name." Confirming genuine absence from the 2020 data requires checking both the dealer's business name (`sp_name`) and the brand it sells (`franchise_make`) independently. A dealer confirmed absent from the 2020 data by both methods is still counted as a real current-period franchise if it meets the manufacturer-name heuristic; it is not disqualified for lacking a 2020 counterpart.
 
+Pooled averages are weighted at the zip level, not the row level. Each period's per-zip average is computed first, then multiplied by that zip's fixed 2020 weight and summed. Weighting individual rows would let zips with more listings count twice.
+
+Exclusions filter on the zip itself (`dealer_zip <> '30062'`), not on a weight cutoff. A cutoff happened to isolate 30062 but sat about one thousandth above the next smallest weight (30094), so a small data correction could have silently dropped a second zip.
+
+Because the zip weights are the 2020 listing shares, the weighted 2020 average must equal the plain average across all 2020 rows in the included zips. This was verified for Q4 (2.66 years both ways) and serves as a built-in check on the weighting mechanics.
+
 --
 
 ## Files
 
 | File | Description |
 |------|-------------|
-| `docs/methodology.md` | Full decision log: zip selection and screening, every exclusion and substitution, data corrections, sampling design, second-wave franchise recovery |
+| `docs/methodology.md` | Full decision log: zip selection and screening, every exclusion and substitution, data corrections, sampling design, second-wave franchise recovery, weighted pooling |
 | `sql/00_schema_reference.sql` | Column reference for both data sources, key fields to use and avoid |
 | `sql/q1_zip_selection_screening.sql` | Full zip selection process: 16-candidate pool, outlier screen, Jonesboro-to-Morrow substitution, final 15-zip set |
 | `sql/q2_franchise_flag_reliability.sql` | Spot-check method for the 2020 franchise_dealer flag, confirmed error and false-alarm findings |
+| `sql/q2_franchise_flag_reliability_2020.sql` | 2020-side flag reliability checks feeding the 2020 reconciled population |
 | `sql/q3a_franchise_overrides.sql` | Manual dealer corrections table: original 10 unmatched dealers plus 22 second-wave additions (rebrand, relocation, market entry) |
+| `sql/q3a_franchise_overrides_2020.sql` | 2020-side corrections: Southern Star Automotive flag error, Courtesy Ford name variants consolidated, outputs `overrides_2020` |
 | `sql/q3b_current_period_cleaning.sql` | NULL zip diagnostic, cross-zip VIN duplication resolution, outputs `cars_2026_clean` |
 | `sql/q3c_final_matched_dataset.sql` | Franchise join against 2020 data plus overrides, zip-membership filter, outputs `final_matched` |
+| `sql/q3c_final_filtered_2020.sql` | 2020 reconciled population (franchise, used only, 15 zips, VIN-unique), outputs `cars_2020_fltrd` (8,722 rows) |
+| `sql/q3d_zip_weights.sql` | Fixed zip weights from 2020 listing share, outputs `zip_weights`, shared by Q4-Q6 |
+| `sql/q4_weighted_avg_age.sql` | Weighted average age comparison, 30062 excluded from both periods, 14 weights renormalized |
 | `data/README.md` | Raw data file locations |
 
 --
 
 ## Tools
 
-SQL (DuckDB), persistent database (`08_cars.duckdb`). Python planned for weighted pooling, CPI adjustment, and hypothesis testing, not yet built.
+SQL (DuckDB), persistent database (`08_cars.duckdb`). Weighted pooling is done in SQL. Python planned for CPI adjustment and any statistical testing, not yet built.
 
 --
 
 ## Status
 
 Zip selection and flag reliability (Q1, Q2): Complete
-Franchise and zip resolution (Q3): Complete, including second-wave recovery
-Weighted comparison and hypothesis testing (Q4-Q6): Not started
+Franchise and zip resolution (Q3): Complete, including second-wave recovery and 2020-side reconciliation
+Weighted age comparison (Q4): Complete, threshold not met
+Mileage and price comparisons (Q5, Q6): Not started
