@@ -87,11 +87,13 @@ INSERT INTO franchise_overrides VALUES
     ('d_88688762ce447d03', 'Alfa Romeo of Marietta',     '30060', true, 'market entry; address verified, 681 Cobb Pkwy SE'),
     ('d_d4d87e801b663020', 'Jim Ellis Cadillac',         '30341', true, 'market entry; address verified, 5880 Peachtree Blvd');
 
--- exception to the manufacturer-name rule: not a manufacturer
--- franchise, included on business-legitimacy judgment (used-car
--- supercenter brand, not a brand-affiliated dealer)
+-- exception to the manufacturer-name rule: not manufacturer
+-- franchises, included on business-legitimacy judgment. both are
+-- used-car brands owned by large franchise dealer groups
+-- (AutoNation, Sonic Automotive), treated on the same basis (2)
 INSERT INTO franchise_overrides VALUES
-    ('d_551adbb250d0115b', 'AutoNation USA Kennesaw', '30144', true, 'market entry, judgment call not manufacturer-name rule; address verified, 2275 Barrett Lakes Blvd NW');
+    ('d_551adbb250d0115b', 'AutoNation USA Kennesaw',                 '30144', true, 'market entry, judgment call not manufacturer-name rule; address verified, 2275 Barrett Lakes Blvd NW'),
+    ('d_bb9c5094e1906d91', 'EchoPark Automotive - Atlanta (Duluth)',  '30096', true, 'market entry (opened December 2020), Sonic Automotive used-car brand, same basis as AutoNation USA; address verified, 3296 Commerce Ave NW');
 
 -- EXCLUDED: radius-search overspill. each dealer's verified street
 -- address is outside the 15-zip study area. its 2026 listings
@@ -118,6 +120,24 @@ INSERT INTO franchise_overrides VALUES
 --     (d_74be6f2a0eaf03ba)              (appeared under 30291; 2020 record
 --                                       as Mercedes-Benz of South Atlanta,
 --                                       30349)
+
+-- NOT INCLUDED: reviewed from the unmatched 2026 dealers and left
+-- out of this table on purpose.
+--   ALM Kennesaw, ALM Mall of Georgia, ALM Marietta, Atlanta Luxury
+--   Motors Inc -- independent pre-owned stores. ALM also owns
+--   branded franchise stores (ALM Ford, ALM GMC, ALM Mazda above),
+--   but these locations are not franchises.
+--   DriveTime, Enterprise Car Sales, Hertz Car Sales, Avis Car
+--   Sales -- used-car and rental-fleet sales chains, not franchise
+--   dealers and not the same kind of store as AutoNation USA or
+--   EchoPark.
+--   Ed Voyles CDJR (30060) -- one 2026 listing under a short name
+--   variant. the store itself is already in final_matched through
+--   the automated match as "Ed Voyles Chrysler Dodge Jeep". only
+--   this one listing is missed.
+--   Audi Atlanta (30341), Butler Chrysler Dodge Jeep (30291) --
+--   franchise stores, one 2026 listing each. known omissions, not
+--   added: single listings cannot move any result.
 
 -- known correction to a WRONG 2020-source flag (dealer IS in the
 -- 2020 CSV, but its franchise_dealer value is wrong):
