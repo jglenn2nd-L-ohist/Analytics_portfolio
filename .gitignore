@@ -1,3 +1,6 @@
 *.db
 *.csv
 *.db-journal
+*.duckdb
+*.duckdb.wal
+desktop.ini
