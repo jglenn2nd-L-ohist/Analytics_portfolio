@@ -10,8 +10,8 @@
 --          (Q3d). Same structure and exclusions as Q4: zip 30062
 --          excluded from both periods, remaining 14 weights
 --          renormalized here, zip_weights left unedited.
---          NULL mileage rows (99 in 2020, 29 in 2026) are
---          skipped by AVG(). no zero-mileage rows in either table.
+--          NULL mileage rows (99 in 2020, 34 in 2026) are
+--          skipped by AVG(). No zero-mileage rows in either table.
 --          Part 1 is the pre-registered test. Part 2 repeats it
 --          on dealers present in both periods.
 -- Author: J.Glenn

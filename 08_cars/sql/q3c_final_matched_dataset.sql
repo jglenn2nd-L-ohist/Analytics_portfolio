@@ -67,13 +67,13 @@ CREATE OR REPLACE TABLE final_matched AS (
 
 -- verify: should be one row per VIN, no fan-out
 SELECT COUNT(*), COUNT(DISTINCT vin) FROM final_matched;
--- expected after the September 2026 rebuild: 3,024 rows, 3,024
--- distinct VINs. history: 2,593 (original overrides only), then
--- 3,279 (33 overrides after second-wave recovery), then 3,024
--- after five radius-overspill dealers were removed from q3a (28
--- overrides) and the 2020 match was changed from a JOIN to EXISTS.
--- the JOIN version had produced 114 duplicate Courtesy Ford rows.
--- see docs/methodology.md sec. 12.
+-- verified: 3,041 rows, 3,041 distinct VINs. history: 2,593
+-- (original overrides only), then 3,279 (33 overrides after
+-- second-wave recovery), then 3,024 after five radius-overspill
+-- dealers were removed from q3a (28 overrides) and the 2020 match
+-- was changed from a JOIN to EXISTS (the JOIN version had produced
+-- 114 duplicate Courtesy Ford rows), then 3,041 after EchoPark was
+-- added (29 overrides). see docs/methodology.md sec. 12.
 
 -- CHECKPOINT: full disposition breakdown, useful any time this
 -- count needs re-auditing. classifies every current-period row
