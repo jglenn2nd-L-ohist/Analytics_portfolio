@@ -84,7 +84,7 @@ Douglasville and Stockbridge returned **zero** franchise-dealer listings even af
 - **Budget constraint discovered mid-project:** auto.dev caps at 1,000 **API calls**/month, not 1,000 listings. Each call returns roughly 20 listings.
 - **Equal-weighting goal:** since the pre-COVID side was designed so no single zip's raw volume would dominate the comparison, the intent was to sample the current period with the same zip set, comparably.
 - **"Water-filling" problem encountered:** an attempt to combine a minimum-floor-per-zip with proportional distribution of the remainder caused zips to fall below the floor in multiple cascading passes as the "remainder pool" shrank. Simpler resolution chosen: **flat call allocation per zip** (25 calls/zip; 15 zips × 25 = 375 of the 1,000-call budget), accepting that this produces equal *effort* per zip, not necessarily equal *listings*, since some zips exhaust their available current inventory well before 25 calls (e.g., Union City plateaued around 140 listings at just 8 calls in an early test), while others (Duluth) were still climbing past 1,300 at 66 calls in testing.
-- **Result:** 10 of 15 zips returned the full ~500 listings (25 calls × ~20/call with no early exhaustion); 5 zips returned fewer, reflecting real market-size differences rather than sampling error.
+- **Result:** 11 of 15 zips returned exactly 500 listings (25 calls × 20 per call), meaning they hit the cap. Four ran out of inventory first: 30012 (89), 30013 (151), 30067 (321), and 30094 (488). An earlier version of this log said 10 of 15. The cap turned out to matter for more than sample size; see sec. 17.
 
 ---
 
@@ -143,7 +143,9 @@ After the initial ~6,549-row auto.dev pull, several additional issues surfaced d
 
 - September 2020 baseline is early-pandemic, not true pre-COVID, framed accordingly throughout.
 - Nominal price comparison requires inflation adjustment (CPI) to avoid conflating currency devaluation with real price/quality change. Executed in Q6 with all-items CPI-U (sec. 15).
-- The 2020 data is missing some franchise stores that were operating at the time, including every Nalley store (sec. 12). Their 2026 listings are counted and their 2020 inventory cannot be. Q6 measures the effect with an equal-coverage sensitivity run (sec. 15).
+- The 2020 data is missing some franchise stores that were operating at the time, including every Nalley store (sec. 12). Their 2026 listings are counted and their 2020 inventory cannot be. The same-dealer comparisons in Q4 through Q6 exclude them.
+- The 2026 sample covers only part of the franchise market, and within capped zips the API returned the most recently updated listings first (sec. 17).
+- Confidence intervals are approximate and likely too narrow where zips have only one or two dealers (sec. 18).
 - Both datasets are live-lot inventory snapshots (right-censored: what hasn't sold yet), not sales records. This makes them comparable to each other, but means neither reflects true transaction activity.
 - "Degradation" is the stated thesis being tested, not an assumed conclusion. The data may show a supply-constraint story (fewer trade-ins/off-lease vehicles reaching dealers) as easily as a "dealers chose to lower standards" story. The data can show *that* something changed; it can't alone explain *why*.
 - USPS-designated primary city ("Atlanta") differs from the colloquial names used in this analysis (Chamblee, Doraville, Vinings, Morrow), noted so the discrepancy isn't mistaken for an error if cross-checked later.
@@ -172,6 +174,12 @@ After the initial ~6,549-row auto.dev pull, several additional issues surfaced d
 
 Genesis of Kennesaw, one of the original unmatched dealers, is also a true market entry (opened August 2024).
 
+**Final review of unmatched 2026 dealers.** A separate check asked whether large 2020 dealers missing from the 2026 continuing set were in the 2026 pull under new names and simply unmatched. Every unmatched 2026 dealer in the study zips (166 rows) was exported and reviewed. None of the large missing 2020 dealers appeared, so their absence is a sampling gap, not a matching gap (see sec. 17). The unmatched list was almost entirely independent lots, rental and used-car chains, out-of-state strays returned by the API, and the known exclusions. Decisions from that review:
+- **Added:** EchoPark Automotive, Duluth (3296 Commerce Ave NW, 30096, 17 listings), Sonic Automotive's used-car brand, on the same judgment-call basis as AutoNation USA. EchoPark's first Georgia location opened in December 2020, after the 2020 snapshot, so it is a true market entry.
+- **Not added, independent:** ALM Kennesaw, ALM Mall of Georgia, ALM Marietta, Atlanta Luxury Motors Inc. ALM owns branded franchise stores (ALM Ford, ALM GMC, ALM Mazda), but these pre-owned locations are not franchises.
+- **Not added, not franchise dealers:** DriveTime, Enterprise Car Sales, Hertz Car Sales, Avis Car Sales.
+- **Not added, one listing each:** Audi Atlanta and Butler Chrysler Dodge Jeep, documented as known omissions. "Ed Voyles CDJR" was a single stray listing under a short name for a store already matched automatically as "Ed Voyles Chrysler Dodge Jeep."
+
 **No Nalley store appears anywhere in the 2020 data.** This is a whole dealer group absent from one period, not scattered misses. The cause cannot be determined from the data. It affects Nalley Volkswagen, Nalley INFINITI, and Nalley Honda.
 
 **Address audit and radius-overspill exclusions.** The `confirmed_zip` values in `franchise_overrides` had come from `searchZip`, which records which 2 mile radius search returned a listing, not where the dealer is. Only Nalley Lexus had been verified by address. Every override dealer was then checked two ways: a name search of raw `cars_2020` across all zips (no zip or franchise filter), and a current street address lookup. Five dealers are located outside the study area:
@@ -188,7 +196,13 @@ Each also appears in the 2020 data at the same outside zip. The automated match 
 
 **Key correction: JOIN fan-out on Courtesy Ford.** The rebuild after the exclusions returned 3,138 rows but only 3,024 distinct VINs. All 114 extra rows belonged to Courtesy Ford in 30013, listed in 2026 as both "Courtesy Ford" and "Courtesy Ford Conyers." The 2020 data carries three name variants for that store. With bidirectional substring matching, the short name matched all three variants (every listing tripled) and the longer name matched two (every listing doubled). The franchise match only needs to answer whether at least one matching 2020 record exists, so the `LEFT JOIN` was replaced with `EXISTS`, which cannot multiply rows. `EXISTS` is computed in its own CTE because DuckDB does not allow a later column in the same SELECT to reference an alias whose expression contains a subquery. The previous build had recorded 3,279 rows and 3,279 distinct VINs; why the JOIN version did not duplicate Courtesy Ford in that build was not determined. The `EXISTS` version removes the risk regardless.
 
-**Current state:** `franchise_overrides` holds 28 dealers. `final_matched` holds 3,024 rows with `COUNT(*) = COUNT(DISTINCT vin)`. The disposition checkpoint now sums to 6,498 (3,474 unmatched, 1,707 rescued by override, 1,317 matched to 2020 data), equal to `cars_2026_clean`. Row history: 2,593 (original overrides), 3,279 (second wave), 3,024 (overspill exclusions and EXISTS fix).
+**Current state:** `franchise_overrides` holds 29 dealers. `final_matched` holds 3,041 rows with `COUNT(*) = COUNT(DISTINCT vin)`. The disposition checkpoint sums to 6,498 (3,457 unmatched, 1,724 rescued by override, 1,317 matched to 2020 data), equal to `cars_2026_clean`. Row history: 2,593 (original overrides), 3,279 (second wave), 3,024 (overspill exclusions and EXISTS fix), 3,041 (EchoPark added).
+
+**Continuing dealers.** The same-dealer comparisons in Q4 through Q6 need the set of stores present in both snapshots, on both sides:
+- **2026 side:** listings matched to 2020 data automatically (`csv_match = true`, carried in `final_matched`) plus the 10 override dealers with a confirmed 2020 counterpart in a study zip (Global BMW, John Miles, and the 8 rebrands).
+- **2020 side:** listings whose dealer matches a 2026 `csv_match` dealer by the same name-and-zip rule, plus the 2020 names of those 10 override dealers: Global Imports BMW, John Miles Chevrolet Buick GMC, Jim Tidwell Ford, Sutherlin Nissan Mall of Georgia, Malcolm Cunningham Chevrolet North Point, AutoNation Ford Marietta, Kia Atlanta South, Heritage Cadillac Mitsubishi, and Hennessy Buick GMC Mazda plus Hennessy Mazda (the 2020 identity of ALM GMC South and ALM Mazda South, confirmed by direct knowledge).
+
+Every automatically matched 2020 and 2026 name pair (34) was reviewed by eye. All are the same store: exact matches, capitalization differences, or longer and shorter forms of one name. Two involve ownership rebrands at the same location, confirmed by direct knowledge: Honda South to Krause Honda South, and Nissan of Union City to Bella Nissan of Union City. Two independent counts agree: the 2020 dealers outside the continuing set hold 4,077 listings in both a SQL query and the Python flag.
 
 **Pitfall caught along the way: AND/OR precedence in the franchise join.** SQL evaluates AND before OR. With three OR'd name conditions and an AND'd zip condition, the zip requirement only applied to the last name condition. The match count inflated to the full raw total. Fix: wrap all three name conditions in parentheses before AND'ing the zip condition.
 
@@ -226,12 +240,14 @@ Three options were considered:
 | Period | Weighted average age |
 |---|---|
 | September 2020 | 2.66 years |
-| September 2026 | 3.11 years |
-| Difference | +5.36 months |
+| September 2026 | 3.10 years |
+| Difference | +5.31 months (95% CI 1.0 to 10.1) |
 
-Threshold: +18 months (pre-registered). **Not met.** Inventory is older in direction but well short of the practical significance threshold.
+Threshold: +18 months (pre-registered). **Not met, with high confidence.** The whole interval sits below the threshold, and it excludes zero, so the increase is real but far smaller than hypothesized.
 
-**Rerun after the sec. 12 rebuild:** the first run, on the 3,279-row `final_matched`, returned 3.07 years and +4.97 months. The 2020 value did not change, since the rebuild touched only the 2026 side. The 2026 average rose because the excluded overspill dealers included two luxury stores with newer inventory.
+**Same-dealer comparison:** 2.83 to 3.41 years, +7.03 months (95% CI 2.7 to 25.9). Consistent in direction, but too imprecise to test the threshold on its own (sec. 18).
+
+**Result history:** 3.07 years and +4.97 months on the 3,279-row `final_matched`; 3.11 and +5.36 after the overspill exclusions (two excluded luxury stores had newer inventory); 3.10 and +5.31 after EchoPark was added. The 2020 value never changed, since every rebuild touched only the 2026 side.
 
 ---
 
@@ -243,7 +259,7 @@ Threshold: +18 months (pre-registered). **Not met.** Inventory is older in direc
 
 - **NULL mileage, 2020:** 99 rows (about 1.1%), spread across six zips. Five of the six are at or below 2.7% of their zip. 30339 (Vinings) is the exception at 25 of 198 (12.6%).
 - **30339 follow-up:** all 25 NULLs belong to Global Imports BMW, which is also the only 2020 franchise dealer in 30339 (198 listings). The dealer is still represented in the 2020 average by 173 cars, so there is no dealer-mix asymmetry between periods. It is thinner data within one dealer. 30339 carries a weight of about .023, so the effect on the metro result is negligible.
-- **NULL mileage, 2026:** 29 rows of 3,024 (about 1.0%) after the sec. 12 rebuild (37 of 3,279 before it).
+- **NULL mileage, 2026:** 34 rows of 3,041 (about 1.1%). History: 37 of 3,279 before the sec. 12 rebuild, 29 of 3,024 after the overspill exclusions, 34 after EchoPark's 17 listings were added (5 of them lack mileage).
 - **Zero-mileage placeholders:** none in either table.
 
 **Why check for zeros:** a real low reading (a demo with 40 miles) is a valid used car and stays in. The concern is placeholders. Some dealer feeds write 0 when mileage was not entered. `AVG()` skips a NULL but counts a 0 as a real reading, so placeholder zeros would pull averages down without appearing as missing data.
@@ -255,14 +271,16 @@ Threshold: +18 months (pre-registered). **Not met.** Inventory is older in direc
 | Period | Weighted average mileage |
 |---|---|
 | September 2020 | 41,594 miles |
-| September 2026 | 47,475 miles |
-| Difference | +5,882 miles |
+| September 2026 | 47,477 miles |
+| Difference | +5,883 miles (95% CI 1,637 to 11,620) |
 
-Threshold: +15,000 miles (pre-registered). **Not met.**
+Threshold: +15,000 miles (pre-registered). **Not met, with high confidence.** The whole interval sits below the threshold and excludes zero.
 
-**Rerun after the sec. 12 rebuild:** the first run returned 45,962 miles and +4,368. The 2020 value did not change.
+**Same-dealer comparison:** 47,171 to 50,922 miles, +3,751 (95% CI 625 to 23,990). Consistent in direction, too imprecise to test the threshold on its own.
 
-**Cross-check with Q4:** 5,882 additional miles over about 0.45 additional years of age is roughly 13,200 miles per year, in line with typical annual driving. The mileage increase is about what the age increase alone would produce. Inventory is older, not driven harder.
+**Result history:** 45,962 and +4,368 on the 3,279-row `final_matched`; 47,475 and +5,882 after the overspill exclusions; 47,477 and +5,883 after EchoPark. The 2020 value never changed.
+
+**Cross-check with Q4:** in the pre-registered comparison, 5,883 additional miles over about 0.44 additional years of age is roughly 13,300 miles per year, in line with typical annual driving: older inventory, not harder-driven inventory. In the same-dealer comparison it is 3,751 miles over about 0.59 years, roughly 6,400 miles per year. At continuing dealers, cars aged faster than they gained miles, so the cross-check holds for the full market but not clearly for continuing stores.
 
 ---
 
@@ -289,26 +307,82 @@ The CPI values are held in their own one-row CTE and attached with a `CROSS JOIN
 | Period | Weighted average price (August 2026 dollars) |
 |---|---|
 | September 2020 | $34,927 |
-| September 2026 | $37,497 |
-| Difference | +$2,570 |
+| September 2026 | $37,448 |
+| Difference | +$2,521 (95% CI -$2,318 to +$12,059) |
 
-Threshold: +$2,000 (pre-registered). **Met**, by $570. The first run, before the sec. 12 rebuild, returned +$5,624. More than half of that came from two luxury overspill dealers that were never in the study area.
+**Same-dealer comparison:** $29,972 to $32,439, +$2,467 (95% CI -$3,479 to +$4,260).
 
-**Sensitivity runs.** Price is more exposed to dealer mix than age or mileage. Two runs change only which 2026 dealers are counted; weights and the 2020 side are unchanged, and each run was confirmed to keep all 14 zips.
+Threshold: +$2,000 (pre-registered). **Inconclusive.** Both point estimates clear the threshold by about $500, and they nearly agree, so dealer mix is not what produces the increase. But the dealer-level uncertainty is far wider than that margin: 42% of pre-registered resamples and 63% of same-dealer resamples fall below $2,000, and both intervals include zero. The data cannot confirm the threshold, or even that real prices rose.
 
-| Comparison | 2026 dealers included | Real change | vs. $2,000 |
+**Result history:** +$5,624 on the 3,279-row `final_matched`; +$2,570 after the overspill exclusions (more than half of the original figure came from two luxury dealers outside the study area); +$2,521 after EchoPark, which adds nearly new cars at below-average prices.
+
+**How the sensitivity runs evolved.** Price is more exposed to dealer mix than age or mileage, so two sensitivity runs were built. Both were later found to be flawed, and the history is recorded here because the corrections changed the conclusion twice.
+
+- **First same-dealer run (one-sided): -$2,488.** It restricted the 2026 side to continuing dealers but compared them against every 2020 dealer. The 2020 dealers with no 2026 counterpart averaged about $5,000 more than those that continued, so leaving them in made continuing dealers look like they cut prices. Restricting both sides gives +$2,467. This error briefly produced a finding that existing dealers priced below inflation, which was wrong.
+- **Equal-coverage run: +$1,319, dropped.** It kept continuing dealers plus true market entries on the 2026 side and dropped stores missing from the 2020 data, to compare the two periods at equal coverage. It removed 2026 stores missing from the 2020 data but left in every 2020 store missing from the 2026 data. Some of those closed, but many were likely just not sampled (sec. 17). A fair version would keep closed stores and drop unsampled ones, and the data cannot tell them apart, so the run cannot be built symmetrically. A decomposition built on it (continuing dealers below inflation, luxury entrants driving the rise) was withdrawn with it.
+
+**Conclusion:** the point estimates say real used-car prices at Atlanta franchise dealers rose about $2,500 more than general inflation, whether measured on the full sample or on dealers present in both periods. That is above the $2,000 threshold. But at the dealer level the evidence is too thin to confirm it: each zip's average rests on a handful of stores, and the plausible range runs from a real decline to a large increase (sec. 18). The sampling-cap check suggests the 2026 price is, if anything, understated (sec. 17).
+
+**On reporting:** the thresholds were set against the full comparison before any results were seen. The pre-registered figure is reported as the primary result, with the same-dealer comparison and the confidence intervals as tests of its robustness, rather than substituting whichever version reads best after the fact.
+
+---
+
+## 16. Pipeline Integrity Fixes
+
+**Duplicated 2020 population.** A check of `cars_2020_fltrd` returned 17,444 rows for 8,722 distinct VINs, with every VIN exactly twice. The script created the table with `CREATE TABLE IF NOT EXISTS` and filled it with a separate `INSERT`, so a second run skipped the create and appended every row again. Averages were unaffected because every row doubled evenly, which is why no result had moved. `zip_weights` had been built before the duplication and was confirmed correct (`SUM(cars_in_zip)` = 8,722). The script now uses `CREATE OR REPLACE TABLE ... AS SELECT`, with explicit casts to keep the original column types, and `overrides_2020` was checked for duplicate `sp_name` values first, since a duplicate there would fan out through the join. Every pipeline script now uses `CREATE OR REPLACE`.
+
+**Database location and the write-ahead log.** The database had been created in the user folder rather than the project, because the CLI creates the file in whatever folder the terminal is in. When it was moved into `data/`, the write-ahead log (`08_cars.duckdb.wal`), which held that day's changes not yet folded into the main file, was left behind, and the moved database was missing `cars_2020_fltrd`. Moving the `.wal` next to the database and reopening it replayed the changes, and every table was verified at its current count. Lessons: move the `.wal` with the database, run `CHECKPOINT` before moving or copying it, and open the CLI with the full path, since `duckdb <name>` silently creates a new empty database if the name is not found in the current folder. The database is generated from the CSVs and scripts and is excluded from Git. Two stray tables (`cars_2020_fltr`, `test`) and a stray empty database from a typo were removed.
+
+---
+
+## 17. Sampling Cap and Sort Order
+
+**The question:** in the 11 zips that hit the 25-call cap, the API decided which listings were returned. If it returns listings in an order related to age, mileage, or price, the 2026 averages are skewed even at continuing dealers, and no dealer restriction can fix that.
+
+**Coverage:** dealers holding 4,077 of the 8,630 2020 listings (47%) do not appear in the 2026 pull at all, and 1,010 of 3,030 priced 2026 listings (33%) come from stores with no 2020 counterpart in the data. The export of unmatched 2026 dealers (sec. 12) confirmed that the missing 2020 dealers were never pulled, not pulled and mismatched.
+
+**Sort order:** the pull script (`python/00_pull_listing.py`) sets no sort parameter, and auto.dev's documented default is most recently updated first. Each capped zip therefore returned its 500 most recently updated listings.
+
+**Recency gradient:** within the capped zips, listings were split into quartiles by creation date:
+
+| Quartile (most recent first) | Avg age | Avg miles | Avg price |
 |---|---|---|---|
-| Pre-registered | All | +$2,570 | Met |
-| Equal coverage | Continuing dealers + 6 true entrants | +$1,319 | Not met |
-| Same dealer | Continuing dealers only | -$2,488 | Not met, real decline |
+| 1 | 3.86 | 51,644 | $33,784 |
+| 2 | 3.70 | 51,284 | $37,557 |
+| 3 | 3.06 | 47,840 | $33,574 |
+| 4 | 2.61 | 42,822 | $41,153 |
 
-Continuing dealers are those matched to the 2020 data automatically plus 10 override dealers with a confirmed 2020 counterpart in a study zip (Global BMW, John Miles, and 8 rebrands). The 6 true entrants are the 5 second-wave entries plus Genesis of Kennesaw. The equal-coverage run drops only stores that existed in 2020 but are missing from the 2020 data, so both periods cover the same market while genuine market change stays in.
+Recently listed cars are older, higher-mileage, and cheaper; older listings are newer, lower-mileage, and pricier. That fits normal lot dynamics: cheaper, older cars sell quickly, while newer, pricier cars sit longer. If the trend continues past the cut, the listings not returned were newer, lower-mileage, and pricier, so the 2026 sample in capped zips likely overstates age and mileage and understates price.
 
-**Decomposition:**
-- Continuing dealers priced below inflation: -$2,488 real.
-- The six true entrants, mostly premium brands, add about $3,800, bringing the market to +$1,319. This is real market change.
-- The 2020 coverage gap adds about $1,250 more, bringing the headline to +$2,570. This is a data artifact.
+**Effect on the verdicts:** the likely bias works against every finding. It would make the true Q4 and Q5 increases smaller (still not met) and the true Q6 increase larger.
 
-**Conclusion:** the pre-registered test passes, but the result does not survive the equal-coverage correction. At the market level, real used-car prices rose about $1,300, below the threshold, and that rise came from new luxury entrants. Existing dealers did not raise prices faster than inflation.
+**Limitation:** the API sorted by update date, but the pull did not capture `updatedAt`, so creation date is used as a stand-in. A price cut can refresh an old listing without changing its creation date, so the conclusion is an inference, not a measurement. An uncapped-zips-only rerun was considered and not used: the four uncapped zips carry about 8% of the weight and three are in Conyers, so they cannot speak for the other eleven.
 
-**On reporting:** the thresholds were set against the full comparison before any results were seen. The pre-registered figure is reported as the primary result, with the sensitivity runs shown as the test of its robustness, rather than substituting whichever version reads best after the fact.
+---
+
+## 18. Bootstrap Confidence Intervals
+
+**Why:** Q6 cleared its threshold by about $500 in both comparisons. A point estimate that clears a threshold is not the same as a result that clears it, so the uncertainty had to be measured before any verdict could stand. Q4 and Q5 were measured the same way so all three metrics are reported alike.
+
+**Method (`python/q4_q6_bootstrap.py`):** a dealer-level cluster bootstrap, stratified by zip and period, 2,000 resamples per metric per comparison, fixed seed.
+- All data rules stay in SQL; Python pulls one listing-level table and only resamples.
+- Each resample keeps all 28 period-zip groups and redraws the same number of dealers within each, with replacement, taking all of a drawn dealer's listings. Listings from one dealer share its pricing and stocking policy, so resampling individual listings would treat them as independent and make the intervals too narrow.
+- Weights never change.
+- The Python point estimates were confirmed to reproduce the SQL results exactly before any interval was computed.
+
+**Dealers per zip:** six of the 14 zips (30012, 30013, 30067, 30094, 30339, 30518) have two dealers or fewer in at least one period. In the same-dealer comparison, six zips have a single continuing dealer on each side.
+
+**Results:**
+
+| Metric | Comparison | Point | 95% CI | Median | Share below threshold |
+|---|---|---|---|---|---|
+| Age (months) | Pre-registered | +5.3 | 1.0 to 10.1 | 5.1 | 100.0% |
+| Age (months) | Same dealer | +7.0 | 2.7 to 25.9 | 7.8 | 75.2% |
+| Mileage | Pre-registered | +5,883 | 1,637 to 11,620 | 6,047 | 99.7% |
+| Mileage | Same dealer | +3,751 | 625 to 23,990 | 5,194 | 75.0% |
+| Real price | Pre-registered | +$2,521 | -$2,318 to +$12,059 | $2,520 | 42.0% |
+| Real price | Same dealer | +$2,467 | -$3,479 to +$4,260 | $1,289 | 63.4% |
+
+**Reading them:** the pre-registered intervals for age and mileage sit entirely below their thresholds and exclude zero, so both increases are real and both "not met" verdicts hold with high confidence. The price intervals span the threshold and include zero, so Q6 is inconclusive. The same-dealer intervals are wide because the continuing set is often one store per zip, and redrawing among the three to eight stores in the remaining zips swings the averages. The same-dealer run confirms that the point estimates are not a composition artifact, but it is too thin to test thresholds on its own. For same-dealer price, the median ($1,289) sits well below the point estimate, meaning the observed figure depends heavily on which specific stores are in the thin zips.
+
+**Limitations:** a single-dealer group contributes no variation, since redrawing one dealer always returns it, so the true uncertainty is likely wider than shown. A bootstrap with few clusters per group gives approximate intervals. A few stores appear under two dealer IDs in the 2026 data (for example Global BMW in 30339), which slightly overstates the dealer count in those zips.
