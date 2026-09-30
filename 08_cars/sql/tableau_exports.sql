@@ -1,7 +1,7 @@
 ---------------------------------------------------------
 -- Project: Metro Atlanta Used-Car Inventory Study
 -- File name: tableau_exports.sql
--- Table: none (writes three CSV files to deliverables/)
+-- Table: none (writes three CSV files to data/)
 -- Business question: none (presentation layer for Q4-Q6)
 -- Purpose: export the data behind the Tableau dashboard. All
 --          calculations stay in SQL and Python. Tableau only
@@ -46,7 +46,7 @@ COPY (
       , ('Real price', 'Same dealer',    29972, 32439, 2467,  -3479,  4260,  2000,  'dollars', 0.634)
     ) AS t(metric, comparison, value_2020, value_2026, difference, ci_low, ci_high,
            threshold, unit, share_below_threshold)
-) TO 'C:/Users/jglen/Analytics_portfolio/08_cars/deliverables/summary.csv' (HEADER);
+) TO 'C:/Users/jglen/Analytics_portfolio/08_cars/data/summary.csv' (HEADER);
 
 
 -- =====================================================
@@ -121,7 +121,7 @@ FROM adj_weights a
 JOIN z20 ON a.zip = z20.zip
 JOIN z26 ON a.zip = z26.zip
 ORDER BY a.zip
-) TO 'C:/Users/jglen/Analytics_portfolio/08_cars/deliverables/zip_changes.csv' (HEADER);
+) TO 'C:/Users/jglen/Analytics_portfolio/08_cars/data/zip_changes.csv' (HEADER);
 
 
 -- =====================================================
@@ -136,4 +136,4 @@ COPY (
       , (2, 'Radius-overspill dealers removed', 2570)
       , (3, 'EchoPark added (final)',           2521)
     ) AS t(step, stage, real_price_change)
-) TO 'C:/Users/jglen/Analytics_portfolio/08_cars/deliverables/q6_history.csv' (HEADER);
+) TO 'C:/Users/jglen/Analytics_portfolio/08_cars/data/q6_history.csv' (HEADER);

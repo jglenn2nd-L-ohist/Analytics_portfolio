@@ -6,6 +6,12 @@ J. hypothesized that metro Atlanta franchise dealer used vehicle inventory has s
 
 The comparison is framed as September 2020 vs. current, not pre-COVID vs. post-COVID. Pandemic driven supply chain disruption was already underway by September 2020, so it is not a clean undisturbed baseline.
 
+**Interactive dashboard:** [Metro Atlanta used-car study on Tableau Public](https://public.tableau.com/views/MetroAtlantaPre-OwnedCarAnalysisSept2020-Sept2026/MetroAtlantaused-carstudy)
+
+The dashboard has three views: each metric's estimated change and 95% confidence interval against its pre-registered threshold, how the Q6 headline price figure moved as the data was audited, and a zip-level map of the change in age, mileage, or real price.
+
+![Metro Atlanta used-car study dashboard](deliverables/dashboard.png)
+
 --
 
 ## Analyst Questions
@@ -117,6 +123,8 @@ A table built with CREATE TABLE IF NOT EXISTS followed by a separate INSERT appe
 
 | File | Description |
 |------|-------------|
+| `deliverables/dashboard.png` | Static image of the Tableau dashboard |
+| `deliverables/technical_writeup.md` | Technical write-up: question, design, pipeline, audit findings, robustness checks, results, limitations, and how to reproduce |
 | `docs/methodology.md` | Full decision log: zip selection and screening, every exclusion and substitution, data corrections, sampling design, second-wave franchise recovery, weighted pooling |
 | `sql/00_schema_reference.sql` | Column reference for both data sources, key fields to use and avoid |
 | `sql/q1_zip_selection_screening.sql` | Full zip selection process: 16-candidate pool, outlier screen, Jonesboro-to-Morrow substitution, final 15-zip set |
@@ -132,6 +140,8 @@ A table built with CREATE TABLE IF NOT EXISTS followed by a separate INSERT appe
 | `sql/q5_weighted_avg_mileage.sql` | Weighted average mileage comparison, same weighting and exclusions as Q4; pre-registered test plus same-dealer run |
 | `sql/q6_weighted_avg_price.sql` | Weighted real price comparison (all-items CPI-U, August to August); pre-registered test plus same-dealer run |
 | `python/00_pull_listing.py` | auto.dev API pull: 15 zips, 2 mile radius, used only, 25 calls per zip (375 total), default sort |
+| `sql/tableau_exports.sql` | Exports the three CSV files behind the Tableau dashboard to `data/`; all calculations stay in SQL and Python |
+| `data/summary.csv`, `zip_changes.csv`, `q6_history.csv` | Dashboard data: point estimates and intervals, per-zip changes and dealer counts, Q6 result history |
 | `python/q4_q6_bootstrap.py` | Dealer-level cluster bootstrap: 95% confidence intervals for age, mileage, and real price, both comparisons; reproduces the SQL point estimates before resampling |
 | `data/README.md` | Raw data file locations |
 
@@ -139,7 +149,7 @@ A table built with CREATE TABLE IF NOT EXISTS followed by a separate INSERT appe
 
 ## Tools
 
-SQL (DuckDB), persistent database (`data/08_cars.duckdb`). Weighted pooling and the CPI adjustment are done in SQL. Python (pandas, NumPy) for the API pull and the bootstrap. Tableau planned for visuals, not yet built.
+SQL (DuckDB), persistent database (`data/08_cars.duckdb`). Weighted pooling and the CPI adjustment are done in SQL. Python (pandas, NumPy) for the API pull and the bootstrap. Tableau Public for the dashboard ([link](https://public.tableau.com/views/MetroAtlantaPre-OwnedCarAnalysisSept2020-Sept2026/MetroAtlantaused-carstudy)), which displays exported results only.
 
 --
 
@@ -151,4 +161,4 @@ Weighted age comparison (Q4): Complete, threshold not met (high confidence)
 Weighted mileage comparison (Q5): Complete, threshold not met (high confidence)
 Weighted price comparison (Q6): Complete, inconclusive (point estimate above threshold, confidence interval spans it)
 Sampling-cap check and bootstrap confidence intervals: Complete
-Visuals (Tableau): Not started
+Dashboard (Tableau Public): Complete

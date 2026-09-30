@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Metro Atlanta Used-Car Study | J. Glenn</title>
+<meta name="description" content="Did metro Atlanta franchise dealers' used inventory get older, higher-mileage, and pricier from September 2020 to September 2026? Three pre-registered tests.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Metro Atlanta Used-Car Study: Three Tests, None Cleared">
+<meta property="og:description" content="Older and higher-mileage, but not by enough to call the inventory meaningfully worse. Price: inconclusive.">
+<meta property="og:url" content="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/08_cars/deliverables/atlanta_used_car_casestudy.html">
+<meta property="og:image" content="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/08_cars/deliverables/usedcar_cover.png">
+<meta property="og:image:width" content="3840">
+<meta property="og:image:height" content="2160">
+<meta property="og:image:alt" content="Two cartoon cars on a road, September 2020 and September 2026. The 2026 car is slightly faded: plus 5 months older and 5,883 more miles on average. Price: inconclusive.">
+<meta name="twitter:card" content="summary_large_image">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --concrete: #E3E5E1;
+    --paper:    #FFFFFF;
+    --ink:      #14213D;
+    --ink-2:    #3D4A63;
+    --rule:     #C9CDC6;
+    --blue:     #1F4E9C;
+    --blue-lt:  #8FB3F0;
+    --paint:    #F2B705;
+    --paint-dk: #8A6700;
+    --cond: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+    --body: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
+    --code: 'IBM Plex Mono', Consolas, monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { font-family: var(--body); background: var(--concrete); color: var(--ink); line-height: 1.6; font-size: 17px; }
+  a { color: var(--blue); }
+  a:focus-visible { outline: 3px solid var(--paint); outline-offset: 3px; }
+  strong { font-weight: 600; }
+
+  /* NAV: a dealer-lot sign bar */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+    padding: 0.8rem 2rem; background: var(--ink); color: #fff;
+    border-bottom: 5px solid var(--paint);
+  }
+  .nav-brand { font-family: var(--cond); font-weight: 700; font-size: 1.25rem; letter-spacing: 0.02em; white-space: nowrap; }
+  .nav-links { display: flex; gap: 1.6rem; list-style: none; overflow-x: auto; }
+  .nav-links a { color: rgba(255,255,255,0.78); text-decoration: none; font-family: var(--cond); font-weight: 600; font-size: 1.05rem; white-space: nowrap; }
+  .nav-links a:hover { color: var(--paint); }
+  @media (max-width: 640px) { nav { padding: 0.7rem 1rem; } .nav-brand { display: none; } .nav-links { gap: 1.1rem; } }
+
+  /* LAYOUT */
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 2rem; }
+  @media (max-width: 640px) { .wrap { padding: 0 1.1rem; } }
+  section { padding: 5.5rem 0; }
+  section + section { border-top: 1px solid var(--rule); }
+  section[id] { scroll-margin-top: 64px; }
+
+  /* SECTION HEAD: stall number painted on the lot */
+  .phase { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.1rem; }
+  .stall {
+    font-family: var(--cond); font-weight: 800; font-size: 1.35rem; line-height: 1;
+    padding: 0.35rem 0.55rem 0.3rem; border: 3px solid var(--ink); background: var(--paint); color: var(--ink);
+  }
+  .phase-name { font-family: var(--cond); font-weight: 600; font-size: 1.2rem; color: var(--ink-2); }
+  h2 { font-family: var(--cond); font-weight: 700; font-size: clamp(2.2rem, 4.6vw, 3.4rem); line-height: 1.02; letter-spacing: -0.005em; margin-bottom: 0.8rem; max-width: 20ch; }
+  .lede { font-size: 1.08rem; color: var(--ink-2); max-width: 62ch; margin-bottom: 2.8rem; }
+
+  /* HERO */
+  .hero { padding: 4.5rem 0 5rem; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 3rem; align-items: start; }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
+  h1 { font-family: var(--cond); font-weight: 800; font-size: clamp(3.4rem, 8.5vw, 6.8rem); line-height: 0.92; letter-spacing: -0.01em; margin-bottom: 1.6rem; }
+  h1 .second { display: block; color: var(--blue); }
+  .hero-sub { font-size: 1.12rem; color: var(--ink-2); max-width: 54ch; margin-bottom: 2rem; }
+  .hero-links { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+  .btn { font-family: var(--cond); font-weight: 700; font-size: 1.1rem; padding: 0.65rem 1.3rem; text-decoration: none; border: 3px solid var(--ink); color: var(--ink); background: transparent; }
+  .btn-solid { background: var(--ink); color: #fff; }
+  .btn:hover { background: var(--paint); color: var(--ink); }
+
+  /* WINDOW STICKER */
+  .sticker { background: var(--paper); border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); }
+  .sticker-head { background: var(--blue); color: #fff; padding: 0.7rem 1rem; font-family: var(--cond); font-weight: 700; font-size: 1.25rem; display: flex; justify-content: space-between; align-items: baseline; }
+  .sticker-head small { font-weight: 500; font-size: 0.95rem; opacity: 0.85; }
+  .sticker dl { display: grid; grid-template-columns: auto 1fr; }
+  .sticker dt, .sticker dd { padding: 0.6rem 1rem; border-bottom: 1px solid var(--rule); font-size: 0.95rem; }
+  .sticker dt { font-weight: 600; color: var(--ink-2); border-right: 1px solid var(--rule); }
+  .sticker dl > :nth-last-child(-n+2) { border-bottom: none; }
+
+  /* ODOMETER KPIs */
+  .kpi-row { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.2rem; margin-top: 3.5rem; }
+  @media (max-width: 820px) { .kpi-row { grid-template-columns: 1fr; } }
+  .kpi { background: var(--paper); border: 2px solid var(--ink); padding: 1.2rem 1.2rem 1.1rem; }
+  .kpi-lbl { font-weight: 600; font-size: 0.98rem; margin-bottom: 0.7rem; }
+  .odo { display: inline-flex; align-items: stretch; background: #0B1220; padding: 5px; border-radius: 3px; gap: 3px; }
+  .odo .d, .odo .s { font-family: var(--cond); font-weight: 700; font-size: 2.35rem; line-height: 1; color: #fff; display: inline-flex; align-items: center; justify-content: center; }
+  .odo .d { width: 1.35rem; padding: 0.35rem 0.12rem; background: linear-gradient(#202a3d, #0f1627 48%, #0f1627 52%, #202a3d); border-radius: 2px; }
+  .odo .s { padding: 0 0.1rem; font-size: 1.7rem; color: rgba(255,255,255,0.8); }
+  .kpi.inc .odo { background: #3a2c00; }
+  .kpi.inc .odo .d { background: linear-gradient(#5a4500, #2a2000 48%, #2a2000 52%, #5a4500); color: var(--paint); }
+  .kpi.inc .odo .s { color: var(--paint); }
+  .kpi-verdict { margin-top: 0.8rem; font-size: 0.92rem; color: var(--ink-2); }
+  .pill { display: inline-block; font-family: var(--cond); font-weight: 700; font-size: 0.95rem; padding: 0.1rem 0.55rem; border: 2px solid var(--ink); margin-left: 0.3rem; }
+  .pill-inc { background: var(--paint); }
+
+  /* PROSE + GRIDS */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+  @media (max-width: 860px) { .two-col { grid-template-columns: 1fr; } }
+  .prose p { color: var(--ink-2); margin-bottom: 1.05rem; max-width: 62ch; }
+  .prose strong { color: var(--ink); }
+
+  /* TABLES: sticker-style */
+  .table-wrap { overflow-x: auto; background: var(--paper); border: 2px solid var(--ink); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  table.wide { min-width: 680px; }
+  thead th { background: var(--ink); color: #fff; text-align: left; padding: 0.65rem 0.9rem; font-family: var(--cond); font-weight: 600; font-size: 1.02rem; }
+  tbody td { padding: 0.7rem 0.9rem; border-top: 1px solid var(--rule); vertical-align: top; }
+  tbody tr:nth-child(even) td { background: #F5F6F3; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 500; }
+  .badge { display: inline-block; font-family: var(--cond); font-weight: 700; font-size: 0.92rem; padding: 0.05rem 0.5rem; border: 2px solid var(--ink); white-space: nowrap; }
+  .badge-green { background: #DDEFE2; border-color: #1E6B3A; color: #14492A; }
+  .badge-amber, .badge-inc { background: var(--paint); }
+  .badge-ink { background: var(--paper); }
+
+  /* DATA QUALITY CARDS */
+  .dq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.1rem; margin-bottom: 2.2rem; }
+  .dq-card { background: var(--paper); border: 2px solid var(--ink); border-top: 8px solid var(--blue); padding: 1.2rem; }
+  .dq-num { font-family: var(--cond); font-weight: 800; font-size: 2.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+  .dq-num small { font-size: 1.3rem; font-weight: 600; color: var(--ink-2); }
+  .dq-label { font-weight: 600; margin-top: 0.4rem; }
+  .dq-detail { font-size: 0.92rem; color: var(--ink-2); margin-top: 0.35rem; }
+
+  /* CODE */
+  .code-grid { display: grid; grid-template-columns: minmax(0,1fr) 330px; gap: 2rem; align-items: start; }
+  @media (max-width: 900px) { .code-grid { grid-template-columns: 1fr; } }
+  .code-block { background: var(--ink); color: #E6EDF7; border: 2px solid var(--ink); padding: 1.6rem; overflow-x: auto; font-family: var(--code); font-size: 0.8rem; line-height: 1.72; }
+  .kw { color: #FFB86B; }
+  .fn { color: #8FB3F0; }
+  .str { color: #B9E4A8; }
+  .cm { color: #93A1B8; font-style: italic; }
+  .num { color: var(--paint); }
+  .code-cap { font-size: 0.88rem; color: var(--ink-2); margin-top: 0.6rem; }
+  .code-cap code { font-family: var(--code); font-size: 0.84rem; }
+  .note { background: var(--paper); border: 2px solid var(--ink); padding: 1.3rem; }
+  .note + .note { margin-top: 1.1rem; }
+  .note h3 { font-family: var(--cond); font-weight: 700; font-size: 1.35rem; line-height: 1.1; margin-bottom: 0.6rem; }
+  .note p { font-size: 0.95rem; color: var(--ink-2); margin-bottom: 0.7rem; }
+  .note p:last-child { margin-bottom: 0; }
+  .note.flag { border-left: 10px solid var(--paint); }
+  .audit { list-style: none; margin: 0.3rem 0 0.9rem; }
+  .audit li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.45rem 0; border-bottom: 1px dashed var(--rule); font-size: 0.95rem; }
+  .audit li span:last-child { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .audit li:last-child span:last-child { background: var(--paint); padding: 0 0.35rem; }
+  .big { font-family: var(--cond); font-weight: 800; font-size: 2.6rem; line-height: 1; }
+
+  /* VERDICT CHART */
+  .chart { background: var(--ink); border: 2px solid var(--ink); padding: 1.4rem 1.1rem 1rem; margin-top: 2.5rem; overflow-x: auto; }
+  .chart-title { color: #fff; font-family: var(--cond); font-weight: 700; font-size: 1.4rem; padding: 0 0.4rem 0.6rem; }
+  .chart svg { width: 100%; min-width: 640px; height: auto; display: block; }
+  .chart .ax { font-family: var(--body); font-size: 12px; fill: rgba(255,255,255,0.6); }
+  .chart .thr { font-family: var(--body); font-size: 12px; font-weight: 600; fill: #8FB3F0; }
+  .chart .met { font-family: var(--cond); font-size: 17px; font-weight: 700; fill: #fff; }
+  .chart .cmp { font-family: var(--body); font-size: 13px; fill: rgba(255,255,255,0.72); }
+  .legend { display: flex; flex-wrap: wrap; gap: 1.4rem; font-size: 0.88rem; color: rgba(255,255,255,0.75); padding: 0.8rem 0.4rem 0; }
+  .legend i { display: inline-block; width: 24px; border-top: 3px solid #fff; vertical-align: middle; margin-right: 0.45rem; }
+  .legend i.dash { border-top-style: dashed; }
+  .legend i.inc { border-top-color: var(--paint); }
+
+  /* TABLEAU */
+  .viz { background: var(--paper); border: 2px solid var(--ink); }
+  .viz iframe { width: 100%; height: 820px; border: 0; display: block; }
+  @media (max-width: 780px) { .viz iframe { height: 620px; } }
+  .viz-meta { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 2px solid var(--ink); }
+  @media (max-width: 700px) { .viz-meta { grid-template-columns: 1fr; } }
+  .viz-meta div { padding: 1rem 1.1rem; font-size: 0.95rem; }
+  .viz-meta div + div { border-left: 1px solid var(--rule); }
+  @media (max-width: 700px) { .viz-meta div + div { border-left: none; border-top: 1px solid var(--rule); } }
+  .viz-meta b { display: block; font-family: var(--cond); font-weight: 700; font-size: 1.15rem; }
+  .viz-fallback { margin-top: 0.9rem; font-size: 0.95rem; color: var(--ink-2); }
+
+  /* FINDINGS */
+  .verdicts { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.3rem; margin-bottom: 3.5rem; }
+  .verdict { background: var(--paper); border: 2px solid var(--ink); display: flex; flex-direction: column; }
+  .verdict-head { display: flex; align-items: center; gap: 0.8rem; padding: 0.9rem 1.1rem; border-bottom: 2px solid var(--ink); }
+  .verdict-head .stall { font-size: 1.2rem; background: var(--paper); }
+  .verdict.inc .verdict-head .stall { background: var(--paint); }
+  .verdict-head h3 { font-family: var(--cond); font-weight: 700; font-size: 1.4rem; line-height: 1.05; }
+  .verdict-body { padding: 1.1rem; flex: 1; }
+  .verdict-body .thr { font-weight: 600; font-size: 0.92rem; color: var(--ink-2); margin-bottom: 0.6rem; }
+  .verdict-body p { font-size: 0.97rem; color: var(--ink-2); }
+  .verdict-foot { padding: 0.8rem 1.1rem; border-top: 2px solid var(--ink); font-weight: 600; font-size: 0.96rem; background: #F0F2EE; }
+  .verdict.inc .verdict-foot { background: var(--paint); }
+  h3.sub { font-family: var(--cond); font-weight: 700; font-size: 2rem; margin-bottom: 1.1rem; }
+
+  /* CLOSING */
+  .closing { background: var(--ink); color: #fff; padding: 6rem 0; border-top: 5px solid var(--paint); }
+  .closing-line { font-family: var(--cond); font-weight: 800; font-size: clamp(2.6rem, 6.5vw, 5.2rem); line-height: 0.98; }
+  .closing-line + .closing-line { color: var(--paint); margin-top: 0.5rem; }
+  .closing p { margin-top: 2rem; color: rgba(255,255,255,0.72); font-size: 1.05rem; max-width: 56ch; }
+
+  footer { background: #0B1220; color: rgba(255,255,255,0.7); padding: 1.4rem 0; font-size: 0.92rem; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  footer b { font-family: var(--cond); font-weight: 700; font-size: 1.1rem; color: #fff; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Metro Atlanta Used-Car Study</div>
+  <ul class="nav-links">
+    <li><a href="#design">Design</a></li>
+    <li><a href="#data-quality">Data quality</a></li>
+    <li><a href="#sql">SQL</a></li>
+    <li><a href="#python">Python</a></li>
+    <li><a href="#tableau">Tableau</a></li>
+    <li><a href="#findings">Findings</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1>Three tests. <span class="second">None cleared.</span></h1>
+        <p class="hero-sub">Did metro Atlanta franchise dealers' used inventory get older, higher-mileage, and pricier between September 2020 and September 2026? Three pre-registered tests say the shifts are real, but none is large enough to call the inventory meaningfully worse.</p>
+        <div class="hero-links">
+          <a class="btn btn-solid" href="https://public.tableau.com/views/MetroAtlantaPre-OwnedCarAnalysisSept2020-Sept2026/MetroAtlantaused-carstudy" target="_blank" rel="noopener">Open the dashboard</a>
+          <a class="btn" href="https://github.com/jglenn2nd-L-ohist/Analytics_portfolio/tree/main/08_cars" target="_blank" rel="noopener">View the code</a>
+        </div>
+      </div>
+      <aside class="sticker" aria-label="Study summary">
+        <div class="sticker-head">Study sticker <small>Hypothesis test</small></div>
+        <dl>
+          <dt>Periods</dt><dd>September 2020 vs. September 2026</dd>
+          <dt>Market</dt><dd>Metro Atlanta franchise dealers, 14 weighted zips</dd>
+          <dt>Listings</dt><dd>11,671 (8,630 in 2020, 3,041 in 2026)</dd>
+          <dt>Sources</dt><dd>Kaggle CarGurus crawl, auto.dev API</dd>
+          <dt>Stack</dt><dd>DuckDB SQL, Python, Tableau</dd>
+          <dt>Analyst</dt><dd>J. Glenn</dd>
+        </dl>
+      </aside>
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-lbl">Average vehicle age</div>
+        <span class="odo" aria-hidden="true"><span class="s">+</span><span class="d">5</span><span class="s">.</span><span class="d">3</span></span><span class="s" style="font-family:var(--cond);font-weight:700;font-size:1.3rem;margin-left:0.5rem;">months</span><span class="visually-hidden" style="position:absolute;left:-9999px;">plus 5.3 months</span>
+        <div class="kpi-verdict">Threshold 18 months <span class="pill">Not met</span></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">Average miles</div>
+        <span class="odo" aria-hidden="true"><span class="s">+</span><span class="d">5</span><span class="s">,</span><span class="d">8</span><span class="d">8</span><span class="d">3</span></span><span style="font-family:var(--cond);font-weight:700;font-size:1.3rem;margin-left:0.5rem;">miles</span><span style="position:absolute;left:-9999px;">plus 5,883 miles</span>
+        <div class="kpi-verdict">Threshold 15,000 <span class="pill">Not met</span></div>
+      </div>
+      <div class="kpi inc">
+        <div class="kpi-lbl">Average real price</div>
+        <span class="odo" aria-hidden="true"><span class="s">+</span><span class="s">$</span><span class="d">2</span><span class="s">,</span><span class="d">5</span><span class="d">2</span><span class="d">1</span></span><span style="position:absolute;left:-9999px;">plus 2,521 dollars</span>
+        <div class="kpi-verdict">Threshold $2,000 <span class="pill pill-inc">Inconclusive</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- DESIGN -->
+<section id="design">
+  <div class="wrap">
+    <div class="phase"><span class="stall">01</span><span class="phase-name">Study design</span></div>
+    <h2>The bar was set before the data was seen.</h2>
+    <p class="lede">A snapshot comparison of franchise-dealer used inventory, framed as September 2020 versus September 2026.</p>
+    <div class="two-col">
+      <div class="prose">
+        <p><strong>Why "September 2020 vs. current," not "pre-COVID vs. post-COVID."</strong> Supply-chain disruption was already underway by September 2020. Calling it a clean baseline would overstate what the data can show.</p>
+        <p><strong>Three metrics, tested separately.</strong> Age, mileage, and inflation-adjusted price each get their own test. A blended quality score would hide a result where one metric moves and the others do not.</p>
+        <p><strong>Weighted, not flat, pooling.</strong> The 2020 data reflects natural listing volume. The 2026 pull was sampled evenly across zips. Pooling both flat would mix a real market shift with a sampling artifact, so each zip's 2020 listing share is used as a fixed weight in both periods.</p>
+        <p><strong>Two sources.</strong> A Kaggle CarGurus crawl (about 3 million national listings, September 9 to 17, 2020) and an auto.dev API pull across the study zips (September 10, 2026).</p>
+      </div>
+      <div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Metric</th><th>Null hypothesis</th><th>Meaningful if</th></tr></thead>
+            <tbody>
+              <tr><td>Age</td><td>Mean age unchanged</td><td class="num">+18 months or more</td></tr>
+              <tr><td>Mileage</td><td>Mean mileage unchanged</td><td class="num">+15,000 miles or more</td></tr>
+              <tr><td>Real price</td><td>Mean price unchanged</td><td class="num">+$2,000 or more</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note" style="margin-top:1.4rem;">
+          <h3>Why pre-register</h3>
+          <p>Setting practical-significance thresholds first removes the temptation to decide what counts as "meaningful" after seeing the numbers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA QUALITY -->
+<section id="data-quality">
+  <div class="wrap">
+    <div class="phase"><span class="stall">02</span><span class="phase-name">Data quality</span></div>
+    <h2>Two datasets. Neither ready to compare.</h2>
+    <p class="lede">Different sources, different schemas, and different definitions of where a dealer is. Every exclusion is traced to a query result or a verified address.</p>
+    <div class="dq-grid">
+      <div class="dq-card"><div class="dq-num">6,549 <small>to 3,041</small></div><div class="dq-label">2026 listings kept</div><div class="dq-detail">Raw API pull reduced to deduplicated, franchise-only, in-area listings.</div></div>
+      <div class="dq-card"><div class="dq-num">3M <small>to 8,630</small></div><div class="dq-label">2020 listings kept</div><div class="dq-detail">National crawl filtered to used, franchise, study-area listings.</div></div>
+      <div class="dq-card"><div class="dq-num">6</div><div class="dq-label">Out-of-area dealers removed</div><div class="dq-detail">Radius searches pulled in stores whose verified addresses sat outside the study zips.</div></div>
+      <div class="dq-card"><div class="dq-num">114</div><div class="dq-label">Fan-out rows caught</div><div class="dq-detail">One dealer under three name variants multiplied rows in a join. Fixed with EXISTS.</div></div>
+    </div>
+    <div class="table-wrap">
+      <table class="wide">
+        <thead><tr><th>Issue</th><th>Records affected</th><th>Resolution</th><th>Status</th></tr></thead>
+        <tbody>
+        <tr><td>Same VIN returned under multiple search zips</td><td class="num">49 VINs</td><td>One row kept per VIN</td><td><span class="badge badge-green">Resolved</span></td></tr>
+        <tr><td>Scraped zip field NULL in the 2026 feed</td><td class="num">Over half</td><td>Search zip used as the geography field</td><td><span class="badge badge-green">Resolved</span></td></tr>
+        <tr><td>No franchise flag in the 2026 feed</td><td class="num">166 dealers audited</td><td>Name and zip match to 2020, plus a 29-dealer override table</td><td><span class="badge badge-green">Resolved</span></td></tr>
+        <tr><td>Independent dealer flagged as franchise in 2020</td><td class="num">1 dealer</td><td>Overridden after verification</td><td><span class="badge badge-green">Resolved</span></td></tr>
+        <tr><td>Radius-search overspill</td><td class="num">6 dealers</td><td>Addresses verified, dealers excluded</td><td><span class="badge badge-green">Resolved</span></td></tr>
+        <tr><td>Placeholder prices under $1,000</td><td class="num">11 listings</td><td>$1,000 floor applied to both periods</td><td><span class="badge badge-green">Resolved</span></td></tr>
+        <tr><td>Rerun scripts doubling a table</td><td class="num">8,722 to 17,444</td><td>Every script moved to CREATE OR REPLACE</td><td><span class="badge badge-green">Resolved</span></td></tr>
+        <tr><td>API returned a 500-listing cap per zip</td><td class="num">11 of 15 zips</td><td>Recency test: likely bias runs against every finding</td><td><span class="badge badge-amber">Documented</span></td></tr>
+      </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SQL -->
+<section id="sql">
+  <div class="wrap">
+    <div class="phase"><span class="stall">03</span><span class="phase-name">SQL analysis in DuckDB</span></div>
+    <h2>One weighted average. Audited twice.</h2>
+    <p class="lede">Q6: has the weighted average real price risen by $2,000 or more? Age and mileage use the same structure.</p>
+    <div class="code-grid">
+      <div>
+        <div class="code-block"><pre><span class="cm">-- Q6: weighted average real price, Sept 2020 vs Sept 2026</span>
+<span class="cm">-- 2020 prices converted to August 2026 dollars (CPI-U)</span>
+
+<span class="kw">WITH</span> cpi <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> <span class="num">259.918</span> <span class="kw">AS</span> aug20
+         , <span class="num">334.980</span> <span class="kw">AS</span> aug26
+         , aug26 / aug20 <span class="kw">AS</span> ratio
+)
+, adj_weights <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> dealer_zip
+         , cars_in_zip / (<span class="kw">SELECT</span> <span class="fn">SUM</span>(cars_in_zip)
+                          <span class="kw">FROM</span> zip_weights
+                          <span class="kw">WHERE</span> dealer_zip <span class="fn">&lt;&gt;</span> <span class="str">'30062'</span>) <span class="kw">AS</span> weight
+    <span class="kw">FROM</span> zip_weights
+    <span class="kw">WHERE</span> dealer_zip <span class="fn">&lt;&gt;</span> <span class="str">'30062'</span>
+)
+, zip_prices_2026 <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> final_zip
+         , <span class="fn">AVG</span>(price) <span class="kw">AS</span> av_prices_26
+    <span class="kw">FROM</span> final_matched
+    <span class="kw">WHERE</span> price <span class="fn">&gt;=</span> <span class="num">1000</span>
+    <span class="kw">GROUP BY</span> final_zip
+)
+, zip_prices_2020 <span class="kw">AS</span> (
+    <span class="kw">SELECT</span> f.dealer_zip
+         , <span class="fn">AVG</span>(c.ratio <span class="fn">*</span> f.price) <span class="kw">AS</span> cpi_adj_2020_price
+    <span class="kw">FROM</span> cars_2020_fltrd f
+    <span class="kw">CROSS JOIN</span> cpi c
+    <span class="kw">WHERE</span> f.dealer_zip <span class="fn">&lt;&gt;</span> <span class="str">'30062'</span>
+      <span class="kw">AND</span> f.price <span class="fn">&gt;=</span> <span class="num">1000</span>
+    <span class="kw">GROUP BY</span> f.dealer_zip
+)
+<span class="kw">SELECT</span> <span class="fn">ROUND</span>(<span class="fn">SUM</span>(a.weight <span class="fn">*</span> z20.cpi_adj_2020_price), <span class="num">0</span>) <span class="kw">AS</span> prices_20
+     , <span class="fn">ROUND</span>(<span class="fn">SUM</span>(a.weight <span class="fn">*</span> z26.av_prices_26), <span class="num">0</span>)       <span class="kw">AS</span> prices_26
+     , <span class="fn">ROUND</span>(<span class="fn">SUM</span>(a.weight <span class="fn">*</span> z26.av_prices_26)
+           <span class="fn">-</span> <span class="fn">SUM</span>(a.weight <span class="fn">*</span> z20.cpi_adj_2020_price), <span class="num">0</span>) <span class="kw">AS</span> price_variation
+     , <span class="fn">COUNT</span>(*) <span class="kw">AS</span> zips  <span class="cm">-- expect 14</span>
+<span class="kw">FROM</span> adj_weights a
+<span class="kw">JOIN</span> zip_prices_2020 z20 <span class="kw">ON</span> a.dealer_zip <span class="fn">=</span> z20.dealer_zip
+<span class="kw">JOIN</span> zip_prices_2026 z26 <span class="kw">ON</span> a.dealer_zip <span class="fn">=</span> z26.final_zip;</pre></div>
+        <p class="code-cap"><code>q6_weighted_avg_price.sql</code>, Part 1 (pre-registered test)</p>
+      </div>
+      <div>
+        <div class="note">
+          <h3>How the headline moved</h3>
+          <p>Each audit changed the answer before any uncertainty was measured.</p>
+          <ul class="audit">
+            <li><span>Initial build</span><span>+$5,624</span></li>
+            <li><span>Out-of-area dealers removed</span><span>+$2,570</span></li>
+            <li><span>Final dealer set</span><span>+$2,521</span></li>
+          </ul>
+          <div class="big">-55%</div>
+          <p>change in the headline figure from data audit alone</p>
+        </div>
+        <div class="note flag">
+          <h3>Caught: a one-sided filter</h3>
+          <p>An early same-dealer run restricted only the 2026 side and reported prices <strong>falling $2,488</strong>. The 2020 dealers missing from 2026 averaged about $5,000 more, so the comparison was lopsided.</p>
+          <p>Restricting both periods to continuing dealers reversed the result to <strong>+$2,467</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PYTHON -->
+<section id="python">
+  <div class="wrap">
+    <div class="phase"><span class="stall">04</span><span class="phase-name">Python analysis</span></div>
+    <h2>Putting a range on every estimate.</h2>
+    <p class="lede">The price estimate beat $2,000 by about $500. A dealer-level cluster bootstrap measured whether that margin holds.</p>
+    <div class="code-grid">
+      <div>
+        <div class="code-block"><pre><span class="kw">def</span> <span class="fn">cluster_bootstrap</span>(df, weights, col, n_reps<span class="fn">=</span>N_REPS, seed<span class="fn">=</span>SEED):
+    <span class="str">"""Resample dealers within each period-zip group and return
+    n_reps recomputed weighted differences."""</span>
+    rng <span class="fn">=</span> np.random.<span class="fn">default_rng</span>(seed)
+
+    <span class="cm"># split each period-zip group into one DataFrame per dealer,</span>
+    <span class="cm"># once, before resampling</span>
+    groups <span class="fn">=</span> {}
+    <span class="kw">for</span> key, g <span class="kw">in</span> df.<span class="fn">groupby</span>([<span class="str">"period"</span>, <span class="str">"zip"</span>]):
+        groups[key] <span class="fn">=</span> [d <span class="kw">for</span> _, d <span class="kw">in</span> g.<span class="fn">groupby</span>(<span class="str">"dealer"</span>)]
+
+    results <span class="fn">=</span> []
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(n_reps):
+        pieces <span class="fn">=</span> []
+        <span class="kw">for</span> dealer_frames <span class="kw">in</span> groups.<span class="fn">values</span>():
+            n <span class="fn">=</span> <span class="fn">len</span>(dealer_frames)
+            picks <span class="fn">=</span> rng.<span class="fn">integers</span>(<span class="num">0</span>, n, size<span class="fn">=</span>n)   <span class="cm"># with replacement</span>
+            pieces.<span class="fn">extend</span>(dealer_frames[i] <span class="kw">for</span> i <span class="kw">in</span> picks)
+        sample <span class="fn">=</span> pd.<span class="fn">concat</span>(pieces, ignore_index<span class="fn">=</span><span class="kw">True</span>)
+        results.<span class="fn">append</span>(<span class="fn">weighted_diff</span>(sample, weights, col))
+
+    <span class="kw">return</span> np.<span class="fn">array</span>(results)</pre></div>
+        <p class="code-cap"><code>q4_q6_bootstrap.py</code>, 2,000 resamples per metric per comparison, seed 42</p>
+      </div>
+      <div>
+        <div class="note">
+          <h3>Why resample dealers, not cars</h3>
+          <p>Listings from one dealer share its pricing and stocking policy. Treating them as independent would count one store's decisions dozens of times and make the intervals too narrow.</p>
+        </div>
+        <div class="note">
+          <h3>Verified before trusted</h3>
+          <p>The Python point estimates reproduced the SQL results exactly before any interval was computed. All data rules stay in SQL. Python only resamples.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart">
+      <div class="chart-title">Each change as a multiple of its threshold, with 95% confidence intervals</div>
+<svg viewBox="0 0 900 390" role="img" aria-labelledby="vc-title vc-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="vc-title">Change as a share of each pre-registered threshold, with 95% confidence intervals</title>
+<desc id="vc-desc">Age and mileage pre-registered intervals sit entirely below 1.0, so both are not met. Both real price intervals cross 1.0 and include zero, so price is inconclusive.</desc>
+<line x1="250.0" y1="30" x2="250.0" y2="345" stroke="rgba(255,255,255,0.08)" />
+<text x="250.0" y="365" text-anchor="middle" class="ax">-2x</text>
+<line x1="324.1" y1="30" x2="324.1" y2="345" stroke="rgba(255,255,255,0.08)" />
+<text x="324.1" y="365" text-anchor="middle" class="ax">-1x</text>
+<line x1="398.2" y1="30" x2="398.2" y2="345" stroke="rgba(255,255,255,0.08)" />
+<text x="398.2" y="365" text-anchor="middle" class="ax">0</text>
+<line x1="472.4" y1="30" x2="472.4" y2="345" stroke="rgba(255,255,255,0.08)" />
+<text x="472.4" y="365" text-anchor="middle" class="ax">1x</text>
+<line x1="546.5" y1="30" x2="546.5" y2="345" stroke="rgba(255,255,255,0.08)" />
+<text x="546.5" y="365" text-anchor="middle" class="ax">2x</text>
+<line x1="620.6" y1="30" x2="620.6" y2="345" stroke="rgba(255,255,255,0.08)" />
+<text x="620.6" y="365" text-anchor="middle" class="ax">3x</text>
+<line x1="694.7" y1="30" x2="694.7" y2="345" stroke="rgba(255,255,255,0.08)" />
+<text x="694.7" y="365" text-anchor="middle" class="ax">4x</text>
+<line x1="768.8" y1="30" x2="768.8" y2="345" stroke="rgba(255,255,255,0.08)" />
+<text x="768.8" y="365" text-anchor="middle" class="ax">5x</text>
+<line x1="842.9" y1="30" x2="842.9" y2="345" stroke="rgba(255,255,255,0.08)" />
+<text x="842.9" y="365" text-anchor="middle" class="ax">6x</text>
+<line x1="398.2" y1="30" x2="398.2" y2="345" stroke="rgba(255,255,255,0.25)" />
+<line x1="472.4" y1="22" x2="472.4" y2="345" stroke="#8FB3F0" stroke-width="2" stroke-dasharray="6 4" />
+<text x="480.4" y="24" class="thr">Threshold (1.0x)</text>
+<text x="565" y="385" text-anchor="middle" class="ax">Change as a multiple of the pre-registered threshold</text>
+<text x="20" y="67" class="met">Age</text>
+<text x="120" y="66" class="cmp">Pre-registered</text>
+<line x1="402.4" y1="62" x2="439.8" y2="62" stroke="#FFFFFF" stroke-width="3" />
+<line x1="402.4" y1="56" x2="402.4" y2="68" stroke="#FFFFFF" stroke-width="2" />
+<line x1="439.8" y1="56" x2="439.8" y2="68" stroke="#FFFFFF" stroke-width="2" />
+<circle cx="420.1" cy="62" r="6" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" />
+<text x="120" y="104" class="cmp">Same dealer</text>
+<line x1="409.4" y1="100" x2="504.9" y2="100" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="4 4" />
+<line x1="409.4" y1="94" x2="409.4" y2="106" stroke="#FFFFFF" stroke-width="2" />
+<line x1="504.9" y1="94" x2="504.9" y2="106" stroke="#FFFFFF" stroke-width="2" />
+<circle cx="427.1" cy="100" r="6" fill="#14213D" stroke="#FFFFFF" stroke-width="2" />
+<text x="20" y="161" class="met">Mileage</text>
+<text x="120" y="160" class="cmp">Pre-registered</text>
+<line x1="406.3" y1="156" x2="455.7" y2="156" stroke="#FFFFFF" stroke-width="3" />
+<line x1="406.3" y1="150" x2="406.3" y2="162" stroke="#FFFFFF" stroke-width="2" />
+<line x1="455.7" y1="150" x2="455.7" y2="162" stroke="#FFFFFF" stroke-width="2" />
+<circle cx="427.3" cy="156" r="6" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" />
+<text x="120" y="198" class="cmp">Same dealer</text>
+<line x1="401.3" y1="194" x2="516.8" y2="194" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="4 4" />
+<line x1="401.3" y1="188" x2="401.3" y2="200" stroke="#FFFFFF" stroke-width="2" />
+<line x1="516.8" y1="188" x2="516.8" y2="200" stroke="#FFFFFF" stroke-width="2" />
+<circle cx="416.8" cy="194" r="6" fill="#14213D" stroke="#FFFFFF" stroke-width="2" />
+<text x="20" y="255" class="met">Real price</text>
+<text x="120" y="254" class="cmp">Pre-registered</text>
+<line x1="312.3" y1="250" x2="845.1" y2="250" stroke="#F2B705" stroke-width="3" />
+<line x1="312.3" y1="244" x2="312.3" y2="256" stroke="#F2B705" stroke-width="2" />
+<line x1="845.1" y1="244" x2="845.1" y2="256" stroke="#F2B705" stroke-width="2" />
+<circle cx="491.7" cy="250" r="6" fill="#F2B705" stroke="#F2B705" stroke-width="2" />
+<text x="120" y="292" class="cmp">Same dealer</text>
+<line x1="269.3" y1="288" x2="556.1" y2="288" stroke="#F2B705" stroke-width="3" stroke-dasharray="4 4" />
+<line x1="269.3" y1="282" x2="269.3" y2="294" stroke="#F2B705" stroke-width="2" />
+<line x1="556.1" y1="282" x2="556.1" y2="294" stroke="#F2B705" stroke-width="2" />
+<circle cx="489.7" cy="288" r="6" fill="#14213D" stroke="#F2B705" stroke-width="2" />
+</svg>
+      <div class="legend">
+        <span><i></i>Pre-registered</span>
+        <span><i class="dash"></i>Same-dealer sensitivity</span>
+        <span><i class="inc"></i>Interval crosses the threshold and zero</span>
+      </div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:2rem;">
+      <table class="wide">
+        <thead><tr><th>Metric</th><th>Comparison</th><th>Point estimate</th><th>95% CI</th><th>Resamples below threshold</th><th>Verdict</th></tr></thead>
+        <tbody>
+        <tr><td>Age</td><td>Pre-registered</td><td class="num">+5.3 mo</td><td class="num">1.0 to 10.1</td><td class="num">100.0%</td><td><span class="badge badge-ink">Not met</span></td></tr>
+        <tr><td>Age</td><td>Same dealer</td><td class="num">+7.0 mo</td><td class="num">2.7 to 25.9</td><td class="num">75.2%</td><td><span class="badge badge-ink">Not met</span></td></tr>
+        <tr><td>Mileage</td><td>Pre-registered</td><td class="num">+5,883</td><td class="num">1,637 to 11,620</td><td class="num">99.7%</td><td><span class="badge badge-ink">Not met</span></td></tr>
+        <tr><td>Mileage</td><td>Same dealer</td><td class="num">+3,751</td><td class="num">625 to 23,990</td><td class="num">75.0%</td><td><span class="badge badge-ink">Not met</span></td></tr>
+        <tr><td>Real price</td><td>Pre-registered</td><td class="num">+$2,521</td><td class="num">-$2,318 to +$12,059</td><td class="num">42.0%</td><td><span class="badge badge-amber">Inconclusive</span></td></tr>
+        <tr><td>Real price</td><td>Same dealer</td><td class="num">+$2,467</td><td class="num">-$3,479 to +$4,260</td><td class="num">63.4%</td><td><span class="badge badge-amber">Inconclusive</span></td></tr>
+      </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- TABLEAU -->
+<section id="tableau">
+  <div class="wrap">
+    <div class="phase"><span class="stall">05</span><span class="phase-name">Tableau dashboard</span></div>
+    <h2>Three views. One verdict per metric.</h2>
+    <p class="lede">Built on Tableau Public from SQL exports that carry the confidence-interval columns.</p>
+    <div class="viz">
+      <iframe title="Metro Atlanta used-car study dashboard on Tableau Public" loading="lazy"
+        src="https://public.tableau.com/views/MetroAtlantaPre-OwnedCarAnalysisSept2020-Sept2026/MetroAtlantaused-carstudy?:embed=y&amp;:showVizHome=no&amp;:display_count=no&amp;:toolbar=bottom"></iframe>
+      <div class="viz-meta">
+        <div><b>Verdict chart</b>Estimate and 95% CI against each threshold</div>
+        <div><b>Q6 audit history</b>How the price headline moved</div>
+        <div><b>Zip map</b>Per-zip change with a metric switcher</div>
+      </div>
+    </div>
+    <p class="viz-fallback">Dashboard not loading? <a href="https://public.tableau.com/views/MetroAtlantaPre-OwnedCarAnalysisSept2020-Sept2026/MetroAtlantaused-carstudy" target="_blank" rel="noopener">Open it on Tableau Public</a>.</p>
+  </div>
+</section>
+
+<!-- FINDINGS -->
+<section id="findings">
+  <div class="wrap">
+    <div class="phase"><span class="stall">06</span><span class="phase-name">Findings</span></div>
+    <h2>Real shifts. Not meaningful ones.</h2>
+    <p class="lede">Each verdict is judged against the threshold set before the data was seen, not against zero.</p>
+    <div class="verdicts">
+      <article class="verdict">
+        <div class="verdict-head"><span class="stall">Q4</span><h3>Vehicle age rose 5.3 months</h3></div>
+        <div class="verdict-body"><div class="thr">Threshold: 18 months</div><p>Average age went from 2.66 to 3.10 years. The full interval sits above zero and below the threshold, so the increase is real but small.</p></div>
+        <div class="verdict-foot">Not met, with high confidence.</div>
+      </article>
+      <article class="verdict">
+        <div class="verdict-head"><span class="stall">Q5</span><h3>Mileage rose 5,883 miles</h3></div>
+        <div class="verdict-body"><div class="thr">Threshold: 15,000 miles</div><p>Average mileage went from 41,594 to 47,477. Even the top of the interval, 11,620 miles, falls short of the threshold.</p></div>
+        <div class="verdict-foot">Not met, with high confidence.</div>
+      </article>
+      <article class="verdict inc">
+        <div class="verdict-head"><span class="stall">Q6</span><h3>Real price rose $2,521</h3></div>
+        <div class="verdict-body"><div class="thr">Threshold: $2,000 in August 2026 dollars</div><p>The point estimate clears the bar, but the interval runs from a $2,318 decline to a $12,059 increase. Each zip rests on a handful of dealers, so which stores are drawn swings the average by thousands.</p></div>
+        <div class="verdict-foot">Inconclusive. The data can't separate a rise from no change.</div>
+      </article>
+    </div>
+
+    <h3 class="sub">What this study can't say</h3>
+    <div class="table-wrap">
+      <table class="wide">
+        <thead><tr><th>Limitation</th><th>Effect on the findings</th></tr></thead>
+        <tbody>
+        <tr><td>September 2020 is early pandemic, not a clean baseline</td><td>Changes are measured from an already disrupted market</td></tr>
+        <tr><td>Both periods are live-lot snapshots, not sales records</td><td>Shows what dealers listed, not what buyers paid</td></tr>
+        <tr><td>API cap cut off listings in 11 of 15 zips</td><td>Likely overstates 2026 age and mileage and understates price, so it works against every finding</td></tr>
+        <tr><td>Six zips have two dealers or fewer in a period</td><td>True uncertainty is, if anything, wider than the intervals shown</td></tr>
+        <tr><td>2026 franchise status is partly inferred</td><td>Name matching plus manual verification, not a source flag</td></tr>
+        <tr><td>A supply-constraint story fits the same data</td><td>"Lower quality" was the thesis under test, not an assumed cause</td></tr>
+      </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="wrap">
+    <div class="closing-line">Older. Higher mileage. Real.</div>
+    <div class="closing-line">Meaningfully worse? Not proven.</div>
+    <p>The central finding of the Metro Atlanta Used-Car Study, September 2026.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span><b>Metro Atlanta Used-Car Study</b>&nbsp;&nbsp;J. Glenn</span>
+    <span>DuckDB SQL, Python, Tableau</span>
+  </div>
+</footer>
+
+</body>
+</html>

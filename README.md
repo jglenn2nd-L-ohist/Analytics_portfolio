@@ -49,7 +49,7 @@ and purchasing trends across an international customer base.
 - Early cohorts outspend later ones | Netherlands leads volume | EIRE concentrated in 3 accounts
 - Tools: Python
 - [`View project`](./04_Customer_LTV_Analysis/)
-- [`View Executive Briefing`](04_Customer_LTV_Analysis\deliverables\ltv_analysis.pdf)
+- [`View Executive Briefing`](./04_Customer_LTV_Analysis/deliverables/ltv_analysis.pdf)
 
 ### 05 — Global Superstore Operations Analysis ✅ Complete
 Root cause analysis of shipping operations, regional performance, and return rates for a global retailer spanning multiple markets and customer segments.
@@ -78,6 +78,20 @@ before it happens.
 - [`View Project`](./07_olist_stat/)
 - [`View Technical Report (PDF)`](./07_olist_stat/deliverables/07_olist_report_branded.pdf)
 - [`View Case Study`](./07_olist_stat/deliverables/olist_case_study.html)
+
+### 08 — Metro Atlanta Used-Car Inventory Study | Hypothesis Testing ✅ Complete
+<a href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/08_cars/deliverables/atlanta_used_car_casestudy.html"><img src="./08_cars/deliverables/usedcar_cover.png" alt="Atlanta used-car lots, 2020 vs 2026: the data said a little older" width="600"></a>
+
+Pre-registered test of whether metro Atlanta franchise dealers' used inventory got older,
+higher-mileage, and pricier between September 2020 and September 2026.
+
+- 11,671 listings across 14 weighted zips | 3 thresholds set before analysis | age and mileage
+  increases real but below threshold, real price inconclusive (dealer-level cluster bootstrap)
+- Tools: SQL (DuckDB) · Python · Tableau
+- [`View project`](./08_cars/)
+- [`View case study`](https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/08_cars/deliverables/atlanta_used_car_casestudy.html)
+- [`View Tableau Dashboard`](https://public.tableau.com/views/MetroAtlantaPre-OwnedCarAnalysisSept2020-Sept2026/MetroAtlantaused-carstudy)
+
 ---
 
 ## Connect
