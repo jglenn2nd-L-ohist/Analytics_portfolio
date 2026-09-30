@@ -273,6 +273,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
+  .standard-grid > .project-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
 
   .card-name {
     font-family: 'Inter', monospace;
@@ -429,7 +430,7 @@
     <div class="name-block">
       <h1>Jonathan Glenn</h1>
       <p class="subtitle">Data Analyst &nbsp;·&nbsp; Atlanta, GA</p>
-      <p class="positioning">I find what the data is not saying. Then I tell the right person.</p>
+      <p class="positioning">The pattern is always there.<br>I find it.</p>
       <p class="contact-line">678-793-8993 &nbsp;·&nbsp; <a href="mailto:j.glenn2nd@gmail.com">j.glenn2nd@gmail.com</a></p>
     </div>
     <nav class="header-links">
@@ -470,7 +471,7 @@
       <span class="metric-label">Conversion gap found between near-identical content</span>
     </div>
     <div class="metric">
-      <span class="metric-num">7</span>
+      <span class="metric-num">8</span>
       <span class="metric-label">Industries analyzed across a full analytics stack</span>
     </div>
   </div>
@@ -501,14 +502,22 @@
     <span class="section-label">&lt;/TECHNICAL SKILLS&gt;</span>
     <div class="tags">
       <span class="tag">SQL</span>
+      <span class="tag">DuckDB</span>
       <span class="tag">Python</span>
+      <span class="tag">pandas</span>
+      <span class="tag">NumPy</span>
       <span class="tag">Tableau</span>
       <span class="tag">Power BI</span>
       <span class="tag">Excel</span>
+      <span class="tag">API Data Collection</span>
       <span class="tag">Data Wrangling</span>
+      <span class="tag">Data Quality Auditing</span>
+      <span class="tag">Entity Resolution</span>
       <span class="tag">Data Storytelling</span>
       <span class="tag">Root Cause Analysis</span>
       <span class="tag">Statistical Analysis</span>
+      <span class="tag">Hypothesis Testing</span>
+      <span class="tag">Bootstrap Resampling</span>
       <span class="tag">Predictive Modeling</span>
       <span class="tag">scikit-learn</span>
       <span class="tag">Exploratory Data Analysis</span>
@@ -519,11 +528,23 @@
 
   <div class="projects-section">
     <span class="section-label">&lt;/PROJECTS&gt;</span>
-    <h2 class="section-title">10 End-to-End Analyses</h2>
-    <p class="section-sub">Retail · Telecom · Healthcare · Marketing · Operations · Public Safety · Customer Analytics. Every project starts with a business question and ends with a decision someone can act on.</p>
+    <h2 class="section-title">11 End-to-End Analyses</h2>
+    <p class="section-sub">Retail · Automotive · Telecom · Healthcare · Marketing · Operations · Public Safety · Customer Analytics. Every project starts with a business question and ends with a decision someone can act on.</p>
 
     <div class="featured-label">Featured Work</div>
     <div class="featured-grid">
+
+      <a class="project-card featured fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/08_cars/deliverables/atlanta_used_car_casestudy.html" target="_blank" rel="noopener">
+        <span class="card-title">Metro Atlanta Used-Car Inventory Study</span>
+        <span class="card-outcome">11,671 dealer listings · 3 pre-registered tests · none cleared</span>
+        <span class="card-type">Did franchise-dealer used inventory get older, higher-mileage, and pricier from September 2020 to September 2026? Two sources matched across 14 weighted zips, with thresholds set before the data was seen and a dealer-level cluster bootstrap behind every interval. Age and mileage rose, but not enough to clear the bar. Price could not be confirmed.</span>
+        <div class="card-tools">
+          <span class="tool-tag">DuckDB SQL</span>
+          <span class="tool-tag">Python</span>
+          <span class="tool-tag">Tableau</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
 
       <a class="project-card featured fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/07_olist_stat/deliverables/olist_case_study.html" target="_blank" rel="noopener">
         <span class="card-title">Olist E-Commerce Fulfillment Analysis</span>
@@ -562,7 +583,13 @@
         <span class="card-arrow">→</span>
       </a>
 
-      <a class="project-card featured fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/04_Customer_LTV_Analysis/deliverables/customer_ltv_analysis.html" target="_blank" rel="noopener">
+    </div>
+
+    <div class="standard-label">Additional Work</div>
+    <div class="standard-grid">
+
+      <a class="project-card fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/04_Customer_LTV_Analysis/deliverables/customer_ltv_analysis.html" target="_blank" rel="noopener">
+        <span class="card-name">UK Online Retailer</span>
         <span class="card-title">Cohort Retention &amp; Customer Lifetime Value Analysis</span>
         <span class="card-outcome">4,338 customers · 37 countries · 13 cohort periods tracked</span>
         <span class="card-type">RFM segmentation, 13x13 cohort retention matrix, and LTV by acquisition month for a UK-based retailer. Early cohorts outspend later ones. EIRE revenue concentrated in 3 wholesale accounts.</span>
@@ -573,11 +600,6 @@
         </div>
         <span class="card-arrow">→</span>
       </a>
-
-    </div>
-
-    <div class="standard-label">Additional Work</div>
-    <div class="standard-grid">
 
       <a class="project-card fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/03_wc_pizza/deliverables/wc_pizza_case__study.html" target="_blank" rel="noopener">
         <span class="card-name">WC Pizza Co</span>
