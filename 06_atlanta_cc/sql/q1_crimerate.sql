@@ -12,21 +12,31 @@
 -- Author: J.Glenn
 -- Date Project Started: 2026-07-31 
 -----------------------------------------------------------------
--- Determine crime rate and firearm use
-WITH crimes AS(
-		SELECT
-			count(*) incidents
-		,	strftime('%Y', ReportDate) inc_year
-		,	COUNT(CASE WHEN FireArmInvolved LIKE 'y%' THEN 1 END)  firearms 
-		FROM
-			acc
-		GROUP BY
-			inc_year
-		)
+-- Establish proper year bucketing methodology
+WITH year_labels AS ( -- Break down 48m into years for equal comparisons
+    SELECT
+        *
+    ,   CASE WHEN strftime('%Y/%m', ReportDate) < '2023/04' THEN 'year_1'
+             WHEN strftime('%Y/%m', ReportDate) < '2024/04' THEN 'year_2'
+             WHEN strftime('%Y/%m', ReportDate) < '2025/04' THEN 'year_3'
+             WHEN strftime('%Y/%m', ReportDate) < '2026/04' THEN 'year_4'
+             ELSE 'Out_of_range'
+        END AS policy_year
+    FROM acc
+)
+, crimes AS (  
+    SELECT
+        policy_year
+    ,   COUNT(*) AS incidents
+    ,   COUNT(CASE WHEN FireArmInvolved LIKE 'y%' THEN 1 END) AS firearms -- Only count firearm envolved cases
+    FROM year_labels
+    GROUP BY policy_year
+)
 SELECT
-	firearms
-,	incidents
-,	ROUND((firearms *1.0 /incidents *1.0),4) *100.0 pcnt_firearms
-,	inc_year
-FROM
-	crimes
+    policy_year
+,   incidents
+,   firearms
+,   ROUND(firearms * 100.0 / incidents, 2) AS pcnt_firearms
+FROM crimes
+ORDER BY policy_year
+;
