@@ -11,39 +11,81 @@
 -- Date Project Started: 2026-07-31 
 -----------------------------------------------------------------
 -- Determine crime rate and firearm use
-WITH crimes AS(
-		SELECT
-			count(*) incidents
-		,	strftime('%Y', ReportDate) inc_year
-		,	COUNT(CASE WHEN FireArmInvolved LIKE 'y%' THEN 1 END)  firearms 
-		FROM
-			acc
-		GROUP BY
-			inc_year
-		)
+WITH year_labels AS ( -- Break down 48m into years for equal comparisons
+    SELECT
+        *
+    ,    CASE WHEN strftime('%Y/%m', ReportDate) < '2023/04' THEN '2022-2023'
+			  WHEN strftime('%Y/%m', ReportDate) < '2024/04' THEN '2023-2024'
+              WHEN strftime('%Y/%m', ReportDate) < '2025/04' THEN '2024-2025'
+              WHEN strftime('%Y/%m', ReportDate) < '2026/04' THEN '2025-2026'
+              ELSE 'Out_of_range'
+			 END AS policy_year
+    FROM acc
+)
+,
+		crimes AS (
+			SELECT
+				count(*) incidents
+			,	policy_year
+			,	COUNT(CASE WHEN FireArmInvolved LIKE 'y%' THEN 1 END)  firearms 
+			FROM
+				year_labels
+			GROUP BY
+				policy_year
+)
+,
+		yoy_c AS (  -- Determine YOY firearm change
+			SELECT
+				policy_year
+			, 	firearms
+			,	LAG(firearms)OVER(ORDER BY policy_year) AS prior_year_f
+			FROM
+				crimes
+)
 ,
 		homicide AS (	-- Determine homicide rate over the years
 			SELECT
 				COUNT(*) homicides
-			, 	strftime('%Y', ReportDate) inc_year
+			, 	policy_year
 
 			FROM
-				acc
+				year_labels
 			WHERE
+			FireArmInvolved LIKE 'y%' AND
 			NibrsUcrCode = '09A' -- 09a is the code for Murder in the NIBRS_Offense
 			GROUP BY
-				inc_year
-			)	
+				policy_year
+)	
+,
+		yoy_h AS ( -- Determine YOY homicide changes
+			SELECT
+				policy_year
+			,	homicides
+			,	LAG(homicides)OVER(ORDER BY policy_year) AS prior_year_h
+			FROM
+				homicide
+)
 SELECT
-	c.firearms
-,	h.homicides
+	c.policy_year
 ,	c.incidents
-,	ROUND((c.firearms *1.0 /c.incidents *1.0),4) *100.0 pcnt_firearms
-,	ROUND((h.homicides *1.0/c.incidents *1.0),4) *100.00 pcnt_crime
-,	c.inc_year
+,	c.firearms
+,	yc.prior_year_f AS firearm_incidentss_prior_year
+,	(yc.firearms - yc.prior_year_f) AS yoy_firearm_incident_change
+,	COALESCE(h.homicides, 0) AS homicides
+,	yh.prior_year_h AS homicides_prior_year
+,	(yh.homicides - yh.prior_year_h) AS yoy_homicide_change
+,	ROUND((c.firearms *100.0 /c.incidents ),2)  pcnt_firearms
+,	ROUND((h.homicides *100.0/c.firearms ),2)  firearm_homicides_per_100_firearm_incidents
+
 FROM
 	crimes c
-JOIN
+LEFT JOIN
 	homicide h
-ON	c.inc_year = h.inc_year
-
+ON	c.policy_year = h.policy_year
+LEFT JOIN
+	yoy_h yh
+ON	c.policy_year = yh.policy_year
+LEFT JOIN
+	yoy_c yc
+ON c.policy_year = yc.policy_year
+;
