@@ -374,6 +374,58 @@
     margin: 0;
   }
 
+  /* CORRECTION BANNER */
+  .correction-banner {
+    background: var(--stamp);
+    border-bottom: 1px solid rgba(201,168,76,0.4);
+    padding: 0.9rem 2.5rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .correction-banner strong {
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .correction-banner a { color: var(--gold); }
+
+  /* DATA TABLE */
+  .data-table-wrap {
+    overflow-x: auto;
+    margin: 2.5rem 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-raised);
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+  }
+  .data-table th {
+    color: var(--muted);
+    font-weight: 400;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: right;
+    padding: 0.8rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .data-table td {
+    text-align: right;
+    padding: 0.8rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .data-table th:first-child, .data-table td:first-child { text-align: left; color: var(--gold); }
+  .data-table tr:last-child td { border-bottom: none; }
+
   /* FOOTER */
   footer {
     border-top: 1px solid var(--border);
@@ -400,6 +452,7 @@
 
   @media(max-width: 640px) {
     nav { padding: 0.75rem 1.25rem; }
+    .correction-banner { padding: 0.9rem 1.25rem; }
     .nav-links { display: none; }
     .hero { padding: 3rem 1.25rem 2.5rem; }
     .section, .section-wide { padding: 3rem 1.25rem; }
@@ -417,11 +470,17 @@
   <ul class="nav-links">
     <li><a href="#context">Context</a></li>
     <li><a href="#findings">Findings</a></li>
-    <li><a href="#anomaly">2023</a></li>
+    <li><a href="#pace">Pace</a></li>
     <li><a href="#trajectory">Trajectory</a></li>
     <li><a href="#limitations">Limitations</a></li>
+    <li><a href="#corrections">Corrections</a></li>
   </ul>
 </nav>
+
+<!-- CORRECTION NOTICE -->
+<div class="correction-banner">
+  <strong>Correction notice (Oct 2026):</strong> An earlier version of this case study grouped incidents by calendar year, which split the policy windows and distorted the results. All figures, charts, and findings below have been rebuilt on April-to-March policy years. See <a href="#corrections">Corrections</a> for details.
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -436,7 +495,7 @@
   </div>
   <div class="hero-eyebrow">BI Portfolio &middot; Project 06 &middot; Atlanta Crime Analysis</div>
   <h1 class="hero-title">Safe Haven<br>or <em>Wild West?</em></h1>
-  <p class="hero-sub">Atlanta. Four years after constitutional carry. Four years into the Dickens era. The data does not deliver a verdict. It delivers a question.</p>
+  <p class="hero-sub">Atlanta. Four years after constitutional carry. Four years into the Dickens era. The data shows what changed. It does not say why.</p>
   <div class="hero-meta">
     <div class="meta-item">
       <span class="meta-label">Data Source</span>
@@ -475,72 +534,101 @@
 <section class="section" id="context">
   <span class="section-stamp">Context</span>
   <h2>Two Things Changed in 2022</h2>
-  <p>In April 2022, Georgia enacted constitutional carry. The argument behind it was simple: lawbreakers do not follow the law, so why burden law-abiding citizens with what critics called a gun owner tax. From that point forward, any Georgian legally allowed to own a firearm could carry it without a permit.</p>
-  <p>At roughly the same time, Andre Dickens became Mayor of Atlanta. He came in with a thin resume on public safety and a city that had been watching its crime numbers with concern. The two events arriving together created a natural question. What happened next?</p>
-  <p>This analysis uses four years of Atlanta Police Department incident data to look at that question without a predetermined answer. No political framing. No advocacy. Just the numbers and what they say, and what they do not say.</p>
+  <p>In April 2022, Georgia began allowing eligible adults to carry handguns without a permit, commonly called constitutional carry. Supporters said the law removed a burden on law-abiding citizens. Critics said it would put more guns on the street.</p>
+  <p>Andre Dickens took office as Mayor of Atlanta in January 2022, so the four years analyzed here fall within his time in office. The two events arriving close together prompted a natural question. What happened next?</p>
+  <p>This analysis uses four years of Atlanta Police Department incident data to describe what happened to firearm-involved incidents over that period, without a predetermined answer. It does not test whether the law or the administration caused any change. No political framing. No advocacy. Just the numbers and what they say, and what they do not say.</p>
 
   <h3>Data and Methodology</h3>
   <p>The raw dataset contained 220,581 incident records across 29 columns pulled from the Atlanta PD Open Data Portal. The data was profiled, cleaned, and loaded into a SQLite database. Five columns were retained for analysis: incident ID, report date, firearm involvement flag, NIBRS offense code, and NIBRS offense description.</p>
   <p>Records were filtered to the analytical window of April 1, 2022 through March 31, 2026. Five records with physically impossible dates were removed along with six null date entries and records falling outside the window. The final working dataset contained 219,787 records.</p>
-  <p>Three business questions were asked before any data was explored. Firearm involvement rate by year. Firearm-involved homicide trend by year. And the overall trajectory of firearm violence across the four-year period.</p>
+  <p>Three business questions were asked before any data was explored. Firearm involvement by policy year. Firearm-involved homicide trend by policy year. And the overall trajectory of firearm violence across the four-year period.</p>
+
+  <h3>Policy Years and Definitions</h3>
+  <p>A policy year is the 12-month span from April 1 through the following March 31. This divides the 48-month window into four equal segments, labeled 2022&ndash;2023 through 2025&ndash;2026, with no partial years. Constitutional carry took effect during April 2022, and for this analysis the entire month is treated as inside the law.</p>
+  <p>Incidents are all records in a policy year. Firearm incidents are records where the firearm flag is &ldquo;yes.&rdquo; Firearm homicides are NIBRS code 09A records with the firearm flag. Firearm share is firearm incidents divided by all incidents. The homicide rate is firearm homicides per 100 firearm incidents. Year-over-year change is the absolute difference from the prior policy year.</p>
 </section>
 
 <!-- FINDINGS: Q1 -->
 <section class="section-wide" id="findings">
   <span class="section-stamp">Finding 01</span>
-  <h2>The Rate Is Falling. The Story Is More Complicated.</h2>
+  <h2>Firearm Incidents Are Falling While Total Incidents Rise</h2>
 
   <div class="data-row">
     <div class="data-cell">
-      <span class="data-num">6.13%</span>
-      <span class="data-desc">% of Crime using Firearms 2022</span>
+      <span class="data-num">5.85%</span>
+      <span class="data-desc">Firearm share of incidents 2022&ndash;23</span>
     </div>
     <div class="data-cell">
-      <span class="data-num">3.57%</span>
-      <span class="data-desc">% of Crime using Firearms 2025</span>
+      <span class="data-num">3.77%</span>
+      <span class="data-desc">Firearm share of incidents 2025&ndash;26</span>
     </div>
     <div class="data-cell">
-      <span class="data-num">~2,400</span>
-      <span class="data-desc">Avg Annual Firearm Incidents</span>
+      <span class="data-num">&minus;20%</span>
+      <span class="data-desc">Firearm incidents (2,930 to 2,341)</span>
     </div>
     <div class="data-cell">
-      <span class="data-num">70%</span>
-      <span class="data-desc">Total Crime Increase</span>
+      <span class="data-num">+24%</span>
+      <span class="data-desc">Reported incidents (50,118 to 62,080)</span>
     </div>
   </div>
 
-  <p>On the surface, the percentage of crimes involving a firearm dropped from 6.13% in 2022 to 3.57% in 2025. That looks like progress. But the raw numbers behind that percentage tell a different story.</p>
-  <p>Firearm-involved incidents did not fall dramatically. They held relatively flat, ranging between roughly 2,300 and 2,600 incidents each year. What changed was the denominator. Total crime in Atlanta went from approximately 38,000 incidents in 2022 to over 65,000 in 2025. The rate dropped because everything else grew around it.</p>
+  <p>The share of reported incidents involving a firearm fell from 5.85% in the first policy year to 3.77% in the fourth. Two things moved at once. Firearm-involved incidents fell about 20%, from 2,930 to 2,341, and they declined in every policy year. Total reported incidents rose about 24%, from 50,118 to 62,080.</p>
+  <p>Both movements push the share down, and by simple arithmetic they contribute about equally. The percentage alone blurs this, so the raw counts are the more direct measure. Firearm incidents did fall, and the growing denominator made the share fall further.</p>
 
   <div class="pull-quote">
-    <p>The rate of firearm involvement fell not because firearm crime got better, but because overall crime got significantly worse.</p>
+    <p>Firearm incidents fell about 20% over four years while total reported incidents rose about 24%. The firearm share fell for both reasons.</p>
   </div>
 
+  <p>The rise in total reported incidents was not investigated. It could reflect more offenses, more reporting, or changes in how incidents are classified, and this analysis cannot say which.</p>
+
   <div class="chart-block">
-    <div class="chart-label">Figure 01 &mdash; Annual Firearm Involvement Rate</div>
-    <img src="../outputs/firearm.png" alt="Bar chart showing percentage of firearm-involved incidents by year 2022-2026">
-    <div class="chart-caption">2026 represents partial year data (Q1 only). Rate shown as percent of total annual incidents.</div>
+    <div class="chart-label">Figure 01 &mdash; Firearm Share of Reported Incidents by Policy Year</div>
+    <img src="../outputs/firearm.png" alt="Bar chart showing the percentage of reported incidents involving a firearm for each policy year from 2022-2023 through 2025-2026">
+    <div class="chart-caption">Policy years run April 1 to March 31. Share shown as percent of all reported incidents in each policy year.</div>
   </div>
 </section>
 
-<!-- ANOMALY: 2023 -->
-<section class="section" id="anomaly">
-  <span class="section-stamp">Finding 02 &mdash; The Anomaly</span>
-  <h2>2023 Does Not Fit the Line</h2>
+<!-- FINDING 02: PACE OF DECLINE -->
+<section class="section" id="pace">
+  <span class="section-stamp">Finding 02 &mdash; The Pace of Decline</span>
+  <h2>The Decline Is Steady, but Not Uniform</h2>
 
-  <p>Of the four full years in this dataset, 2023 stands out. It produced the highest homicide count of any year in the window, 131, and it coincided with the highest raw count of firearm-involved incidents across the period.</p>
+  <p>Firearm homicides fell in every policy year: 128, then 116, then 101, then 78. The drop grew each year (&minus;12, &minus;15, &minus;23), and 2025&ndash;26 saw the largest decline.</p>
+  <p>Firearm incidents moved differently. The biggest single drop came in the second policy year (&minus;297), and the declines that followed were smaller (&minus;136, &minus;156).</p>
+
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Policy year</th>
+          <th>Reported incidents</th>
+          <th>Firearm incidents</th>
+          <th>Change</th>
+          <th>Firearm homicides</th>
+          <th>Change</th>
+          <th>Homicides per 100 firearm incidents</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>2022&ndash;2023</td><td>50,118</td><td>2,930</td><td>&mdash;</td><td>128</td><td>&mdash;</td><td>4.37</td></tr>
+        <tr><td>2023&ndash;2024</td><td>50,528</td><td>2,633</td><td>&minus;297</td><td>116</td><td>&minus;12</td><td>4.41</td></tr>
+        <tr><td>2024&ndash;2025</td><td>57,061</td><td>2,497</td><td>&minus;136</td><td>101</td><td>&minus;15</td><td>4.04</td></tr>
+        <tr><td>2025&ndash;2026</td><td>62,080</td><td>2,341</td><td>&minus;156</td><td>78</td><td>&minus;23</td><td>3.33</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <div class="anomaly-box">
     <span class="anomaly-label">Analyst Note</span>
-    <p>One plausible explanation for the 2023 spike is the influx of firearms into circulation following the legalization of constitutional carry. The novelty effect of unrestricted carry may have contributed to a temporary increase in firearm-related incidents before behavior normalized. This is a hypothesis, not a finding. The data does not allow for causal conclusions.</p>
+    <p>Because firearm incidents and firearm homicides fell at different paces, the homicide rate per 100 firearm incidents was flat for the first two policy years (4.37, then 4.41) and fell only in the last two. Firearm incidents became less frequent first, and the share of them involving a homicide fell later. This describes the pattern. It does not explain it.</p>
   </div>
 
-  <p>What the data does show is that 2023 was an outlier. By 2024, homicide counts had returned to 2022 levels and continued declining into 2025. Whether 2023 represents a systemic shift that was then corrected, or simply a year with unusual circumstances, cannot be determined from incident records alone.</p>
+  <p>Firearm homicide counts are small, between 78 and 128 a year, so any single year-over-year change could be partly chance. The decline is more credible because it runs in the same direction every year and totals 50 over the period.</p>
 
   <div class="chart-block">
-    <div class="chart-label">Figure 02 &mdash; Annual Homicide Count</div>
-    <img src="../outputs/homicides.png" alt="Bar chart showing annual homicide counts 2022-2026">
-    <div class="chart-caption">Homicides defined as NIBRS code 09A (Murder and Non-negligent Manslaughter). 2026 represents Q1 only.</div>
+    <div class="chart-label">Figure 02 &mdash; Firearm Homicides by Policy Year</div>
+    <img src="../outputs/homicides.png" alt="Bar chart showing firearm homicide counts for each policy year from 2022-2023 through 2025-2026">
+    <div class="chart-caption">Firearm homicides defined as NIBRS code 09A with the firearm flag set to yes. Policy years run April 1 to March 31.</div>
   </div>
 </section>
 
@@ -549,18 +637,19 @@
   <span class="section-stamp">Finding 03 &mdash; The Full Picture</span>
   <h2>The Overall Trajectory</h2>
 
-  <p>When you put both trends on the same chart, the story becomes harder to ignore. Total crime climbed steadily across all four years. Homicides peaked in 2023 and declined through 2025, with the trajectory continuing into the partial 2026 data.</p>
-  <p>Homicides fell approximately 30% from their 2023 peak to 2025. That is a real reduction in violent deaths. But over that same stretch, the city absorbed nearly 27,000 additional crime incidents per year compared to 2022. The homicide decline did not happen in a quieter city. It happened in a city that was getting louder in almost every other respect.</p>
+  <p>Placed side by side, the two trends move in opposite directions. Total reported incidents rose in every policy year, with most of the increase coming in the last two. Firearm incidents and firearm homicides fell in every policy year.</p>
+  <p>Firearm homicides fell about 39% from the first policy year to the last, from 128 to 78. Over that same stretch, reported incidents rose by almost 12,000 a year. The decline in firearm violence happened while total reported incidents were climbing.</p>
+  <p>The first policy year is the baseline. It already falls under constitutional carry, so this analysis measures change since that point, not the effect of the law. The dataset has no pre-law comparison.</p>
 
   <div class="chart-block">
-    <div class="chart-label">Figure 03 &mdash; Total Crime vs. Homicide Trend (Dual Axis)</div>
-    <img src="../outputs/trend.png" alt="Combo chart showing total crime incidents as bars and homicide count as a line overlay 2022-2026">
-    <div class="chart-caption">Left axis: total crime incidents. Right axis: homicide count. 2026 represents Q1 only.</div>
+    <div class="chart-label">Figure 03 &mdash; Total Reported Incidents and Firearm Homicides (Side by Side)</div>
+    <img src="../outputs/trend.png" alt="Two panels showing total reported incidents as bars rising and firearm homicides as a line falling across the four policy years">
+    <div class="chart-caption">Separate panels with separate scales, so bar and line heights are not directly comparable. Both axes start at zero. Policy years run April 1 to March 31.</div>
   </div>
 
   <div class="verdict">
     <span class="verdict-label">Summary Finding</span>
-    <p class="verdict-text">Since 2022, crime in Atlanta increased by approximately 70%. Firearm violence and firearm-related deaths declined only slightly. The data raises more questions than it answers.</p>
+    <p class="verdict-text">Over four policy years, reported incidents in Atlanta rose about 24% while firearm incidents fell about 20% and firearm homicides fell about 39%. The data shows the direction. It does not say why.</p>
   </div>
 </section>
 
@@ -568,22 +657,52 @@
 <section class="section" id="limitations">
   <span class="section-stamp">Limitations</span>
   <h2>What This Analysis Cannot Tell You</h2>
-  <p>Honest analysis acknowledges its blind spots. There are three worth naming here.</p>
+  <p>Honest analysis acknowledges its blind spots. These are the ones worth naming.</p>
 
   <div class="limit-item">
-    <div class="limit-title">Firearms in Circulation</div>
-    <p>This analysis has no visibility into how many firearms entered circulation after constitutional carry took effect. That number would be central to understanding whether increased gun ownership correlated with any change in firearm crime. That data does not exist in this dataset.</p>
+    <div class="limit-title">A Baseline, Not a Before-and-After</div>
+    <p>The first policy year begins when constitutional carry took effect, so the analysis is silent on anything before it. Window one is the baseline for every change reported here. These results describe change since that baseline and do not measure the effect of the law.</p>
   </div>
 
   <div class="limit-item">
-    <div class="limit-title">Concurrent Policy Factors</div>
-    <p>The Dickens administration implemented multiple public safety initiatives over this period. Court backlogs, policing strategy changes, and economic conditions all influence crime numbers. This analysis cannot isolate the effect of any single factor, constitutional carry included.</p>
+    <div class="limit-title">Counts, Not Per-Capita Rates</div>
+    <p>Population was not taken into account. The figures are raw counts and shares of reported incidents, not rates per resident.</p>
+  </div>
+
+  <div class="limit-item">
+    <div class="limit-title">Small Homicide Counts</div>
+    <p>With 78 to 128 firearm homicides a year, a single year-over-year change could be partly chance. The consistency of the direction across all four years is the stronger evidence.</p>
+  </div>
+
+  <div class="limit-item">
+    <div class="limit-title">The Rise in Total Incidents</div>
+    <p>Reported incidents rose from 50,118 to 62,080, and the mix of incident types behind that increase was not examined. The cause is outside the scope of this analysis.</p>
+  </div>
+
+  <div class="limit-item">
+    <div class="limit-title">Firearms in Circulation</div>
+    <p>This analysis has no visibility into how many firearms were in circulation before or after constitutional carry took effect. That number would be central to understanding any link between gun availability and firearm crime. It does not exist in this dataset.</p>
+  </div>
+
+  <div class="limit-item">
+    <div class="limit-title">Concurrent Factors</div>
+    <p>Policing strategy, court backlogs, local initiatives, economic conditions, and national crime trends all influence crime numbers. None are controlled for here, so this analysis cannot isolate the effect of any single factor, constitutional carry included.</p>
   </div>
 
   <div class="limit-item">
     <div class="limit-title">APD Records vs. FBI Records</div>
     <p>The Atlanta PD Open Data Portal figures used in this analysis do not always match official FBI crime statistics. The FBI removes and reclassifies certain incidents during its reporting process. Readers who compare these findings to federal data may find discrepancies. The APD figures are used here because they are the most granular and most current source available for this window.</p>
   </div>
+</section>
+
+<!-- CORRECTIONS -->
+<section class="section" id="corrections">
+  <span class="section-stamp">Corrections</span>
+  <h2>What Changed From the First Version</h2>
+  <p>An earlier version of this case study grouped incidents by calendar year. Because the data runs from April 1, 2022 to March 31, 2026, that left 2022 with nine months of data and 2026 with three, and it split every policy window across two calendar years. All figures, charts, and findings have been rebuilt on April-to-March policy years.</p>
+  <p>Several claims in the earlier version were artifacts of that grouping and are withdrawn. These include the roughly 70% rise in total crime and the roughly 27,000 additional incidents per year, both of which compared nine months of 2022 to a full year. They also include the apparent 2026 uptick in firearm share, which compared three winter months to full years, and the 2023 homicide &ldquo;anomaly,&rdquo; along with the hypothesis offered to explain it.</p>
+  <p>The homicide query also changed. The earlier version counted all murders, 484 in total, regardless of weapon. The corrected version counts only firearm-involved murders, 423, which removed 61 non-firearm murders. That is a change in definition, not a decline in homicides, and the earlier per-year homicide counts are not comparable to the corrected ones.</p>
+  <p>What held: the firearm share, firearm incidents, and firearm homicides all trend downward. What did not hold: the conclusion that firearm violence barely moved while overall crime surged.</p>
 </section>
 
 <!-- FOOTER -->
