@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Territory Quota &amp; Commission Model | J. Glenn</title>
+<meta name="description" content="Does a flat-tier commission structure overpay, and if so, where and by how much? An Excel model of 1,200 rep-months finds about $5.5 million of overpay over five years, and tests three plans.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flat tiers. Rising bill. A commission model in Excel.">
+<meta property="og:description" content="The flat structure paid about $5.5 million more than a marginal structure would have. Indexing the tier edges holds the payout rate near 40% and saves about $3.1 million.">
+<meta property="og:url" content="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/09_quota_model/deliverables/quota_model_case_study.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sheet:    #F5F6F1;
+    --paper:    #FFFFFF;
+    --ink:      #10261A;
+    --ink-2:    #43554A;
+    --grid:     #D9DDD3;
+    --green:    #1E6B45;
+    --green-dk: #134A2F;
+    --green-lt: #DCEBE1;
+    --warn:     #B4530B;
+    --warn-lt:  #FBE9D6;
+    --blue:     #2E75B6;
+    --head: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+    --body: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'DM Mono', Consolas, monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    font-family: var(--body); color: var(--ink); line-height: 1.65; font-size: 17px;
+    background-color: var(--sheet);
+    background-image:
+      linear-gradient(to right, rgba(16,38,26,0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(16,38,26,0.045) 1px, transparent 1px);
+    background-size: 44px 30px;
+  }
+  a { color: var(--green); }
+  a:focus-visible { outline: 3px solid var(--warn); outline-offset: 3px; }
+  strong { font-weight: 600; }
+
+  /* NAV: a formula bar */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+    padding: 0.75rem 2rem; background: var(--green-dk); color: #fff;
+    border-bottom: 4px solid var(--warn);
+  }
+  .nav-brand { font-family: var(--mono); font-size: 0.9rem; white-space: nowrap; text-decoration: none; color: #fff; }
+  .nav-brand .fx { background: rgba(255,255,255,0.14); padding: 0.1rem 0.5rem; margin-right: 0.6rem; font-style: italic; }
+  .nav-links { display: flex; gap: 1.4rem; list-style: none; overflow-x: auto; min-width: 0; }
+  .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-family: var(--mono); font-size: 0.82rem; white-space: nowrap; }
+  .nav-links a:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+  @media (max-width: 700px) { nav { padding: 0.7rem 1rem; } .nav-brand .name { display: none; } }
+
+  /* LAYOUT */
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 2rem; }
+  @media (max-width: 640px) { .wrap { padding: 0 1.1rem; } }
+  section { padding: 5rem 0; }
+  section + section { border-top: 1px solid var(--grid); }
+  section[id] { scroll-margin-top: 56px; }
+
+  .phase { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+  .cellref {
+    font-family: var(--mono); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.02em;
+    background: var(--green); color: #fff; padding: 0.25rem 0.55rem;
+  }
+  .phase-name { font-family: var(--mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-2); }
+  h2 { font-family: var(--head); font-weight: 700; font-size: clamp(1.9rem, 4vw, 2.9rem); line-height: 1.08; letter-spacing: -0.015em; margin-bottom: 0.9rem; max-width: 24ch; }
+  h3 { font-family: var(--head); font-weight: 600; font-size: 1.15rem; margin-bottom: 0.4rem; }
+  .lede { font-size: 1.1rem; color: var(--ink-2); max-width: 64ch; margin-bottom: 2.4rem; }
+  p { margin-bottom: 1.1rem; max-width: 70ch; }
+  code { font-family: var(--mono); font-size: 0.88em; background: var(--green-lt); padding: 0.05em 0.35em; }
+
+  /* HERO */
+  .hero { padding: 4.5rem 0 4.5rem; }
+  .eyebrow { font-family: var(--mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--green); margin-bottom: 1.1rem; }
+  h1 { font-family: var(--head); font-weight: 700; font-size: clamp(3.2rem, 9vw, 7rem); line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 1.6rem; }
+  h1 .second { display: block; color: var(--green); }
+  .hero-sub { font-size: 1.2rem; color: var(--ink-2); max-width: 60ch; margin-bottom: 2rem; }
+  .hero-links { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 2.6rem; }
+  .btn { font-family: var(--mono); font-size: 0.85rem; padding: 0.7rem 1.15rem; text-decoration: none; border: 2px solid var(--green-dk); color: var(--green-dk); background: transparent; }
+  .btn-solid { background: var(--green-dk); color: #fff; }
+  .btn:hover { background: var(--warn); border-color: var(--warn); color: #fff; }
+
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); background: var(--paper); border: 1px solid var(--grid); }
+  .meta-item { padding: 1rem 1.2rem; border-right: 1px solid var(--grid); }
+  .meta-item:last-child { border-right: none; }
+  .meta-item h4 { font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-2); margin-bottom: 0.25rem; font-weight: 500; }
+  .meta-item p { font-size: 0.95rem; font-weight: 500; margin: 0; }
+
+  /* KPI CELLS: selected-cell look with a fill handle */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 1.2rem; margin-top: 2.4rem; }
+  @media (max-width: 960px) { .kpi-row { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+  @media (max-width: 520px) { .kpi-row { grid-template-columns: 1fr; } }
+  .kpi { position: relative; background: var(--paper); border: 2px solid var(--green); padding: 1.1rem 1.1rem 1rem; }
+  .kpi::after { content: ""; position: absolute; right: -6px; bottom: -6px; width: 9px; height: 9px; background: var(--green); border: 2px solid var(--paper); }
+  .kpi.warn { border-color: var(--warn); }
+  .kpi.warn::after { background: var(--warn); }
+  .kpi-ref { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-2); margin-bottom: 0.5rem; }
+  .kpi-num { font-family: var(--head); font-weight: 700; font-size: 2.3rem; line-height: 1; letter-spacing: -0.02em; margin-bottom: 0.45rem; }
+  .kpi.warn .kpi-num { color: var(--warn); }
+  .kpi-lbl { font-size: 0.9rem; color: var(--ink-2); line-height: 1.4; }
+
+  /* PROSE + TABLES */
+  .two-col { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 3rem; align-items: start; }
+  .two-col > * { min-width: 0; }
+  @media (max-width: 900px) { .two-col { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; } }
+  .table-wrap { overflow-x: auto; background: var(--paper); border: 1px solid var(--grid); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
+  th, td { padding: 0.6rem 0.9rem; text-align: left; border-bottom: 1px solid var(--grid); vertical-align: top; }
+  th { background: var(--green-dk); color: #fff; font-family: var(--mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; white-space: nowrap; }
+  td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: none; }
+  tr.total td { font-weight: 600; background: var(--green-lt); }
+  td.flag { color: var(--warn); font-weight: 600; }
+  .table-note { font-family: var(--mono); font-size: 0.76rem; color: var(--ink-2); margin-top: 0.6rem; }
+
+  .note { background: var(--green-lt); border-left: 4px solid var(--green); padding: 1.1rem 1.3rem; margin: 1.6rem 0; max-width: 70ch; }
+  .note.warn { background: var(--warn-lt); border-left-color: var(--warn); }
+  .note p { margin-bottom: 0; font-size: 0.98rem; }
+  .note h3 { margin-bottom: 0.3rem; }
+
+  /* FIGURES */
+  figure { margin: 2.2rem 0 1.6rem; background: var(--paper); border: 1px solid var(--grid); }
+  figure img { width: 100%; height: auto; display: block; border-bottom: 1px solid var(--grid); }
+  figcaption { padding: 0.85rem 1.1rem; font-family: var(--mono); font-size: 0.8rem; color: var(--ink-2); line-height: 1.5; }
+  figcaption strong { color: var(--ink); font-weight: 500; }
+
+  /* PLAN CARDS */
+  .plans { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.2rem; margin: 2rem 0; }
+  @media (max-width: 860px) { .plans { grid-template-columns: 1fr; } }
+  .plan { background: var(--paper); border: 1px solid var(--grid); border-top: 6px solid var(--grid); padding: 1.3rem 1.3rem 1.1rem; }
+  .plan.flat { border-top-color: var(--green-dk); }
+  .plan.indexed { border-top-color: var(--blue); outline: 3px solid var(--blue); outline-offset: 3px; }
+  .plan.marginal { border-top-color: #9AA39D; }
+  .plan .tag { font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-2); margin-bottom: 0.3rem; }
+  .plan.indexed .tag { color: var(--blue); }
+  .plan dl { display: grid; grid-template-columns: 1fr auto; gap: 0.35rem 1rem; margin: 0.9rem 0 0.9rem; font-size: 0.93rem; }
+  .plan dt { color: var(--ink-2); }
+  .plan dd { font-family: var(--mono); font-weight: 500; text-align: right; }
+  .plan p { font-size: 0.93rem; margin-bottom: 0; color: var(--ink-2); }
+
+  /* CLOSING */
+  .closing { background: var(--green-dk); color: #fff; text-align: left; border-top: none; }
+  .closing-line { font-family: var(--head); font-weight: 700; font-size: clamp(2rem, 5.5vw, 4rem); line-height: 1.05; letter-spacing: -0.02em; }
+  .closing-line.dim { color: #9EC7AE; }
+  .closing p { margin-top: 1.4rem; color: rgba(255,255,255,0.75); font-family: var(--mono); font-size: 0.82rem; }
+
+  footer { background: var(--ink); color: rgba(255,255,255,0.75); font-family: var(--mono); font-size: 0.78rem; padding: 1.4rem 0; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  footer b { color: #fff; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/"><span class="fx">fx</span><span class="name">&larr; Portfolio</span></a>
+  <ul class="nav-links">
+    <li><a href="#rules">Rules</a></li>
+    <li><a href="#overpay">Overpay</a></li>
+    <li><a href="#where">Where</a></li>
+    <li><a href="#cause">Cause</a></li>
+    <li><a href="#growth">Growth</a></li>
+    <li><a href="#plans">Plans</a></li>
+    <li><a href="#model">Model</a></li>
+    <li><a href="#limits">Limits</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Analytics Portfolio &middot; Project 09 &middot; Excel Financial Modeling</div>
+    <h1>Flat tiers. <span class="second">Rising bill.</span></h1>
+    <p class="hero-sub">Does the flat-tier commission structure overpay, and if so, where and by how much? Yes. It paid about $5.5 million more than a marginal structure would have over 2021 to 2025, and the gap grew every year.</p>
+    <div class="hero-links">
+      <a class="btn btn-solid" href="09_quota_model_case_study.pdf" target="_blank" rel="noopener">Executive Briefing (PDF)</a>
+      <a class="btn" href="https://github.com/jglenn2nd-L-ohist/Analytics_portfolio/blob/main/09_quota_model/Excel/09_quota_model.xlsx" target="_blank" rel="noopener">Excel Model</a>
+      <a class="btn" href="https://github.com/jglenn2nd-L-ohist/Analytics_portfolio/tree/main/09_quota_model/SQL" target="_blank" rel="noopener">SQL Queries</a>
+      <a class="btn" href="https://github.com/jglenn2nd-L-ohist/Analytics_portfolio/tree/main/09_quota_model/python" target="_blank" rel="noopener">Python Scripts</a>
+      <a class="btn" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/">&larr; Portfolio</a>
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-item"><h4>Scenario</h4><p>Fictional automotive replacement-parts company</p></div>
+      <div class="meta-item"><h4>Period</h4><p>Jan 2021 to Dec 2025, 60 months</p></div>
+      <div class="meta-item"><h4>Scope</h4><p>4 regions, 20 seats, 49 reps, 1,200 rep-months</p></div>
+      <div class="meta-item"><h4>Stack</h4><p>Excel, SQL Server, Python</p></div>
+    </div>
+
+    <div class="kpi-row">
+      <div class="kpi warn">
+        <div class="kpi-ref">Overpay!J4</div>
+        <div class="kpi-num">$5.48M</div>
+        <div class="kpi-lbl">Five-year overpay vs a marginal structure, 27% of the $20.1M paid in commissions</div>
+      </div>
+      <div class="kpi warn">
+        <div class="kpi-ref">Scenarios!B13:B17</div>
+        <div class="kpi-num">40.6% &rarr; 52.0%</div>
+        <div class="kpi-lbl">Company payout rate, 2021 to 2025. It crossed the 45% warning line in 2023</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-ref">Charts!L47, M47</div>
+        <div class="kpi-num">2.08x vs 1.62x</div>
+        <div class="kpi-lbl">Commission growth against margin dollar growth since 2021</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-ref">Scenarios!B28</div>
+        <div class="kpi-num">$3.09M</div>
+        <div class="kpi-lbl">Saved over five years by indexing the tier edges to the growth target</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- RULES -->
+<section id="rules">
+  <div class="wrap">
+    <div class="phase"><span class="cellref">Assumptions</span><span class="phase-name">01 &middot; How the plan pays</span></div>
+    <h2>One dollar of sales can move a rep $2,250.</h2>
+    <p class="lede">Reps earn commission on margin dollars (50% of net sales). The rate is set by the rep's monthly net sales tier, and the rate applies to all of that month's margin dollars, not only the dollars above the tier edge.</p>
+    <div class="two-col">
+      <div>
+        <p><strong>Flat structure (the current plan).</strong> A rep with $49,999 in net sales earns 33% of $25,000 of margin, about $8,250. At $50,000 the rate jumps to 42% on the same margin and the commission becomes $10,500. One more dollar of sales is worth $2,250.</p>
+        <p><strong>Marginal structure (the benchmark).</strong> Each rate applies only to the sales inside its own band, so pay rises smoothly. The overpay in this project is the flat commission minus the marginal commission on the same sales.</p>
+        <p><strong>Every number is traceable.</strong> Each rate and threshold lives on one Assumptions sheet, tagged to a rule in <code>rules_spec.md</code>, and every calculation reads from it through named ranges.</p>
+      </div>
+      <div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Monthly net sales from</th><th class="num">Rate</th><th class="num">Overpay per rep-month</th></tr></thead>
+            <tbody>
+              <tr><td class="num">$0</td><td class="num">25%</td><td class="num">$0</td></tr>
+              <tr><td class="num">$25,000</td><td class="num">33%</td><td class="num">$1,000</td></tr>
+              <tr><td class="num">$50,000</td><td class="num">42%</td><td class="num">$3,250</td></tr>
+              <tr><td class="num">$75,000</td><td class="num">51%</td><td class="num">$6,625</td></tr>
+              <tr><td class="num">$100,000</td><td class="num">60%</td><td class="num">$11,125</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Overpay is constant within a tier, so it rises like a staircase.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERPAY -->
+<section id="overpay">
+  <div class="wrap">
+    <div class="phase"><span class="cellref">Overpay!B8:F8</span><span class="phase-name">02 &middot; The finding</span></div>
+    <h2>The overpay grew every year.</h2>
+    <p class="lede">Annual overpay rose from $0.64 million in 2021 to $1.57 million in 2025, a 2.4x increase, while sales grew 62%.</p>
+    <figure>
+      <img src="../images/09_quota_model_overpay.png" alt="Column chart of annual overpay of the flat commission structure versus a marginal structure: $0.64M in 2021, $0.85M, $1.08M, $1.34M, and $1.57M in 2025.">
+      <figcaption><strong>Figure 01 &mdash; Annual overpay, flat vs marginal structure:</strong> every year is higher than the one before it. Total across five years: $5,480,500.</figcaption>
+    </figure>
+    <div class="note">
+      <h3>Why it keeps growing</h3>
+      <p>Sales grow, reps climb into higher tiers, and a flat structure pays the higher rate on every dollar once they get there. The overpay is a feature of the plan's design, not a one-time event.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHERE -->
+<section id="where">
+  <div class="wrap">
+    <div class="phase"><span class="cellref">Overpay!H4:H7</span><span class="phase-name">03 &middot; Where</span></div>
+    <h2>Region 1 is already at the ceiling.</h2>
+    <p class="lede">Region 4 carries the most overpay in dollars because it is the largest. Per rep, Region 1 is worst: its 2025 payout rate hit the 60% maximum.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Region</th><th class="num">Seats</th><th class="num">5-year overpay</th><th class="num">2025 payout rate</th><th class="num">2025 overpay per rep-month</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td class="num">2</td><td class="num">$1,040,250</td><td class="num flag">60.0%</td><td class="num flag">$11,125</td></tr>
+          <tr><td>2</td><td class="num">5</td><td class="num">$1,431,250</td><td class="num">53.4%</td><td class="num">$7,323</td></tr>
+          <tr><td>3</td><td class="num">5</td><td class="num">$1,349,000</td><td class="num">50.0%</td><td class="num">$5,969</td></tr>
+          <tr><td>4</td><td class="num">8</td><td class="num">$1,660,000</td><td class="num">48.4%</td><td class="num">$5,290</td></tr>
+          <tr class="total"><td>Company</td><td class="num">20</td><td class="num">$5,480,500</td><td class="num">52.0%</td><td class="num">$6,552</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Sources: Overpay!H4:H7, Commissions!F13:F17, Overpay!F14:F18.</p>
+    <p style="margin-top:1.4rem;">Region 1's per rep-month overpay equals the top-tier value exactly ($11,125), which means every Region 1 rep-month in 2025 sat in the highest tier. Once a region is in the top tier, the payout rate is pinned at the plan's 60% maximum, so the structure has no room left to absorb more growth.</p>
+
+    <figure>
+      <img src="../images/09_quota_model_comparisons.png" alt="Line chart of payout rate by plan. The flat plan rises from 40.6% to 52.0% and crosses the 45% warning line in 2023. Indexed tiers stay near 40% and the marginal structure rises from 30.8% to 37.3%.">
+      <figcaption><strong>Figure 02 &mdash; Payout rate by plan:</strong> the flat plan crosses the 45% warning line in 2023 (46.4%) and ends at 52.0%. Indexed tiers end at 39.4% and the marginal structure at 37.3%.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- CAUSE -->
+<section id="cause">
+  <div class="wrap">
+    <div class="phase"><span class="cellref">Cliff exposure!G6:G7</span><span class="phase-name">04 &middot; Cause</span></div>
+    <h2>The cliffs are a small part of it.</h2>
+    <p class="lede">The tier edges invite gaming, so it was worth checking whether the cliffs explain the overpay. They explain about 8% of it.</p>
+    <div class="two-col">
+      <div>
+        <p>145 rep-months landed within 5% above a tier edge, where a cliff bump of $1,000 to $4,500 applies. The bump cost $450,875 across the five years, or 8.2% of the $5.48 million overpay.</p>
+        <p>The remaining 92% is structural. The flat plan overpays at every level of sales, because it applies the higher rate to all margin dollars, not only the dollars in the higher band. Fixing the cliffs alone would not fix the plan.</p>
+      </div>
+      <div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tier edge</th><th class="num">Rep-months just over</th><th class="num">Cliff bump</th><th class="num">Cost</th></tr></thead>
+            <tbody>
+              <tr><td class="num">$25,000</td><td class="num">2</td><td class="num">$1,000</td><td class="num">$2,000</td></tr>
+              <tr><td class="num">$50,000</td><td class="num">57</td><td class="num">$2,250</td><td class="num">$128,250</td></tr>
+              <tr><td class="num">$75,000</td><td class="num">59</td><td class="num">$3,375</td><td class="num">$199,125</td></tr>
+              <tr><td class="num">$100,000</td><td class="num">27</td><td class="num">$4,500</td><td class="num">$121,500</td></tr>
+              <tr class="total"><td>Total</td><td class="num">145</td><td class="num"></td><td class="num">$450,875</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GROWTH -->
+<section id="growth">
+  <div class="wrap">
+    <div class="phase"><span class="cellref">Quota!Z4:Z8</span><span class="phase-name">05 &middot; Growth</span></div>
+    <h2>Commissions outgrew the business.</h2>
+    <p class="lede">Commissions rose 108% from 2021 to 2025. Margin dollars rose 62%.</p>
+    <figure>
+      <img src="../images/09_quota_model_comm_margin.png" alt="Line chart indexed to 2021. Flat commissions reach 2.08 times their 2021 level by 2025, while margin dollars reach 1.62 times.">
+      <figcaption><strong>Figure 03 &mdash; Commission growth vs margin dollar growth (2021 = 1.0):</strong> the gap opens every year after 2021.</figcaption>
+    </figure>
+    <div class="note warn">
+      <h3>Not a performance story</h3>
+      <p>Company quota attainment stayed between 96.9% and 100.4% in every year, so reps were not beating their targets by a widening margin. Quota has no effect on rep pay in this model, so attainment is context, not a cause. The extra pay came from the structure, not from extra performance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section id="plans">
+  <div class="wrap">
+    <div class="phase"><span class="cellref">Scenarios</span><span class="phase-name">06 &middot; Plans compared</span></div>
+    <h2>Index the tier edges. Hold the rate near 40%.</h2>
+    <p class="lede">Three plans were run over the same 1,200 rep-months. Indexing moves every tier edge up each year by the company's 15% growth target, so a rep needs to beat the target to climb a tier.</p>
+    <div class="plans">
+      <div class="plan flat">
+        <div class="tag">Current</div>
+        <h3>Flat tiers</h3>
+        <dl>
+          <dt>5-year commissions</dt><dd>$20.11M</dd>
+          <dt>2025 payout rate</dt><dd>52.0%</dd>
+          <dt>5-year saving vs flat</dt><dd>&mdash;</dd>
+        </dl>
+        <p>Higher rate on every margin dollar once a tier is reached.</p>
+      </div>
+      <div class="plan indexed">
+        <div class="tag">Recommended</div>
+        <h3>Indexed tiers</h3>
+        <dl>
+          <dt>5-year commissions</dt><dd>$17.02M</dd>
+          <dt>2025 payout rate</dt><dd>39.4%</dd>
+          <dt>5-year saving vs flat</dt><dd>$3.09M</dd>
+        </dl>
+        <p>Same structure, same rates. Tier edges grow 15% per year, which stops the drift.</p>
+      </div>
+      <div class="plan marginal">
+        <div class="tag">Benchmark</div>
+        <h3>Marginal tiers</h3>
+        <dl>
+          <dt>5-year commissions</dt><dd>$14.63M</dd>
+          <dt>2025 payout rate</dt><dd>37.3%</dd>
+          <dt>5-year saving vs flat</dt><dd>$5.48M</dd>
+        </dl>
+        <p>Rates apply only inside each band. Saves the most but changes how every rep is paid.</p>
+      </div>
+    </div>
+    <div class="two-col">
+      <div>
+        <h3>Why indexed, and not marginal</h3>
+        <p>Indexing is the least disruptive change: reps keep the same tiers and rates, and pay still rises when they beat the growth target. It holds the payout rate near 40% through 2025, where the flat plan reaches 52.0%.</p>
+        <p>The marginal structure saves more, but it rewrites how reps earn commission. I would take it to review next, with a conversation about how reps would respond.</p>
+      </div>
+      <div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Year</th><th class="num">Flat</th><th class="num">Indexed</th><th class="num">Marginal</th></tr></thead>
+            <tbody>
+              <tr><td>2021</td><td class="num">40.6%</td><td class="num">40.6%</td><td class="num">30.8%</td></tr>
+              <tr><td>2022</td><td class="num">43.8%</td><td class="num">40.3%</td><td class="num">32.2%</td></tr>
+              <tr><td>2023</td><td class="num flag">46.4%</td><td class="num">39.8%</td><td class="num">33.7%</td></tr>
+              <tr><td>2024</td><td class="num flag">49.5%</td><td class="num">39.8%</td><td class="num">35.5%</td></tr>
+              <tr><td>2025</td><td class="num flag">52.0%</td><td class="num">39.4%</td><td class="num">37.3%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Payout rate = commission / margin dollars. Source: Scenarios!B13:D17. Red = above the 45% warning line.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODEL -->
+<section id="model">
+  <div class="wrap">
+    <div class="phase"><span class="cellref">Checks!G1 = PASS</span><span class="phase-name">07 &middot; How it was built</span></div>
+    <h2>Data to model, with every total tied out.</h2>
+    <p class="lede">The workbook is the deliverable. SQL and Python feed it clean data, and a Checks tab proves the totals agree before anything is reported.</p>
+    <div class="two-col">
+      <div>
+        <p><strong>Pipeline.</strong> A Python generator creates 60 months of synthetic sales (seed 42). Python loads them into SQL Server, SQL validates the load, and SQL derives one row per rep per month (1,200 rows). Python exports that extract, and Excel does the rest.</p>
+        <p><strong>Excel techniques.</strong> An Excel Table with structured references, named ranges tied to an Assumptions sheet, XLOOKUP for the tier rate, SUMPRODUCT for the marginal commission, SUMIFS and COUNTIFS for the summaries, and conditional formatting tied to the assumptions.</p>
+        <p><strong>Checks.</strong> Seven tie-outs compare the workbook against the SQL totals and against itself: net sales ($85,324,654.72), row count (1,200), overpay, marginal commission, margin dollars, quota grid and blank calculations. All pass.</p>
+        <div class="note warn">
+          <h3>AI disclosure</h3>
+          <p>The synthetic-data generator was written with AI assistance (Claude). The SQL, the loader and export scripts, the Excel model and the analysis are my own work.</p>
+        </div>
+      </div>
+      <div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tab</th><th>What it holds</th></tr></thead>
+            <tbody>
+              <tr><td>Assumptions</td><td>Every rate and rule, tagged to <code>rules_spec.md</code></td></tr>
+              <tr><td>Rep_month</td><td>1,200 rows with commission and overpay</td></tr>
+              <tr><td>Sales and margins</td><td>Net sales and margin dollars by region and year</td></tr>
+              <tr><td>Commissions</td><td>Flat commission and payout rates</td></tr>
+              <tr><td>Overpay</td><td>By region, year and rep-month</td></tr>
+              <tr><td>Quota</td><td>Quota and attainment by region and month</td></tr>
+              <tr><td>Cliff exposure</td><td>Rep-months near each tier edge and the cost</td></tr>
+              <tr><td>Scenarios</td><td>Flat vs indexed vs marginal</td></tr>
+              <tr><td>Checks</td><td>Tie-outs, all PASS</td></tr>
+              <tr><td>Charts</td><td>Data behind the three figures</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIMITS -->
+<section id="limits">
+  <div class="wrap">
+    <div class="phase"><span class="cellref">Limits</span><span class="phase-name">08 &middot; What this can't say</span></div>
+    <h2>The recommendation has edges.</h2>
+    <div class="table-wrap" style="margin-top:1.6rem;">
+      <table>
+        <thead><tr><th>Limitation</th><th>Effect on the findings</th></tr></thead>
+        <tbody>
+          <tr><td>The data is synthetic</td><td>The patterns show how the plan behaves, not what a real company would see</td></tr>
+          <tr><td>No behavioral response</td><td>Reps do not change how they sell when the plan changes, so $3.09M is an estimate, not a forecast</td></tr>
+          <tr><td>Indexing keeps the cliffs and the flat-rate overpay</td><td>It slows the drift but does not fix the structure. The marginal plan is the next review</td></tr>
+          <tr><td>Growth ran near 13%, not the 15% target</td><td>An index set at 15% runs slightly ahead of actual growth, so the indexed rate edges down over time</td></tr>
+          <tr><td>Quota has no effect on pay</td><td>Attainment is context only</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="wrap">
+    <div class="closing-line">The structure overpays.</div>
+    <div class="closing-line dim">Index the tiers. Hold the rate.</div>
+    <p>The central finding of the Territory Quota &amp; Commission Model, 2021 to 2025.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span><b>Territory Quota &amp; Commission Model</b>&nbsp;&nbsp;J. Glenn &middot; Project 09</span>
+    <span>Excel, SQL Server, Python</span>
+  </div>
+</footer>
+
+</body>
+</html>
