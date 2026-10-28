@@ -100,7 +100,7 @@ plans.
 - 1,200 rep-months across 4 regions, 2021-2025 | $5.5M overpay (27% of commissions) | indexed tiers recommended, saves ~$3.1M
 - Tools: Excel · SQL Server · Python
 - [`View project`](./09_quota_model/)
-- [View case study](https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/09_quota_model/deliverables/quota_model_case_study.html)
+- [`View case study`](https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/09_quota_model/deliverables/quota_model_case_study.html)
 - [`View Executive Briefing`](./09_quota_model/deliverables/09_quota_model_case_study.pdf)
 - [`View Excel Model`](./09_quota_model/Excel/09_quota_model.xlsx)
 ---
