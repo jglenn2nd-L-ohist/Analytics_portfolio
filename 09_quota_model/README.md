@@ -4,7 +4,7 @@
 
 **Short answer:** Yes. The flat structure paid about **$5.5 million** more than a marginal structure would have over 2021 to 2025, which is 27% of the $20.1 million paid in commissions. The annual overpay grew every year, from $0.64 million to $1.57 million. I recommend indexing the tier edges to the company growth target, which holds the payout rate near 40% instead of 52% and saves about $3.1 million over five years.
 
-A one-page summary is in [`docs/09_quota_model_case_study.pdf`](docs/09_quota_model_case_study.pdf), and the model itself is in [`Excel/09_quota_model.xlsx`](Excel/09_quota_model.xlsx).
+A one-page summary is in [`docs/09_quota_model_case_study.pdf`](deliverables/09_quota_model_case_study.pdf), and the model itself is in [`Excel/09_quota_model.xlsx`](Excel/09_quota_model.xlsx).
 
 ## Findings
 
