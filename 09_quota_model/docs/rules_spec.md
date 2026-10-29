@@ -56,3 +56,5 @@ Total overpay is summarized by region, by year, and in aggregate. The blended pa
 - Quotas are a regional benchmark and do not affect pay.
 - Tier bands are fixed for all 5 years, so growth pushes more rep-months into higher tiers over time. This is intended.
 - The year-1 quota seeds in item 6 are placeholders.
+- Each rep has a hidden `skill_factor` (normal, mean 1.0, SD 0.15, clipped to 0.6 to 1.4; replacement reps get a new draw). It multiplies expected monthly net sales. It is stored in `reps.csv`, not in `rep_month.csv`, and the Excel model does not use it.
+- The generator applies 15% annual growth to actual sales plus a region-year wobble (SD 4 points). Realized growth came out near 13% per year (12.9% compounded). It was not re-tuned. The quota growth target is also 15%.

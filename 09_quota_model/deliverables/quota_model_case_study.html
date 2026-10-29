@@ -117,8 +117,9 @@
   .table-wrap { overflow-x: auto; background: var(--paper); border: 1px solid var(--grid); }
   table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
   th, td { padding: 0.6rem 0.9rem; text-align: left; border-bottom: 1px solid var(--grid); vertical-align: top; }
-  th { background: var(--green-dk); color: #fff; font-family: var(--mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; white-space: nowrap; }
+  th { background: var(--green-dk); color: #fff; font-family: var(--mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; vertical-align: bottom; }
   td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  th.num { white-space: normal; }
   tbody tr:last-child td { border-bottom: none; }
   tr.total td { font-weight: 600; background: var(--green-lt); }
   td.flag { color: var(--warn); font-weight: 600; }
@@ -274,22 +275,23 @@
 <section id="where">
   <div class="wrap">
     <div class="phase"><span class="cellref">Overpay!H4:H7</span><span class="phase-name">03 &middot; Where</span></div>
-    <h2>Region 1 is already at the ceiling.</h2>
-    <p class="lede">Region 4 carries the most overpay in dollars because it is the largest. Per rep, Region 1 is worst: its 2025 payout rate hit the 60% maximum.</p>
+    <h2>Overpay follows the volume per rep.</h2>
+    <p class="lede">Region 4 carries the most overpay in dollars because it is the biggest. Per rep, Region 1 is worst, because its two seats carry the most sales each. Its 2025 payout rate hit the 60% maximum.</p>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Region</th><th class="num">Seats</th><th class="num">5-year overpay</th><th class="num">2025 payout rate</th><th class="num">2025 overpay per rep-month</th></tr></thead>
+        <thead><tr><th>Region</th><th class="num">Seats</th><th class="num">5-year overpay</th><th class="num">2025 avg sales per rep-month</th><th class="num">2025 rep-months in $100K+ tier</th><th class="num">2025 payout rate</th><th class="num">2025 overpay per rep-month</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td class="num">2</td><td class="num">$1,040,250</td><td class="num flag">60.0%</td><td class="num flag">$11,125</td></tr>
-          <tr><td>2</td><td class="num">5</td><td class="num">$1,431,250</td><td class="num">53.4%</td><td class="num">$7,323</td></tr>
-          <tr><td>3</td><td class="num">5</td><td class="num">$1,349,000</td><td class="num">50.0%</td><td class="num">$5,969</td></tr>
-          <tr><td>4</td><td class="num">8</td><td class="num">$1,660,000</td><td class="num">48.4%</td><td class="num">$5,290</td></tr>
-          <tr class="total"><td>Company</td><td class="num">20</td><td class="num">$5,480,500</td><td class="num">52.0%</td><td class="num">$6,552</td></tr>
+          <tr><td>1</td><td class="num">2</td><td class="num">$1,040,250</td><td class="num flag">$150,502</td><td class="num flag">100%</td><td class="num flag">60.0%</td><td class="num flag">$11,125</td></tr>
+          <tr><td>2</td><td class="num">5</td><td class="num">$1,431,250</td><td class="num">$90,368</td><td class="num">30%</td><td class="num">53.4%</td><td class="num">$7,323</td></tr>
+          <tr><td>3</td><td class="num">5</td><td class="num">$1,349,000</td><td class="num">$82,099</td><td class="num">15%</td><td class="num">50.0%</td><td class="num">$5,969</td></tr>
+          <tr><td>4</td><td class="num">8</td><td class="num">$1,660,000</td><td class="num">$76,900</td><td class="num">6%</td><td class="num">48.4%</td><td class="num">$5,290</td></tr>
+          <tr class="total"><td>Company</td><td class="num">20</td><td class="num">$5,480,500</td><td class="num">$88,927</td><td class="num">24%</td><td class="num">52.0%</td><td class="num">$6,552</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="table-note">Sources: Overpay!H4:H7, Commissions!F13:F17, Overpay!F14:F18.</p>
-    <p style="margin-top:1.4rem;">Region 1's per rep-month overpay equals the top-tier value exactly ($11,125), which means every Region 1 rep-month in 2025 sat in the highest tier. Once a region is in the top tier, the payout rate is pinned at the plan's 60% maximum, so the structure has no room left to absorb more growth.</p>
+    <p class="table-note">Sources: Overpay!H4:H7, Commissions!F13:F17, Overpay!F14:F18, Overpay!F23:F27 (average sales per rep-month) and Overpay!F32:F36 (share in the $100K+ tier).</p>
+    <p style="margin-top:1.4rem;">The plan pays by tier on each rep's own monthly sales, so overpay tracks how much each rep sells, not how large the region is. All 24 of Region 1's rep-months in 2025 sat in the top tier, with an average of $150,502 a month. In Region 4, where eight seats share the territory, only 6% did. Region 1's per rep-month overpay ($11,125) is exactly the top-tier value, and the payout rate is pinned at the plan's 60% maximum.</p>
+    <p>Territory design is the lever. In this dataset it was built in at the start: each region's monthly sales seed is divided among its seats, so Region 1's two reps start at $75,000 each against $50,000 to $60,000 elsewhere. The mechanism carries over to a real company. The regional ranking does not.</p>
 
     <figure>
       <img src="../images/09_quota_model_comparisons.png" alt="Line chart of payout rate by plan. The flat plan rises from 40.6% to 52.0% and crosses the 45% warning line in 2023. Indexed tiers stay near 40% and the marginal structure rises from 30.8% to 37.3%.">
@@ -339,7 +341,7 @@
     </figure>
     <div class="note warn">
       <h3>Not a performance story</h3>
-      <p>Company quota attainment stayed between 96.9% and 100.4% in every year, so reps were not beating their targets by a widening margin. Quota has no effect on rep pay in this model, so attainment is context, not a cause. The extra pay came from the structure, not from extra performance.</p>
+      <p>Company quota attainment stayed between 96.9% and 100.4% in every year, so reps were not beating their targets by a widening margin. Quota is last year's sales plus 15%, so attainment here is another way of reading growth against that 15% target. Quota has no effect on rep pay in this model, so attainment is context, not a cause. The extra pay came from the structure, not from extra performance.</p>
     </div>
   </div>
 </section>
@@ -459,7 +461,8 @@
           <tr><td>No behavioral response</td><td>Reps do not change how they sell when the plan changes, so $3.09M is an estimate, not a forecast</td></tr>
           <tr><td>Indexing keeps the cliffs and the flat-rate overpay</td><td>It slows the drift but does not fix the structure. The marginal plan is the next review</td></tr>
           <tr><td>Growth ran near 13%, not the 15% target</td><td>An index set at 15% runs slightly ahead of actual growth, so the indexed rate edges down over time</td></tr>
-          <tr><td>Quota has no effect on pay</td><td>Attainment is context only</td></tr>
+          <tr><td>Quota has no effect on pay</td><td>Attainment is context only, and it is tied to growth: quota is prior-year sales times 1.15</td></tr>
+          <tr><td>Regional differences come from how the data was built</td><td>Region 1's volume per rep reflects how the generator splits each region's seed across its seats. The mechanism carries over. The ranking of regions does not</td></tr>
         </tbody>
       </table>
     </div>

@@ -4,7 +4,7 @@
 
 **Short answer:** Yes. The flat structure paid about **$5.5 million** more than a marginal structure would have over 2021 to 2025, which is 27% of the $20.1 million paid in commissions. The annual overpay grew every year, from $0.64 million to $1.57 million. I recommend indexing the tier edges to the company growth target, which holds the payout rate near 40% instead of 52% and saves about $3.1 million over five years.
 
-A one-page summary is in [`docs/09_quota_model_case_study.pdf`](deliverables/09_quota_model_case_study.pdf), and the model itself is in [`Excel/09_quota_model.xlsx`](Excel/09_quota_model.xlsx).
+A one-page summary is in [`deliverables/09_quota_model_case_study.pdf`](deliverables/09_quota_model_case_study.pdf), and the model itself is in [`Excel/09_quota_model.xlsx`](Excel/09_quota_model.xlsx).
 
 ## Findings
 
@@ -18,7 +18,9 @@ Overpay is the flat commission minus the commission a marginal structure (rate a
 
 ![Flat payout rate passes the 45% warning line in 2023; indexed tiers hold near 40%](images/09_quota_model_comparisons.png)
 
-Payout rate is commission divided by margin dollars. The flat plan goes from 40.6% in 2021 to 52.0% in 2025 and passes the 45% warning line in 2023 (46.4%). Indexed tiers end at 39.4% and the marginal structure at 37.3%. At the rep level, Region 1 has the highest overpay per rep-month and reached the 60% maximum rate in 2025.
+Payout rate is commission divided by margin dollars. The flat plan goes from 40.6% in 2021 to 52.0% in 2025 and passes the 45% warning line in 2023 (46.4%). Indexed tiers end at 39.4% and the marginal structure at 37.3%. At the rep level, Region 1 has the highest overpay per rep-month and its 2025 payout rate reached the 60% maximum.
+
+Overpay follows the volume per rep. Region 1's two seats carry the most sales each: in 2025 all of its rep-months sat in the $100K+ tier, against 6% in Region 4. The regional split comes from how the synthetic data divides each region's sales seed across its seats. The mechanism carries over to a real company. The ranking does not.
 
 ### 3. Commissions outgrew the business
 
@@ -36,6 +38,7 @@ Index the tier edges to the company growth target (15% per year). The payout rat
 - Indexing does not remove the cliffs at tier edges or the flat-rate overpay.
 - Actual growth in the data came out at about 13% against the 15% indexing target, which lowers the indexed rate slightly.
 - Quota is context only. It has no effect on rep pay in this model.
+- Quota is last year's sales plus 15%, so attainment is another way of reading growth against that 15% target. It does not measure rep performance independently.
 - A marginal structure is the next plan I would review.
 
 ## Scenario
