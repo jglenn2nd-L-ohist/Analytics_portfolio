@@ -62,7 +62,7 @@ Root cause analysis of shipping operations, regional performance, and return rat
 ### 06 —  Safe haven or Wild west: Atlanta 4yrs after Constitutional Carry | Trend Analysis ✅ Complete
 Analysis of Atlanta firearm crime data trends since the inception of constitutional carry in 2022.
 
-- April 1,2022 - March 31, 2026 | Atlanta City Crime Records | 220581 entries
+- April 1,2022 - March 31, 2026 | Atlanta City Crime Records | 219787 processed entries
 - Tools: Excel · Python · SQLite
 - [`View project`](./06_atlanta_cc/)
 - [`View Case Study`](https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/06_atlanta_cc/deliverables/atlanta_cc_case_study.html)
