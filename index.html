@@ -248,6 +248,7 @@
     gap: 16px;
     margin-bottom: 12px;
   }
+  .featured-grid > .project-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
 
   .standard-label {
     font-family: 'Inter', monospace;
@@ -480,7 +481,7 @@
     <div class="bio-text">
       <span class="section-label">&lt;/WHO AM I?&gt;</span>
       <p>I built a <strong>$500K+ territory from zero</strong> by doing what most people call analytics without the title: tracking KPIs daily, finding execution gaps before they escalated, and translating raw field data into leadership decisions in real time. I did that for 12 years. Now I do it with a full stack.</p>
-      <p>What separates me is not the tools. It is the instinct. I ask the question behind the question, because most people do not ask for what they are actually searching for. That is how I uncovered a <strong>32% attribution gap</strong> nobody had named, a <strong>6x conversion difference</strong> between near-identical content, and a single-location <strong>63% return rate</strong> that became the anchor of a VP-level briefing. I do not stop at what the data says. I go until I find what is causing it.</p>
+      <p>What separates me is not the tools. It is the instinct. I ask the question behind the question, because most people do not ask for what they are actually searching for. That is how I found the tipping point where late delivery breaks a customer: four days past the promised date, where average review scores fall from <strong>4.30 to 1.93</strong>. I do not stop at what the data says. I go until I find what is causing it.</p>
       <p>I am a <strong>Google Advanced Data Analytics Professional</strong> and a bridge-builder. When I commit to a problem, that becomes the only thing. I take accountability early, close the loop completely, and deliver something the person across the table can act on — not just read.</p>
     </div>
     <div class="cert-section">
@@ -509,6 +510,8 @@
       <span class="tag">Tableau</span>
       <span class="tag">Power BI</span>
       <span class="tag">Excel</span>
+      <span class="tag">Financial Modeling</span>
+      <span class="tag">Scenario Analysis</span>
       <span class="tag">API Data Collection</span>
       <span class="tag">Data Wrangling</span>
       <span class="tag">Data Quality Auditing</span>
@@ -528,11 +531,23 @@
 
   <div class="projects-section">
     <span class="section-label">&lt;/PROJECTS&gt;</span>
-    <h2 class="section-title">11 End-to-End Analyses</h2>
-    <p class="section-sub">Retail · Automotive · Telecom · Healthcare · Marketing · Operations · Public Safety · Customer Analytics. Every project starts with a business question and ends with a decision someone can act on.</p>
+    <h2 class="section-title">12 End-to-End Analyses</h2>
+    <p class="section-sub">Retail · Automotive · Telecom · Healthcare · Marketing · Operations · Public Safety · Customer Analytics · Sales Compensation. Every project starts with a business question and ends with a decision someone can act on.</p>
 
     <div class="featured-label">Featured Work</div>
     <div class="featured-grid">
+
+      <a class="project-card featured fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/09_quota_model/deliverables/quota_model_case_study.html" target="_blank" rel="noopener">
+        <span class="card-title">Territory Quota &amp; Commission Model</span>
+        <span class="card-outcome">1,200 rep-months · $5.5M overpay · 27% of commissions paid</span>
+        <span class="card-type">Does a flat-tier commission structure overpay? An Excel model of 4 regions and 1,200 rep-months says yes: the payout rate rose from 40.6% to 52.0% of margin and passed the 45% warning line in 2023. Three plans compared. Indexing the tier edges to growth holds the rate near 40% and saves about $3.1M. Every total is tied out on a Checks tab.</span>
+        <div class="card-tools">
+          <span class="tool-tag">Excel</span>
+          <span class="tool-tag">SQL Server</span>
+          <span class="tool-tag">Python</span>
+        </div>
+        <span class="card-arrow">→</span>
+      </a>
 
       <a class="project-card featured fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/08_cars/deliverables/atlanta_used_car_casestudy.html" target="_blank" rel="noopener">
         <span class="card-title">Metro Atlanta Used-Car Inventory Study</span>
@@ -561,8 +576,8 @@
 
       <a class="project-card featured fade" href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/06_atlanta_cc/deliverables/atlanta_cc_case_study.html" target="_blank" rel="noopener">
         <span class="card-title">Safe Haven or Wild West: Atlanta 4 Years After Constitutional Carry</span>
-        <span class="card-outcome">219,787 records · firearm rate fell as total crime rose 70%</span>
-        <span class="card-type">Descriptive analysis with diagnostic framing. Four years of Atlanta PD incident data examined across firearm involvement rate, homicide trend, and overall crime trajectory. The rate improved. The city did not.</span>
+        <span class="card-outcome">219,787 records · firearm homicides fell 39% as reported incidents rose 24%</span>
+        <span class="card-type">Descriptive analysis on April-to-March policy years. Four years of Atlanta PD incident data examined across firearm share, firearm homicides, and total reported incidents. Firearm incidents fell 20% and firearm homicides fell 39% while total reported incidents rose 24%. The data shows what changed, not why.</span>
         <div class="card-tools">
           <span class="tool-tag">Excel</span>
           <span class="tool-tag">SQL</span>
