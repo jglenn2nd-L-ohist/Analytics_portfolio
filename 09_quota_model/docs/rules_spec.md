@@ -35,7 +35,9 @@ The seeds intentionally give Region 1 the highest sales per rep, so thinly staff
 
 **7. Turnover.** Annual turnover is 25%, which is about 5 departures per year across 20 seats. A vacant position is filled within 45 days of the vacancy, so regional headcount can briefly dip below target. A departing rep is paid normally for their final partial month. A new hire starts at zero sales with no ramp period and no quota.
 
-**8. Question and definition of overpay.**
+**8. Growth.** The generator grows each region’s actual sales 15% per year plus a random region-year wobble (SD 4 points). Realized company net sales growth came out near 13% per year (12.9% compounded, 2021 to 2025). The data was not re-tuned to hit 15%. The quota growth target (spec item 6) is also 15%.
+
+**9. Question and definition of overpay.**
 
 *Question:* Does the commission structure overpay because of its flat-tier structure? If so, where and how much?
 
@@ -45,6 +47,8 @@ The seeds intentionally give Region 1 the highest sales per rep, so thinly staff
 - **Total overpay (headline measure).** Commission paid under the flat structure minus the commission a marginal structure would have paid on the same sales, where each rate applies only to the dollars inside its band. For the $75,005 example, flat pays about $19,126 and marginal pays about $12,501, an overpay of about **$6,625**.
 
 Total overpay is summarized by region, by year, and in aggregate. The blended payout rate (total commission divided by total margin) is compared against the 45% warning line and the 60% maximum.
+
+**10. Skill_fator** Rep skill factor (generator only). Each rep gets a hidden skill_factor, drawn once from a normal distribution (mean 1.0, SD 0.15, clipped to 0.6 to 1.4) when the rep is created. A replacement rep gets a new draw. It multiplies that rep’s expected monthly net sales. It is stored in reps.csv, is not in rep_month.csv, and the Excel model does not use it.
 
 ## Assumptions and limits
 
@@ -56,5 +60,3 @@ Total overpay is summarized by region, by year, and in aggregate. The blended pa
 - Quotas are a regional benchmark and do not affect pay.
 - Tier bands are fixed for all 5 years, so growth pushes more rep-months into higher tiers over time. This is intended.
 - The year-1 quota seeds in item 6 are placeholders.
-- Each rep has a hidden `skill_factor` (normal, mean 1.0, SD 0.15, clipped to 0.6 to 1.4; replacement reps get a new draw). It multiplies expected monthly net sales. It is stored in `reps.csv`, not in `rep_month.csv`, and the Excel model does not use it.
-- The generator applies 15% annual growth to actual sales plus a region-year wobble (SD 4 points). Realized growth came out near 13% per year (12.9% compounded). It was not re-tuned. The quota growth target is also 15%.
