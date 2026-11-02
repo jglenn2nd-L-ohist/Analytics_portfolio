@@ -4,3 +4,6 @@
 *.duckdb
 *.duckdb.wal
 desktop.ini
+
+# 10_nhtsa_early_warning: raw NHTSA flat files (1.6 GB complaints file exceeds GitHub 100 MB limit)
+10_nhtsa_early_warning/data/raw/
