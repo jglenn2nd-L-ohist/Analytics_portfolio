@@ -245,7 +245,7 @@
   }
   .finding:nth-child(2) .finding-badge { background:rgba(74,124,142,0.08); border-color:rgba(74,124,142,0.2); }
   .finding:nth-child(3) .finding-badge { background:rgba(184,144,42,0.08); border-color:rgba(184,144,42,0.2); }
-  .badge-num { font-family:'DM Mono',monospace; font-size:1rem; color:var(--accent); font-weight:500; }
+  .badge-num { font-family:'DM Mono',monospace; font-size:1rem; color:var(--accent); font-weight:500; white-space:nowrap; }
   .finding:nth-child(2) .badge-num { color:var(--accent2); }
   .finding:nth-child(3) .badge-num { color:var(--gold); }
   .badge-lbl { font-size:0.72rem; color:var(--ink-muted); }
@@ -368,7 +368,7 @@
   <div class="hero-left">
     <div class="hero-tag">Case Study · Apr 2026</div>
     <h1>Watson Healthcare<br><em>Attrition</em><br>Analysis</h1>
-    <p class="hero-sub">A root cause analysis of employee turnover across 1,700+ records — identifying who is leaving, why, and what Watson Healthcare can do about it.</p>
+    <p class="hero-sub">An analysis of employee turnover across 1,676 records, identifying who is leaving, which factors are most associated with leaving, and what Watson Healthcare can test next.</p>
     <div class="hero-meta">
       <div class="meta-item">
         <span class="meta-label">Analyst</span>
@@ -376,7 +376,7 @@
       </div>
       <div class="meta-item">
         <span class="meta-label">Records</span>
-        <span class="meta-val">1,700+</span>
+        <span class="meta-val">1,676</span>
       </div>
       <div class="meta-item">
         <span class="meta-label">Stack</span>
@@ -410,7 +410,7 @@
     </div>
     <div class="stat-card">
       <div class="stat-num">&lt;5</div>
-      <div class="stat-lbl">Years — Peak Turnover Window</div>
+      <div class="stat-lbl">Years of Tenure for 69% of Leavers</div>
     </div>
   </div>
 </div>
@@ -434,7 +434,7 @@
       <div class="pipe-num">STEP 02</div>
       <span class="pipe-icon">🔍</span>
       <h3>SQL Analysis</h3>
-      <p>Queried the dataset across departments, tenure bands, compensation levels, satisfaction scores, and involvement ratings to isolate the true root causes of attrition.</p>
+      <p>Queried the dataset across departments, tenure bands, compensation levels, satisfaction scores, and involvement ratings to identify the factors most associated with attrition.</p>
     </div>
     <div class="pipe-step">
       <div class="pipe-num">STEP 03</div>
@@ -458,9 +458,9 @@
     <div class="persona-card">
       <div class="persona-name">The Departing Employee</div>
       <div class="persona-role">Composite profile from 199 departures</div>
-      <p class="persona-body">He is a 32-year-old male nurse. He holds a Bachelor's degree and works significant overtime each week — which is why he is dissatisfied with his work-life balance. Earning approximately $4,024/month, he has little interest in his current role.</p>
+      <p class="persona-body">The typical departing employee is an entry-level (Job Level 1) employee around 31 years old (median 29), most often a nurse (54% of leavers), with a median tenure of two years. 70% of leavers worked overtime. They earned about $4,024 a month on average ($2,741 median).</p>
       <div class="persona-highlight">
-        Notably, he received a promotion last year with a 15% raise — yet remains at high risk of departure. Compensation alone is not the answer.
+        Notably, leavers' most recent raise averaged 15.2%, the same as stayers', and 53% of leavers had been promoted in the past year (38% of stayers). Pay alone does not explain departures.
       </div>
     </div>
 
@@ -468,8 +468,8 @@
       <div class="p-stat">
         <div class="p-stat-icon">🎓</div>
         <div>
-          <div class="p-stat-num">67%</div>
-          <div class="p-stat-lbl">of attrition came from degreed workers</div>
+          <div class="p-stat-num">71%</div>
+          <div class="p-stat-lbl">of leavers were entry-level (Job Level 1), against 37% of all employees</div>
         </div>
       </div>
       <div class="p-stat">
@@ -482,15 +482,15 @@
       <div class="p-stat">
         <div class="p-stat-icon">⏱️</div>
         <div>
-          <div class="p-stat-num">&lt;5 yrs</div>
-          <div class="p-stat-lbl">when most turnover occurs</div>
+          <div class="p-stat-num">69%</div>
+          <div class="p-stat-lbl">of leavers had under 5 years at the company (39% of all employees)</div>
         </div>
       </div>
       <div class="p-stat">
         <div class="p-stat-icon">💰</div>
         <div>
           <div class="p-stat-num">$4,024</div>
-          <div class="p-stat-lbl">avg. monthly income of departing employees</div>
+          <div class="p-stat-lbl">avg. monthly income of departing employees (stayers: $6,852)</div>
         </div>
       </div>
     </div>
@@ -504,46 +504,46 @@
 <section class="wrap" id="findings">
   <div class="sec-tag">03 — Key Findings</div>
   <h2 class="sec-title">What the Data Found</h2>
-  <p class="sec-intro">Four distinct attrition drivers — each one a data-backed signal, not an assumption.</p>
+  <p class="sec-intro">Four patterns associated with attrition. These are observational findings, not proof of cause.</p>
 
   <div class="findings-grid fade">
     <div class="finding">
-      <div class="finding-num">Finding 01 — Satisfaction</div>
-      <h3>Unhappy Entry-Level Employees Leave at the Highest Rate</h3>
-      <p>47% of unhappy entry-level employees left the company. Low satisfaction is the single strongest predictor of departure — especially among staff with the least tenure. These are employees in their most formative years with the organization.</p>
+      <div class="finding-num">Finding 01 — Overtime</div>
+      <h3>Employees Working Overtime Left at Nearly 6x the Rate</h3>
+      <p>Employees working overtime left at 29.2%, versus 5.0% for those who did not. 70% of leavers worked overtime, against 28% of all employees. The gap appears at both pay levels checked: under $5,000 a month it is 46% vs 8%, and at $5,000 or more it is 14% vs 2%.</p>
       <div class="finding-badge">
-        <span class="badge-num">47%</span>
-        <span class="badge-lbl">of unhappy entry-level staff departed</span>
+        <span class="badge-num">29% vs 5%</span>
+        <span class="badge-lbl">attrition with overtime vs without</span>
       </div>
     </div>
 
     <div class="finding">
-      <div class="finding-num">Finding 02 — Involvement</div>
-      <h3>Disconnected Employees Are the Highest Flight Risk</h3>
-      <p>50% of those who left rated job involvement as "very little." Employees who feel disconnected from their work leave regardless of compensation — pointing to engagement as a structural problem, not an individual one.</p>
+      <div class="finding-num">Finding 02 — Entry Level and Tenure</div>
+      <h3>Entry-Level Employees in Their First Years Leave Most</h3>
+      <p>Job Level 1 employees are 37% of the workforce but 71% of leavers, with 22.9% attrition versus 5.4% for everyone else. Employees with one year or less at the company left at 32%. The median leaver had two years of tenure, against six for stayers.</p>
       <div class="finding-badge">
-        <span class="badge-num">50%</span>
-        <span class="badge-lbl">rated job involvement as "very little"</span>
+        <span class="badge-num">71%</span>
+        <span class="badge-lbl">of leavers were Job Level 1 (37% of workforce)</span>
       </div>
     </div>
 
     <div class="finding">
       <div class="finding-num">Finding 03 — Income</div>
-      <h3>A 33% Pay Gap Is Driving 77% of Departures</h3>
-      <p>77% of departing employees earned less than $5,000/month. Regional nurses average $6,100/month — Watson Healthcare is offering $4,024. That 33% gap is the most concrete, actionable finding in the dataset.</p>
+      <h3>Employees Under $5,000 a Month Left at About 3x the Rate</h3>
+      <p>77% of leavers earned under $5,000 a month, but 51% of all employees do too, so the fairer comparison is attrition rate: 17.8% under $5,000 versus 5.6% above. Income tracks job level closely, and the gap is concentrated among Level 1 employees, where below-median pay within the level shows 30% attrition against 15% above the median. Leavers averaged $4,024 a month, against $6,852 for stayers. This is an association, not proof that pay causes exits.</p>
       <div class="finding-badge">
-        <span class="badge-num">$6,100</span>
-        <span class="badge-lbl">regional average vs. $4,024 offered</span>
+        <span class="badge-num">17.8% vs 5.6%</span>
+        <span class="badge-lbl">attrition under $5,000 a month vs $5,000 or more</span>
       </div>
     </div>
 
     <div class="finding">
       <div class="finding-num">Finding 04 — Work-Life Balance</div>
-      <h3>40% Cited Poor Work-Life Balance as a Factor</h3>
-      <p>Those who were "very dissatisfied" with work-life balance left at the highest rate. Long hours and overtime without scheduling flexibility are pushing employees out — particularly among nurses who already carry heavy workloads.</p>
+      <h3>Low Involvement and Poor Work-Life Balance Add Risk</h3>
+      <p>Employees rating job involvement 1 or 2 (on a 4-point scale) left at 18.9%, versus 8.6% for those rating it 3 or 4. For work-life balance the split is 16.4% versus 10.1%. Employees giving the lowest work-life balance rating left at 27% (90 employees). Overtime and work-life balance are likely related, and this analysis does not separate them.</p>
       <div class="finding-badge">
-        <span class="badge-num">40%</span>
-        <span class="badge-lbl">cited unfavorable work-life balance</span>
+        <span class="badge-num">18.9% vs 8.6%</span>
+        <span class="badge-lbl">attrition at low vs high job involvement</span>
       </div>
     </div>
   </div>
@@ -556,34 +556,34 @@
 <div class="wrap" id="solutions">
   <div class="sec-tag">04 — Recommendations</div>
   <h2 class="sec-title">Three Moves<br>for Leadership</h2>
-  <p class="sec-intro">Every recommendation ties directly to a finding. No guesswork. No filler.</p>
+  <p class="sec-intro">Each recommendation ties to a finding and should be piloted and measured before a full rollout.</p>
 
   <div class="solutions-list fade">
     <div class="solution">
       <div class="sol-num">1</div>
       <div class="sol-content">
-        <h4>Close the Pay Gap</h4>
-        <p>Regional nurses earn 33% more than Watson Healthcare is offering. Bringing compensation in line with the $6,100/month regional average addresses the single largest measurable driver of attrition. Even partial movement toward market rate reduces the financial incentive to leave.</p>
+        <h4>Review Entry-Level Pay and Progression</h4>
+        <p>Below-median pay within Job Level 1 is associated with double the attrition. Benchmark entry-level pay against an external source first, since this dataset contains no market benchmark. Then pilot a targeted adjustment and compare 12-month retention against a control group.</p>
       </div>
-      <div class="sol-data">Driven by finding 03</div>
+      <div class="sol-data">Driven by findings 02 and 03</div>
     </div>
 
     <div class="solution">
       <div class="sol-num">2</div>
       <div class="sol-content">
-        <h4>Build a Mentor-Mentee Program</h4>
-        <p>50% of attrition gave job involvement low marks. A structured mentor-mentee program where mentees receive consistent acknowledgment and feedback creates a clear signal that their contributions matter — directly improving job involvement scores and reducing the disengagement that precedes departure.</p>
+        <h4>Build a First-Two-Years Mentor Program</h4>
+        <p>First-year attrition is 32%, and low job involvement is associated with double the attrition. Pair new entry-level hires with mentors and track involvement ratings and 12-month retention against a comparison group.</p>
       </div>
-      <div class="sol-data">Driven by finding 02</div>
+      <div class="sol-data">Driven by findings 02 and 04</div>
     </div>
 
     <div class="solution">
       <div class="sol-num">3</div>
       <div class="sol-content">
-        <h4>Create Flexible Scheduling Options</h4>
-        <p>40% of departing employees cited unfavorable work-life balance. Employees working long hours would benefit significantly from flexible scheduling — reducing burnout and directly addressing the overtime dissatisfaction that shows up consistently in the departure data.</p>
+        <h4>Test Overtime Limits and Flexible Scheduling</h4>
+        <p>Overtime is the strongest signal in the data: nurses working overtime left at 32.6%, versus 5.7% without. Start with caps or rotation for sustained overtime among Level 1 employees and nurses, and measure attrition and work-life balance ratings after a pilot.</p>
       </div>
-      <div class="sol-data">Driven by finding 04</div>
+      <div class="sol-data">Driven by findings 01 and 04</div>
     </div>
   </div>
 
@@ -594,7 +594,7 @@
       <span class="stack-tag">SQL (Querying · Segmentation)</span>
       <span class="stack-tag">Tableau (Custom Dashboards)</span>
       <span class="stack-tag">PowerPoint (Stakeholder Deck)</span>
-      <span class="stack-tag">Root Cause Analysis</span>
+      <span class="stack-tag">Attrition Segmentation</span>
       <span class="stack-tag">HR Analytics</span>
     </div>
   </div>
