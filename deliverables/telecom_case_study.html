@@ -591,7 +591,7 @@
         <div class="tm"><span class="tm-l">Analyst</span><span class="tm-v">J. Glenn</span></div>
         <div class="tm"><span class="tm-l">Records</span><span class="tm-v">7,043</span></div>
         <div class="tm"><span class="tm-l">Churn Rate</span><span class="tm-v">27%</span></div>
-        <div class="tm"><span class="tm-l">Revenue at Risk</span><span class="tm-v">$21.4M</span></div>
+        <div class="tm"><span class="tm-l">Total Revenue</span><span class="tm-v">$21.4M</span></div>
       </div>
       <div class="t-chips">
         <span class="t-chip">SQL</span>
@@ -625,7 +625,7 @@
         <div class="kl">Corporate Average Churn</div>
       </div>
       <div class="kcard">
-        <div class="kn">89%</div>
+        <div class="kn">46%</div>
         <div class="kl">Month-to-Month Contract Churn</div>
       </div>
       <div class="kcard">
@@ -712,7 +712,7 @@
           <div class="dcall-t"><strong>Competitor churn</strong> is the #1 category driver</div>
         </div>
         <div class="dcall">
-          <div class="dcall-n">89%</div>
+          <div class="dcall-n">46%</div>
           <div class="dcall-t"><strong>Month-to-month</strong> contracts churn at the highest rate</div>
         </div>
         <div class="dcall">
@@ -720,8 +720,8 @@
           <div class="dcall-t"><strong>Loyalty stays</strong> — customers with 4+ referrals stay at 93%</div>
         </div>
         <div class="dcall">
-          <div class="dcall-n">2x</div>
-          <div class="dcall-t"><strong>Married customers</strong> churn at half the rate of single customers</div>
+          <div class="dcall-n">1.7x</div>
+          <div class="dcall-t"><strong>Single customers</strong> churn at 1.7x the rate of married customers (33% vs 20%)</div>
         </div>
       </div>
     </div>
@@ -764,11 +764,11 @@
         </div>
         <div class="ritem">
           <div class="ritem-dot"></div>
-          <div class="ritem-text"><strong>89% M2M contract churn</strong> — locking customers into longer contracts reduces departure risk significantly</div>
+          <div class="ritem-text"><strong>46% M2M contract churn</strong> vs 11% on one-year and 3% on two-year contracts. Month-to-month is 51% of customers but 89% of all churn</div>
         </div>
         <div class="ritem">
           <div class="ritem-dot"></div>
-          <div class="ritem-text">Customers with <strong>more dependents stay longer</strong> — family plans drive loyalty</div>
+          <div class="ritem-text">Customers with <strong>dependents churn at 6%</strong> vs 33% for customers with none</div>
         </div>
         <div class="ritem">
           <div class="ritem-dot"></div>
@@ -776,7 +776,7 @@
         </div>
         <div class="ritem">
           <div class="ritem-dot"></div>
-          <div class="ritem-text">Median attrition employee left in <strong>less than 2 years</strong> — early tenure is the highest-risk window</div>
+          <div class="ritem-text">Median churned customer left after <strong>10 months</strong> (vs 38 for retained customers), so early tenure is the highest-risk window</div>
         </div>
       </div>
     </div>
@@ -796,33 +796,33 @@
       </div>
       <div class="fcard">
         <div class="f-label">Finding 02 — Contracts</div>
-        <div class="f-num">89%</div>
+        <div class="f-num">46%</div>
         <div class="f-title">M2M Contracts Are a Liability</div>
-        <div class="f-body">Month-to-month customers churn at 89% vs 9% for one-year and 3% for two-year. The contract type is the single strongest structural predictor.</div>
+        <div class="f-body">Month-to-month customers churn at 46%, versus 11% for one-year and 3% for two-year contracts. They are 51% of customers but 89% of all churn. The gap by contract type is the most actionable pattern in the data.</div>
       </div>
       <div class="fcard">
         <div class="f-label">Finding 03 — Loyalty</div>
         <div class="f-num">93%</div>
-        <div class="f-title">Referrals Lock In Retention</div>
-        <div class="f-body">Customers who made 4+ referrals stayed at a 93% rate. Word-of-mouth is not just a growth tool — it is a retention signal.</div>
+        <div class="f-title">Referrers Rarely Leave</div>
+        <div class="f-body">Customers who made 4+ referrals stayed at a 93% rate (3.6% churned). Word-of-mouth is not just a growth tool — it is a retention signal.</div>
       </div>
       <div class="fcard">
         <div class="f-label">Finding 04 — Dependents</div>
-        <div class="f-num">93%</div>
-        <div class="f-title">More Dependents, More Loyalty</div>
-        <div class="f-body">Customers with dependents stayed at 92–93%. Family plans create switching friction that keeps customers anchored to the network.</div>
+        <div class="f-num">6%</div>
+        <div class="f-title">Dependents Rarely Leave</div>
+        <div class="f-body">Customers with dependents churned at 6.5%, versus 32.6% for customers with none. Family plans may create switching friction, but this data cannot confirm why.</div>
       </div>
       <div class="fcard">
         <div class="f-label">Finding 05 — Demographics</div>
-        <div class="f-num">2×</div>
-        <div class="f-title">Single Customers Churn Twice as Often</div>
-        <div class="f-body">Single customers churn at 18% vs 10% for married. No-dependent, no-referral single customers on M2M contracts are the highest-risk segment.</div>
+        <div class="f-num">1.7×</div>
+        <div class="f-title">Singles Churn Nearly Twice as Often</div>
+        <div class="f-body">Single customers churn at 33% vs 20% for married. Singles with no dependents or referrals on month-to-month contracts (2,159 customers) churn at 49%, vs 16% for all others.</div>
       </div>
       <div class="fcard">
         <div class="f-label">Finding 06 — Attitude</div>
-        <div class="f-num">21%</div>
-        <div class="f-title">Support Experience Drives Departure</div>
-        <div class="f-body">15% cited attitude of support staff and 21% cited competitor made a better offer — both are controllable factors with clear action paths.</div>
+        <div class="f-num">17%</div>
+        <div class="f-title">Service Attitude Is a Controllable Driver</div>
+        <div class="f-body">17% of churned customers cited the attitude of support or service staff, and 17% cited a competitor's better offer. Both are controllable factors with clear action paths.</div>
       </div>
     </div>
   </div>
