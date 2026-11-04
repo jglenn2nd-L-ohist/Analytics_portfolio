@@ -29,17 +29,19 @@ ltv["cohort"] = ltv["CustomerID"].map(cohort)
 ltv["period"] = (ltv["InvoiceDate"] - ltv["cohort"]).apply(lambda x: x.n)
 
 # - Determine cohort avg revenue
-avg = ltv.groupby(["cohort","period"])["revenue"].mean()
+# Revenue per ACTIVE CUSTOMER per month (was mean revenue per invoice line)
+grp = ltv.groupby(["cohort","period"]).agg(rev=("revenue","sum"), cust=("CustomerID","nunique"))
+avg = grp["rev"] / grp["cust"]
 avg_mat = avg.unstack()
 avg_mat = avg_mat[avg_mat.count(axis=1) >= 3]
 t_avg = avg_mat.mean(axis=1)
-t_avg = t_avg[t_avg.index != pd.Period("2011-05", "M")] 
+print(t_avg.round(0).to_string())
 
 # - Create  heatmap for matrix
 fig, ax = plt.subplots(figsize=(11,6))
-sns.heatmap(avg_mat, annot=True, fmt=".0f", cmap="Blues", ax=ax, vmax=50)
+sns.heatmap(avg_mat, annot=True, fmt=".0f", cmap="Blues", ax=ax)
 
-plt.title("Cohort average revenue per month")
+plt.title("Cohort revenue per active customer per month (GBP)")
 plt.tight_layout()
 
 plt.savefig("../outputs/q5_ltv.png")
@@ -49,7 +51,7 @@ fig, ax = plt.subplots(figsize=(10,6))
 
 ax.barh(t_avg.index.astype(str), t_avg.values, label="Avg Revenue/Month By Cohort")
 ax.set_xlabel("Revenue generated")
-ax.set_title("Avg Revenue by Cohort by Month - Excluding 2011-05 Outlier")
+ax.set_title("Avg revenue per active customer per month, by cohort (GBP)")
 
 plt.savefig("../outputs/q5b_ltv_avg.png")
 plt.show()

@@ -40,7 +40,7 @@ Both are live-lot inventory snapshots, not sales records. The 2020 source has a 
 
 **Inflation.** 2020 prices are converted to August 2026 dollars with the all-items CPI-U (259.918 to 334.980, a ratio of about 1.289). The used-cars-and-trucks CPI was deliberately not used: it measures used-car price change, which is the thing being tested, so deflating by it would remove the effect by construction. August was used on both ends because September 2026 CPI had not been published, and matching months gives an exact 72-month span.
 
-**Pre-registration.** The three thresholds were fixed before any comparison was run. The pre-registered comparison is reported as the primary result throughout, and every later check is presented as a test of it, not a replacement for it.
+**Pre-specification.** The three thresholds were fixed before any comparison was run. The pre-specified comparison is reported as the primary result throughout, and every later check is presented as a test of it, not a replacement for it.
 
 ---
 
@@ -95,7 +95,7 @@ The 2026 pull did not capture the whole market. Dealers holding 47% of the 2020 
 
 The same-dealer comparison restricts **both** periods to dealers observed in both snapshots. An early version restricted only the 2026 side and compared it against every 2020 dealer. It reported a real price decline of $2,488. The 2020 dealers missing from 2026 had skewed pricier, so leaving them in made continuing dealers look like they cut prices. Restricting both sides reversed the result to +$2,467. That error is recorded in the methodology because it is the easiest one in the project to make.
 
-| Metric | Pre-registered | Same dealer |
+| Metric | Pre-specified | Same dealer |
 |---|---|---|
 | Age | +5.31 months | +7.03 months |
 | Mileage | +5,883 miles | +3,751 miles |
@@ -125,11 +125,11 @@ A point estimate that clears a threshold by $500 is not the same as a result tha
 
 | Metric | Comparison | Point | 95% CI | Share of resamples below threshold |
 |---|---|---|---|---|
-| Age (months) | Pre-registered | +5.3 | 1.0 to 10.1 | 100.0% |
+| Age (months) | Pre-specified | +5.3 | 1.0 to 10.1 | 100.0% |
 | Age (months) | Same dealer | +7.0 | 2.7 to 25.9 | 75.2% |
-| Mileage | Pre-registered | +5,883 | 1,637 to 11,620 | 99.7% |
+| Mileage | Pre-specified | +5,883 | 1,637 to 11,620 | 99.7% |
 | Mileage | Same dealer | +3,751 | 625 to 23,990 | 75.0% |
-| Real price | Pre-registered | +$2,521 | -$2,318 to +$12,059 | 42.0% |
+| Real price | Pre-specified | +$2,521 | -$2,318 to +$12,059 | 42.0% |
 | Real price | Same dealer | +$2,467 | -$3,479 to +$4,260 | 63.4% |
 
 The price intervals are wide because each zip's average rests on a handful of dealers. Six of the 14 zips have two dealers or fewer in at least one period, and redrawing which few stores are in a zip moves its average by thousands of dollars. The same-dealer intervals are wider still, because six zips have a single continuing dealer on each side. The same-dealer run confirms that the point estimates are not a composition artifact, but it is too thin to test thresholds on its own.

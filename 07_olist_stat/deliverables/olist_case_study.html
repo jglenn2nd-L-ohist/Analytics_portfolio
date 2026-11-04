@@ -360,7 +360,22 @@
         align-items: flex-start;
       }
     }
-  </style>
+  
+  /* Decision brief */
+  .brief { padding:2rem 0; }
+  .brief-inner {  }
+  .brief-head { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:.5rem 1rem; margin-bottom:.8rem; }
+  .brief-head h2 { margin:0; font-family:var(--font-body); }
+  .brief-status { font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; font-weight:600; color:var(--accent-color); border:1px solid var(--accent-color); border-radius:999px; padding:3px 12px; }
+  .brief-decision { margin:0 0 1.2rem; color:var(--text-main); line-height:1.55; }
+  .brief-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .brief-grid > div { background:var(--card-bg); border:1px solid var(--card-border); border-radius:10px; padding:1rem 1.2rem; }
+  .brief-grid .brief-rec { grid-column:1 / -1; border-left:4px solid var(--accent-color); }
+  .brief-grid h3 { margin:0 0 .5rem; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; color:var(--accent-color); font-family:var(--font-body); }
+  .brief-grid p, .brief-grid li { margin:0 0 .4rem; font-size:.92rem; line-height:1.5; color:var(--text-main); }
+  .brief-grid ul { margin:0; padding-left:1.1rem; }
+  @media (max-width:760px) { .brief-grid { grid-template-columns:1fr; } }
+</style>
 </head>
 <body>
 
@@ -421,6 +436,21 @@
         ← Portfolio
       </a>
     </header>
+
+<!-- DECISION BRIEF -->
+<section class="brief" id="brief" aria-label="Decision brief">
+  <div class="brief-inner">
+    <div class="brief-head"><h2>Decision brief</h2><span class="brief-status">Recommendation only. Not implemented.</span></div>
+    <p class="brief-decision"><strong>Decision.</strong> Should delivery operations treat late arrival as a satisfaction risk worth acting on, and can at-risk orders be flagged when they are placed?</p>
+    <div class="brief-grid">
+      <div class="brief-rec"><h3>Recommendation</h3><p>Yes to the first, not yet to the second. Use 4+ days past the promised date as the escalation line: reviews average 1.93 there, against 4.30 for early orders. Do not deploy the order-placement classifier. Flagging the top 5% of orders captured 5.73% of late ones, a 1.15x lift.</p></div>
+      <div><h3>Metric definitions</h3><ul><li>On time: delivered on or before the estimated delivery date (platform rate 92.08%)</li><li>Arrival categories: early, on time, 1 to 3 days late, 4+ days late</li><li>Review score: customer rating, 1 to 5</li><li>Lift: share of late orders captured in the top X% of ranked orders, divided by X%</li></ul></div>
+      <div><h3>Checks run</h3><ul><li>Kruskal-Wallis and Mann-Whitney U tests on review scores across arrival categories, p &lt; .001</li><li>Distance vs. delay correlation r = -0.077, so distance does not explain lateness</li><li>Model scored on the latest 20% of orders by date, four ways: classification, feature weights, ranked capture, capacity-constrained precision and recall</li><li>96,470 delivered orders after cleaning about 3,000 postal-code inconsistencies</li></ul></div>
+      <div><h3>Limitations</h3><ul><li>Association, not cause: damage or support friction could also lower ratings</li><li>Brazilian e-commerce, September 2016 to August 2018</li><li>No carrier scan events or hub tracking in the data</li><li>The 5% intervention capacity is an assumption</li></ul></div>
+      <div class="brief-rec"><h3>Next step</h3><p>Test whether carrier handoff or scan-event data flags late orders better than random. That data is not in this dataset. Until then, trigger service recovery on orders approaching 4 days past the promised date.</p></div>
+    </div>
+  </div>
+</section>
 
     <!-- Context Section -->
     <section id="context">
@@ -590,7 +620,7 @@
 
       <h3>Capacity-Constrained Precision & Recall</h3>
       <p>
-        Assuming an intervention team capacity of 5% of daily order volume (an estimate, since no actual team size exists to reference), the corresponding probability threshold was <strong>0.575</strong>. At that cutoff, precision was <strong>6.1%</strong> (roughly 94% of flagged orders would be false alarms), and recall was 5.73%, close to what random selection would capture.
+        Assuming an intervention team capacity of 5% of daily order volume (an estimate, since no actual team size exists to reference), the corresponding probability threshold was <strong>0.575</strong>. At that cutoff, precision was <strong>6.1%</strong> (roughly 94% of flagged orders would be false alarms), and recall was 5.73%, close to what random selection would capture. Late orders made up 5.3% of the held-out period (994 of 18,777 orders), lower than the 7.9% platform-wide rate, so 6.1% precision is a 1.15x lift over that base rate.
       </p>
 
       <div class="stat-grid">

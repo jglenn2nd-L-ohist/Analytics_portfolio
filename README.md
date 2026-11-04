@@ -82,7 +82,7 @@ before it happens.
 ### 08 — Metro Atlanta Used-Car Inventory Study | Hypothesis Testing ✅ Complete
 <a href="https://jglenn2nd-l-ohist.github.io/Analytics_portfolio/08_cars/deliverables/atlanta_used_car_casestudy.html"><img src="./08_cars/deliverables/usedcar_cover.png" alt="Atlanta used-car lots, 2020 vs 2026: the data said a little older" width="600"></a>
 
-Pre-registered test of whether metro Atlanta franchise dealers' used inventory got older,
+Pre-specified test of whether metro Atlanta franchise dealers' used inventory got older,
 higher-mileage, and pricier between September 2020 and September 2026.
 
 - 11,671 listings across 14 weighted zips | 3 thresholds set before analysis | age and mileage

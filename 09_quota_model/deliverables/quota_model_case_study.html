@@ -159,6 +159,21 @@
   footer { background: var(--ink); color: rgba(255,255,255,0.75); font-family: var(--mono); font-size: 0.78rem; padding: 1.4rem 0; }
   footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
   footer b { color: #fff; font-weight: 500; }
+
+  /* Decision brief */
+  .brief { padding:2rem 0; }
+  .brief-inner { max-width:1120px;margin:0 auto;padding:0 1.5rem; }
+  .brief-head { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:.5rem 1rem; margin-bottom:.8rem; }
+  .brief-head h2 { margin:0; font-family:var(--head); }
+  .brief-status { font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; font-weight:600; color:var(--green); border:1px solid var(--green); border-radius:999px; padding:3px 12px; }
+  .brief-decision { margin:0 0 1.2rem; color:var(--ink); line-height:1.55; }
+  .brief-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .brief-grid > div { background:var(--paper); border:1px solid var(--grid); border-radius:10px; padding:1rem 1.2rem; }
+  .brief-grid .brief-rec { grid-column:1 / -1; border-left:4px solid var(--green); }
+  .brief-grid h3 { margin:0 0 .5rem; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; color:var(--green); font-family:var(--head); }
+  .brief-grid p, .brief-grid li { margin:0 0 .4rem; font-size:.92rem; line-height:1.5; color:var(--ink); }
+  .brief-grid ul { margin:0; padding-left:1.1rem; }
+  @media (max-width:760px) { .brief-grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -222,6 +237,21 @@
     </div>
   </div>
 </header>
+
+<!-- DECISION BRIEF -->
+<section class="brief" id="brief" aria-label="Decision brief">
+  <div class="brief-inner">
+    <div class="brief-head"><h2>Decision brief</h2><span class="brief-status">Recommendation only. Not implemented.</span></div>
+    <p class="brief-decision"><strong>Decision.</strong> Should the flat-tier commission plan be replaced, and with what?</p>
+    <div class="brief-grid">
+      <div class="brief-rec"><h3>Recommendation</h3><p>Index the tier edges to the 15% growth target and keep the current rates. In the model this holds the 2025 payout rate at 39.4% instead of 52.0% and saves $3.09M over five years, before any change in rep behavior. Take a marginal-tier plan to review next.</p></div>
+      <div><h3>Metric definitions</h3><ul><li>Payout rate: commissions divided by margin dollars, with a 45% warning line</li><li>Overpay: flat-plan commissions minus what a marginal structure would have paid ($5.48M, 2021 to 2025)</li><li>Indexed tiers: every tier edge rises 15% a year</li><li>Rep-month: one rep in one month (1,200 rows)</li></ul></div>
+      <div><h3>Checks run</h3><ul><li>Seven tie-outs on the Checks tab, against SQL totals and against itself, all pass</li><li>Net sales of $85,324,654.72 and 1,200 rows reconcile between SQL and Excel</li><li>Three plans run over the same 1,200 rep-months</li></ul></div>
+      <div><h3>Limitations</h3><ul><li>Synthetic data, so patterns show how the plan behaves, not what a real company would see</li><li>No behavioral response, so $3.09M is an estimate, not a forecast</li><li>Indexing keeps the cliffs and part of the flat-rate overpay</li><li>Regional ranking comes from how the data was generated</li></ul></div>
+      <div class="brief-rec"><h3>Next step</h3><p>Test the indexed plan against real rep-level history, model how reps would respond, then bring the marginal plan to review.</p></div>
+    </div>
+  </div>
+</section>
 
 <!-- RULES -->
 <section id="rules">

@@ -359,7 +359,7 @@
       </div>
       <div class="meta-item">
         <span class="meta-label">Records</span>
-        <span class="meta-val">51,291</span>
+        <span class="meta-val">51,290</span>
       </div>
       <div class="meta-item">
         <span class="meta-label">Markets</span>
@@ -389,19 +389,19 @@
     </div>
     <div class="stat-card">
       <div class="stat-num">51K</div>
-      <div class="stat-lbl">Orders Analyzed</div>
+      <div class="stat-lbl">Order Lines (25,035 Orders)</div>
     </div>
     <div class="stat-card">
-      <div class="stat-num">+50%</div>
-      <div class="stat-lbl">Central Region Profit Lead</div>
+      <div class="stat-num">2.3x</div>
+      <div class="stat-lbl">Central Volume vs North (Lower Margin)</div>
     </div>
     <div class="stat-card">
-      <div class="stat-num">5.96%</div>
-      <div class="stat-lbl">Company Return Rate</div>
+      <div class="stat-num">5.8%</div>
+      <div class="stat-lbl">Order Return Rate (Markets With Return Data)</div>
     </div>
     <div class="stat-card">
-      <div class="stat-num">824</div>
-      <div class="stat-lbl">High-Cost Returns Analyzed</div>
+      <div class="stat-num">45%</div>
+      <div class="stat-lbl">Avg Discount on Loss-Making Lines (vs 4%)</div>
     </div>
   </div>
 </div>
@@ -419,7 +419,7 @@
       <div class="pipe-num">STEP 01</div>
       <span class="pipe-icon">📥</span>
       <h3>Extract</h3>
-      <p>Ingested three sheets from a single .xls source file via pd.read_excel(): Orders (51,291 rows), Returns (1,174 rows), and People (14 rows).</p>
+      <p>Ingested three sheets from a single .xls source file via pd.read_excel(): Orders (51,290 rows), Returns (1,173 rows), and People (14 rows).</p>
     </div>
     <div class="pipe-step">
       <div class="pipe-num">STEP 02</div>
@@ -463,15 +463,15 @@
     <tbody>
       <tr>
         <td>Orders</td>
-        <td>51,291</td>
+        <td>51,290</td>
         <td>24</td>
         <td>Transactional sales data: revenue, profit, shipping cost, discount, order priority, ship mode, segment, region, category</td>
       </tr>
       <tr>
         <td>Returns</td>
-        <td>1,174</td>
+        <td>1,173</td>
         <td>3</td>
-        <td>Returned order flags by market, joined to Orders on Order ID</td>
+        <td>Returned order flags, joined to Orders on Order ID. Covers four markets only (US, LATAM, APAC, EU); EMEA, Africa and Canada have no return records</td>
       </tr>
       <tr>
         <td>People</td>
@@ -490,52 +490,52 @@
 <section class="wrap" id="findings">
   <div class="sec-tag">03 — Key Findings</div>
   <h2 class="sec-title">Four Questions.<br>Four Answers.</h2>
-  <p class="sec-intro">Each finding maps directly to a business question from the COO brief. No descriptive filler. Root cause only.</p>
+  <p class="sec-intro">Each finding maps to a business question from the COO brief. Findings are observational, not proof of cause.</p>
 
   <div class="findings-grid fade">
     <div class="finding">
       <div class="finding-num">Q1 — Shipping Mode & Cost</div>
-      <h3>Profit Losses Exceeding $2,000 Per Order Across All Categories</h3>
-      <p>Shipping mode analysis reveals large profit losses found in every product category, some exceeding $2,000 per order. Shipping costs are not being recovered through pricing. This is a structural mismatch between ship mode selection and margin expectations, concentrated in the Corporate segment.</p>
+      <h3>Heavy Discounting, Not Shipping Cost, Separates Loss-Making Orders</h3>
+      <p>24.5% of order lines lose money, and 13 lose more than $2,000 each. Loss-making lines carry an average discount of 45%, against 4% on profitable lines. Shipping cost as a share of sales is the same (10.9%) in both groups, and loss-making lines are spread evenly across segments (24% to 25% each). The ten largest losses all carried discounts of 50% to 80%.</p>
       <div class="finding-badge">
-        <span class="badge-num">$2,000+</span>
-        <span class="badge-lbl">per-order losses found across categories</span>
+        <span class="badge-num">45% vs 4%</span>
+        <span class="badge-lbl">avg discount, loss-making vs profitable lines</span>
       </div>
     </div>
 
     <div class="finding">
       <div class="finding-num">Q2 — Revenue & Profit Leaders</div>
-      <h3>Central Region Leads Profit by 50% Over Second Place</h3>
-      <p>Central is the outright profit leader, running 50% above the second-place region, North. That margin of outperformance is wide enough to be structural, not incidental. Central is doing something operationally that other regions are not, and leadership needs to know what it is before trying to replicate it.</p>
+      <h3>Central Leads Profit by 60%, but on Volume, Not Margin</h3>
+      <p>Central earned $311K in profit against $195K for second-place North, a 60% lead. But Central has 2.3x North's order lines and earns less on each: $28 per line vs $41, and an 11.0% margin vs 15.6%. North Asia has the highest margin (19.5%). "Central" is also three markets grouped together (EU, LATAM and US), so the lead reflects a large, mixed region rather than a single operating practice.</p>
       <div class="finding-badge">
-        <span class="badge-num">+50%</span>
-        <span class="badge-lbl">Central profit lead over second-place North</span>
+        <span class="badge-num">11.0% vs 15.6%</span>
+        <span class="badge-lbl">profit margin, Central vs North</span>
       </div>
     </div>
 
     <div class="finding">
       <div class="finding-num">Q3 — Regional Return Rates</div>
-      <h3>Three Regions Running at Double the Company Return Rate</h3>
-      <p>The company-wide return rate is 5.96%. North Asia, North, and West all exceed 2× that average when analyzed by both product category and customer segment. The pattern holds across cuts. This is not a category anomaly or a segment quirk. It is regional and structural.</p>
+      <h3>Two Regions Return at About Double the Rate, a Third at 1.7x</h3>
+      <p>Return records exist for four of the seven markets (US, LATAM, APAC, EU). In those markets 5.8% of orders were returned. North Asia (13.8%) and West (11.7%) return at about twice that rate, and North (10.0%) at 1.7x. Every other region with return data sits between 2% and 5%. EMEA, Africa and Canada have no return records, so their return rates are unknown, not zero.</p>
       <div class="finding-badge">
-        <span class="badge-num">2×</span>
-        <span class="badge-lbl">company avg: North Asia, North &amp; West</span>
+        <span class="badge-num">13.8%</span>
+        <span class="badge-lbl">order return rate in North Asia (West 11.7%, North 10.0%)</span>
       </div>
       <div class="analytic-note">
-        Company return rate benchmark: 5.96% across 51,291 orders.
+        Order-level benchmark: 1,172 returned of 20,140 orders (5.8%) in the four markets with return data.
       </div>
     </div>
 
     <div class="finding">
       <div class="finding-num">Q4 — Correlational Analysis</div>
-      <h3>66% of High-Cost Returns Sold at or Below Average Price</h3>
-      <p>Of 824 orders with both high shipping costs and returns, 542 (~66%) were sales made at or below the company average sale price of $721. Additionally, 436 of those 824 (~53%) were sold at full price with no discount applied, suggesting perceived value rather than price sensitivity may be driving return behavior.</p>
+      <h3>High Shipping Cost Does Not Predict Returns</h3>
+      <p>Of 12,078 order lines with above-average shipping cost ($26.38), 824 were on returned orders. Their profile matches all high-cost lines: 66% sold at $721 or less (66% for all high-cost lines) and 53% carried no discount (54% for all). High-cost lines also return at nearly the same rate as the rest (7.9% vs 7.2% in covered markets). Returned orders are not distinguishable by price, discount or shipping cost in this extract.</p>
       <div class="finding-badge">
-        <span class="badge-num">824</span>
-        <span class="badge-lbl">high-cost returns studied</span>
+        <span class="badge-num">7.9% vs 7.2%</span>
+        <span class="badge-lbl">return rate, high vs other shipping-cost lines</span>
       </div>
       <div class="analytic-note">
-        Analytical note: Q4 identifies co-occurring factors, not confirmed causes. These patterns warrant further investigation before prescribing operational changes.
+        Analytical note: these cuts do not identify a return driver. Product, supplier and delivery-condition data would be needed.
       </div>
     </div>
   </div>
@@ -548,14 +548,14 @@
 <div class="wrap" id="solutions">
   <div class="sec-tag">04 — Recommendations</div>
   <h2 class="sec-title">Four Questions.<br>Four Moves for the COO.</h2>
-  <p class="sec-intro">Every recommendation is traceable to a finding. No assumptions introduced at the recommendation stage.</p>
+  <p class="sec-intro">Each recommendation ties to a finding and should be piloted and measured before rollout.</p>
 
   <div class="solutions-list fade">
     <div class="solution">
       <div class="sol-num">1</div>
       <div class="sol-content">
-        <h4>Commission a Shipping Cost Pricing Study</h4>
-        <p>Per-order losses exceeding $2,000 indicate that shipping costs are not being factored into pricing for corporate accounts. A formal pricing study across all ship modes and segments would establish a cost structure that closes the margin gap rather than absorbing it as an operating loss.</p>
+        <h4>Audit Discount Approval Rules</h4>
+        <p>Loss-making lines average a 45% discount and the ten largest losses carried 50% to 80% discounts. Review who can approve deep discounts, starting with technology and office supplies orders, and set a margin floor. Measure the change in loss-making share (24.5% today).</p>
       </div>
       <div class="sol-data">Driven by Q1</div>
     </div>
@@ -563,8 +563,8 @@
     <div class="solution">
       <div class="sol-num">2</div>
       <div class="sol-content">
-        <h4>Conduct an Operational Review of the Central Region</h4>
-        <p>Central's 50% profit lead over the next-best region is too large to be coincidental. An operational review would identify the specific practices driving that outperformance, whether in fulfillment, pricing, customer mix, or cost control,, and assess which of those practices can be replicated in underperforming regions.</p>
+        <h4>Compare Regions on Margin, Not Total Profit</h4>
+        <p>Central's lead comes from volume at a lower margin. Split the merged "Central" region by market, then compare regions on margin and profit per order. North Asia, with the highest margin (19.5%), is the better candidate to study for practices worth copying.</p>
       </div>
       <div class="sol-data">Driven by Q2</div>
     </div>
@@ -572,8 +572,8 @@
     <div class="solution">
       <div class="sol-num">3</div>
       <div class="sol-content">
-        <h4>Deploy a Return Survey in North Asia, North & West</h4>
-        <p>Three regions are returning products at twice the company average. The data identifies where the problem is concentrated but cannot determine why from transaction records alone. A structured return survey in these three regions would surface root causes (product quality, delivery condition, mismatched expectations, or regional fulfillment issues) and inform a targeted reduction strategy.</p>
+        <h4>Extend Return Tracking, Then Survey High-Return Regions</h4>
+        <p>Return records cover only four of seven markets. Extend tracking to EMEA, Africa and Canada, then run a structured return survey in North Asia and West, where order return rates are about double the rest. Transaction records cannot show why customers return.</p>
       </div>
       <div class="sol-data">Driven by Q3</div>
     </div>
@@ -581,8 +581,8 @@
     <div class="solution">
       <div class="sol-num">4</div>
       <div class="sol-content">
-        <h4>Evaluate a Discount Strategy as a Perceived Value Intervention</h4>
-        <p>53% of high-cost returns were sold at full price with no discount. If customers paying full price are still returning at elevated rates on high-shipping-cost items, perceived value at the point of purchase may be the driver. A targeted discount or value-add strategy on these items could reduce return rates by making the purchase feel more deliberate, without cutting into margin on every transaction.</p>
+        <h4>Look Beyond Price and Shipping for Return Drivers</h4>
+        <p>Price, discount and shipping cost do not separate returned orders from others. Bring in product category, supplier and delivery-condition data and test those before prescribing a return-reduction strategy.</p>
       </div>
       <div class="sol-data">Driven by Q4</div>
     </div>

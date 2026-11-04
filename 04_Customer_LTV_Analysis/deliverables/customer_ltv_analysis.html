@@ -398,7 +398,7 @@
 
 <div class="hero">
   <div class="hero-left">
-    <div class="hero-tag">Case Study · 2025</div>
+    <div class="hero-tag">Case Study · 2026</div>
     <h1>Customer<br><em>Lifetime Value</em><br>Analysis</h1>
     <p class="analysis-type">Cohort Retention &amp; Customer Lifetime Value Analysis</p>
     <p class="hero-sub">A full-cycle customer intelligence project: profiling 4,338 customers across 37 countries, mapping buying habits, tracking cohort retention over 13 months, and calculating average lifetime value by cohort.</p>
@@ -442,8 +442,8 @@
       <div class="stat-lbl">Unique Customers</div>
     </div>
     <div class="stat-card">
-      <div class="stat-num">£27</div>
-      <div class="stat-lbl">Dec 2010 Cohort Avg Monthly Spend</div>
+      <div class="stat-num">£961</div>
+      <div class="stat-lbl">Dec 2010 Cohort Revenue per Active Customer-Month</div>
     </div>
     <div class="stat-card">
       <div class="stat-num">13</div>
@@ -482,7 +482,7 @@
       <div class="pipe-num">STEP 04</div>
       <span class="pipe-icon">📊</span>
       <h3>Cohort Retention &amp; LTV</h3>
-      <p>13x13 cohort retention matrix built with seaborn heatmap. Cohort average revenue matrix and executive bar chart calculated lifetime value by acquisition month.</p>
+      <p>13x13 cohort retention matrix (distinct customers active per month) built with a seaborn heatmap. Cohort revenue per active customer matrix and bar chart estimated value by acquisition month.</p>
     </div>
   </div>
 </section>
@@ -504,7 +504,7 @@
     <div class="data-card">
       <div class="data-card-label">Cleaned Records</div>
       <div class="data-card-num">392,692</div>
-      <p>Processable entries after six discrete cleaning operations. Cancelled orders, null Customer IDs, and non-product stock codes removed. Reduction rate: 27.6%.</p>
+      <p>Processable entries after six discrete cleaning operations. Cancelled orders, null Customer IDs, and non-product stock codes removed. Reduction rate: 27.5%.</p>
     </div>
     <div class="data-card">
       <div class="data-card-label">Unique Customers</div>
@@ -530,18 +530,18 @@
   <div class="findings-grid fade">
     <div class="finding">
       <div class="finding-num">Finding 01 — Cohort Performance</div>
-      <h3>Early Cohorts Outperform on Both Retention and Spend</h3>
-      <p>The December 2010 cohort leads all others on retention rate and average spend per transaction at £27 per month. Average spend has declined consistently across cohorts through the observation period, suggesting either market maturation or a shift in customer acquisition quality over time.</p>
+      <h3>The December 2010 Cohort Retains and Spends Most, With a Caveat</h3>
+      <p>36.6% of the December 2010 cohort bought again in month 1, against 11% to 24% for later cohorts, and it generated about £961 per active customer per month against £370 to £750 for most later cohorts (May 2011 is higher at £1,204). Because the data begins in December 2010, this cohort contains every customer who bought that month, including long-standing ones, so it is not a clean new-customer cohort. Later cohorts spend less per active customer, though not in a straight line.</p>
       <div class="finding-badge">
-        <span class="badge-num">£27/mo</span>
-        <span class="badge-lbl">Dec 2010 cohort avg spend</span>
+        <span class="badge-num">£961/mo</span>
+        <span class="badge-lbl">Dec 2010 cohort revenue per active customer</span>
       </div>
     </div>
 
     <div class="finding">
       <div class="finding-num">Finding 02 — Geographic Risk</div>
       <h3>Geographic Concentration Creates Revenue Fragility</h3>
-      <p>Netherlands and EIRE dominate international revenue. EIRE's figures are driven by just 3 wholesale accounts. Volume and customer quality tell different stories. A single account exit in EIRE would produce a significant revenue drop that would not appear in customer count metrics.</p>
+      <p>Netherlands and EIRE dominate international revenue. EIRE's figures are driven by just 3 wholesale accounts and the Netherlands rests on 9 customers; 27 of the 37 countries have 10 customers or fewer. Volume and customer quality tell different stories. A single account exit in EIRE would produce a significant revenue drop that would not appear in customer count metrics.</p>
       <div class="finding-badge">
         <span class="badge-num">3</span>
         <span class="badge-lbl">wholesale accounts driving EIRE revenue</span>
@@ -550,11 +550,11 @@
 
     <div class="finding">
       <div class="finding-num">Finding 03 — Retention Pattern</div>
-      <h3>The Second Purchase Is the Critical Inflection Point</h3>
-      <p>Across all cohorts, the largest retention decline occurs between period 0 and period 1. Customers who do not make a second purchase within the first month are significantly less likely to return at all. The window between first and second purchase is where retention strategy has the highest leverage.</p>
+      <h3>Most Customers Skip Month 1, but Two-Thirds Buy Again Later</h3>
+      <p>Across all cohorts the largest drop in monthly activity is between month 0 and month 1: only 11% to 37% of a cohort buys again the next month. That is a measure of monthly activity, not permanent loss. Among customers with at least six months of follow-up who did not buy in month 1, 68% bought again in a later month (90% of those who did buy in month 1). Purchase timing is irregular, so the month after a first purchase is a re-engagement window, not the end of the relationship.</p>
       <div class="finding-badge">
-        <span class="badge-num">Period 0-1</span>
-        <span class="badge-lbl">sharpest retention drop across all cohorts</span>
+        <span class="badge-num">68%</span>
+        <span class="badge-lbl">of customers inactive in month 1 bought again later</span>
       </div>
     </div>
 
@@ -585,8 +585,8 @@
     <div class="solution">
       <div class="sol-num">1</div>
       <div class="sol-content">
-        <h4>Invest in Australia</h4>
-        <p>Australia ranks 4th or 5th across all three geographic metrics consistently: total revenue, average spend per customer, and purchase frequency. That consistency across three independent measures signals an engaged customer base with room to grow, not a one-dimensional revenue spike. A targeted investment in the Australian market has a more reliable foundation than doubling down on EIRE, where revenue is concentrated in three accounts.</p>
+        <h4>Test Demand in Australia Before Investing</h4>
+        <p>Australia ranks 4th or 5th on total revenue, spend per customer and purchase frequency, but it rests on 9 customers (the Netherlands also has 9). Rankings from samples this small are fragile. Run a low-cost test, such as a targeted offer to existing Australian customers and a small acquisition trial, before committing larger investment. It is still a sounder bet than doubling down on EIRE, where revenue sits in three accounts.</p>
       </div>
       <div class="sol-data">Driven by Finding 02</div>
     </div>
@@ -594,8 +594,8 @@
     <div class="solution">
       <div class="sol-num">2</div>
       <div class="sol-content">
-        <h4>Investigate the August 2011 Cohort</h4>
-        <p>The 2011-08 cohort shows 59% and 58% retention at periods 2 and 3, well above surrounding cohorts. That outperformance does not appear in cohorts immediately before or after it. Something specific happened in August 2011 that drove higher retention. Identifying what that was, whether a campaign, a product launch, a channel shift, or a customer segment mix, could provide a repeatable acquisition playbook.</p>
+        <h4>Separate New From Existing Customers Before Setting Targets</h4>
+        <p>The data begins in December 2010, so the first cohort mixes new and long-standing customers and flatters retention. Obtain acquisition dates or earlier purchase history so cohorts compare like with like, then set retention targets from the new-customer cohorts (11% to 24% active in month 1).</p>
       </div>
       <div class="sol-data">Driven by Finding 01</div>
     </div>
@@ -603,8 +603,8 @@
     <div class="solution">
       <div class="sol-num">3</div>
       <div class="sol-content">
-        <h4>Replace Email with Direct Outreach After First Purchase</h4>
-        <p>The data shows period 0 to period 1 is where retention collapses. A phone-based contact campaign after first purchase addresses that window directly. The goal is to build a personal relationship before the customer goes dormant, making the second purchase a natural next step rather than a response to a generic marketing event. Email sequences have already proven insufficient at this inflection point.</p>
+        <h4>Test a Re-engagement Touch After a First Purchase</h4>
+        <p>Only 11% to 37% of customers buy in the month after their first purchase, yet 68% of those who skip it buy later. Test a re-engagement touch (email, call or offer) a few weeks after first purchase against a holdout group, and measure repeat purchases at 90 days. This dataset has no contact history, so it cannot show which channel works best.</p>
       </div>
       <div class="sol-data">Driven by Finding 03</div>
     </div>
@@ -632,7 +632,7 @@
     &nbsp;·&nbsp;
     <a href="https://github.com/jglenn2nd-L-ohist/Analytics_portfolio/tree/main/04_Customer_LTV_Analysis" target="_blank">GitHub</a>
   </p>
-  <p style="color:rgba(139,135,153,0.4)">2025 · Customer LTV Analysis · Project 04</p>
+  <p style="color:rgba(139,135,153,0.4)">2026 · Customer LTV Analysis · Project 04</p>
 </footer>
 
 <script>

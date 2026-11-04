@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Metro Atlanta Used-Car Study | J. Glenn</title>
-<meta name="description" content="Did metro Atlanta franchise dealers' used inventory get older, higher-mileage, and pricier from September 2020 to September 2026? Three pre-registered tests.">
+<meta name="description" content="Did metro Atlanta franchise dealers' used inventory get older, higher-mileage, and pricier from September 2020 to September 2026? Three pre-specified tests.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Metro Atlanta Used-Car Study: Three Tests, None Cleared">
 <meta property="og:description" content="Older and higher-mileage, but not by enough to call the inventory meaningfully worse. Price: inconclusive.">
@@ -205,6 +205,21 @@
   footer { background: #0B1220; color: rgba(255,255,255,0.7); padding: 1.4rem 0; font-size: 0.92rem; }
   footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
   footer b { font-family: var(--cond); font-weight: 700; font-size: 1.1rem; color: #fff; }
+
+  /* Decision brief */
+  .brief { padding:2rem 0; }
+  .brief-inner { max-width:1120px;margin:0 auto;padding:0 1.5rem; }
+  .brief-head { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:.5rem 1rem; margin-bottom:.8rem; }
+  .brief-head h2 { margin:0; font-family:var(--cond); }
+  .brief-status { font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; font-weight:600; color:var(--blue); border:1px solid var(--blue); border-radius:999px; padding:3px 12px; }
+  .brief-decision { margin:0 0 1.2rem; color:var(--ink); line-height:1.55; }
+  .brief-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .brief-grid > div { background:var(--paper); border:1px solid var(--rule); border-radius:10px; padding:1rem 1.2rem; }
+  .brief-grid .brief-rec { grid-column:1 / -1; border-left:4px solid var(--blue); }
+  .brief-grid h3 { margin:0 0 .5rem; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; color:var(--blue); font-family:var(--cond); }
+  .brief-grid p, .brief-grid li { margin:0 0 .4rem; font-size:.92rem; line-height:1.5; color:var(--ink); }
+  .brief-grid ul { margin:0; padding-left:1.1rem; }
+  @media (max-width:760px) { .brief-grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -227,7 +242,7 @@
     <div class="hero-grid">
       <div>
         <h1>Three tests. <span class="second">None cleared.</span></h1>
-        <p class="hero-sub">Did metro Atlanta franchise dealers' used inventory get older, higher-mileage, and pricier between September 2020 and September 2026? Three pre-registered tests say the shifts are real, but none is large enough to call the inventory meaningfully worse.</p>
+        <p class="hero-sub">Did metro Atlanta franchise dealers' used inventory get older, higher-mileage, and pricier between September 2020 and September 2026? Three pre-specified tests: age and mileage rose by real amounts that fall well short of the thresholds, and price is inconclusive.</p>
         <div class="hero-links">
           <a class="btn btn-solid" href="https://public.tableau.com/views/MetroAtlantaPre-OwnedCarAnalysisSept2020-Sept2026/MetroAtlantaused-carstudy" target="_blank" rel="noopener">Tableau Dashboard</a>
           <a class="btn" href="https://github.com/jglenn2nd-L-ohist/Analytics_portfolio/tree/main/08_cars/sql" target="_blank" rel="noopener">SQL Queries</a>
@@ -268,6 +283,21 @@
   </div>
 </header>
 
+<!-- DECISION BRIEF -->
+<section class="brief" id="brief" aria-label="Decision brief">
+  <div class="brief-inner">
+    <div class="brief-head"><h2>Decision brief</h2><span class="brief-status">Recommendation only. Not implemented.</span></div>
+    <p class="brief-decision"><strong>Decision.</strong> Is metro Atlanta franchise-dealer used inventory meaningfully older, higher-mileage, or pricier than in September 2020?</p>
+    <div class="brief-grid">
+      <div class="brief-rec"><h3>Recommendation</h3><p>Not proven. Age (+5.3 months) and mileage (+5,883 miles) rose by real amounts that fall well short of the +18 month and +15,000 mile thresholds. Real price (+$2,521) is inconclusive. Do not claim a price increase without dealer-level data.</p></div>
+      <div><h3>Metric definitions</h3><ul><li>Age, mileage, real price: weighted averages across 14 zips (30062 excluded, weights renormalized)</li><li>Real price: 2020 prices restated in August 2026 dollars with the all-items CPI-U</li><li>Thresholds, pre-specified: +18 months, +15,000 miles, +$2,000</li><li>Not met: the whole 95% interval sits below the threshold. Inconclusive: the interval straddles it</li></ul></div>
+      <div><h3>Checks run</h3><ul><li>95% bootstrap confidence interval on every estimate</li><li>Same-dealer comparison alongside the all-dealer one (age +7.0 months, mileage +3,751, real price +$2,467)</li><li>Headline price audited twice, which cut it by more than half</li><li>Mileage cross-checked against age: about 13,300 miles per year</li></ul></div>
+      <div><h3>Limitations</h3><ul><li>September 2020 is early pandemic, not a clean baseline</li><li>Listings, not sales records</li><li>API cap cut off listings in 11 of 15 zips</li><li>Six zips have two dealers or fewer in a period</li></ul></div>
+      <div class="brief-rec"><h3>Next step</h3><p>Repeat the same three tests with an uncapped 2026 pull and more dealers per zip, and sales-level data if it can be found. Price cannot be called either way until then.</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- DESIGN -->
 <section id="design">
   <div class="wrap">
@@ -293,7 +323,7 @@
           </table>
         </div>
         <div class="note" style="margin-top:1.4rem;">
-          <h3>Why pre-register</h3>
+          <h3>Why pre-specify</h3>
           <p>Setting practical-significance thresholds first removes the temptation to decide what counts as "meaningful" after seeing the numbers.</p>
         </div>
       </div>
@@ -379,7 +409,7 @@
 <span class="kw">FROM</span> adj_weights a
 <span class="kw">JOIN</span> zip_prices_2020 z20 <span class="kw">ON</span> a.dealer_zip <span class="fn">=</span> z20.dealer_zip
 <span class="kw">JOIN</span> zip_prices_2026 z26 <span class="kw">ON</span> a.dealer_zip <span class="fn">=</span> z26.final_zip;</pre></div>
-        <p class="code-cap"><code>q6_weighted_avg_price.sql</code>, Part 1 (pre-registered test)</p>
+        <p class="code-cap"><code>q6_weighted_avg_price.sql</code>, Part 1 (pre-specified test)</p>
       </div>
       <div>
         <div class="note">
@@ -450,8 +480,8 @@
     <div class="chart">
       <div class="chart-title">Each change as a multiple of its threshold, with 95% confidence intervals</div>
 <svg viewBox="0 0 900 390" role="img" aria-labelledby="vc-title vc-desc" xmlns="http://www.w3.org/2000/svg">
-<title id="vc-title">Change as a share of each pre-registered threshold, with 95% confidence intervals</title>
-<desc id="vc-desc">Age and mileage pre-registered intervals sit entirely below 1.0, so both are not met. Both real price intervals cross 1.0 and include zero, so price is inconclusive.</desc>
+<title id="vc-title">Change as a share of each pre-specified threshold, with 95% confidence intervals</title>
+<desc id="vc-desc">Age and mileage pre-specified intervals sit entirely below 1.0, so both are not met. Both real price intervals cross 1.0 and include zero, so price is inconclusive.</desc>
 <line x1="250.0" y1="30" x2="250.0" y2="345" stroke="rgba(255,255,255,0.08)" />
 <text x="250.0" y="365" text-anchor="middle" class="ax">-2x</text>
 <line x1="324.1" y1="30" x2="324.1" y2="345" stroke="rgba(255,255,255,0.08)" />
@@ -473,9 +503,9 @@
 <line x1="398.2" y1="30" x2="398.2" y2="345" stroke="rgba(255,255,255,0.25)" />
 <line x1="472.4" y1="22" x2="472.4" y2="345" stroke="#8FB3F0" stroke-width="2" stroke-dasharray="6 4" />
 <text x="480.4" y="24" class="thr">Threshold (1.0x)</text>
-<text x="565" y="385" text-anchor="middle" class="ax">Change as a multiple of the pre-registered threshold</text>
+<text x="565" y="385" text-anchor="middle" class="ax">Change as a multiple of the pre-specified threshold</text>
 <text x="20" y="67" class="met">Age</text>
-<text x="120" y="66" class="cmp">Pre-registered</text>
+<text x="120" y="66" class="cmp">Pre-specified</text>
 <line x1="402.4" y1="62" x2="439.8" y2="62" stroke="#FFFFFF" stroke-width="3" />
 <line x1="402.4" y1="56" x2="402.4" y2="68" stroke="#FFFFFF" stroke-width="2" />
 <line x1="439.8" y1="56" x2="439.8" y2="68" stroke="#FFFFFF" stroke-width="2" />
@@ -486,7 +516,7 @@
 <line x1="504.9" y1="94" x2="504.9" y2="106" stroke="#FFFFFF" stroke-width="2" />
 <circle cx="427.1" cy="100" r="6" fill="#14213D" stroke="#FFFFFF" stroke-width="2" />
 <text x="20" y="161" class="met">Mileage</text>
-<text x="120" y="160" class="cmp">Pre-registered</text>
+<text x="120" y="160" class="cmp">Pre-specified</text>
 <line x1="406.3" y1="156" x2="455.7" y2="156" stroke="#FFFFFF" stroke-width="3" />
 <line x1="406.3" y1="150" x2="406.3" y2="162" stroke="#FFFFFF" stroke-width="2" />
 <line x1="455.7" y1="150" x2="455.7" y2="162" stroke="#FFFFFF" stroke-width="2" />
@@ -497,7 +527,7 @@
 <line x1="516.8" y1="188" x2="516.8" y2="200" stroke="#FFFFFF" stroke-width="2" />
 <circle cx="416.8" cy="194" r="6" fill="#14213D" stroke="#FFFFFF" stroke-width="2" />
 <text x="20" y="255" class="met">Real price</text>
-<text x="120" y="254" class="cmp">Pre-registered</text>
+<text x="120" y="254" class="cmp">Pre-specified</text>
 <line x1="312.3" y1="250" x2="845.1" y2="250" stroke="#F2B705" stroke-width="3" />
 <line x1="312.3" y1="244" x2="312.3" y2="256" stroke="#F2B705" stroke-width="2" />
 <line x1="845.1" y1="244" x2="845.1" y2="256" stroke="#F2B705" stroke-width="2" />
@@ -509,7 +539,7 @@
 <circle cx="489.7" cy="288" r="6" fill="#14213D" stroke="#F2B705" stroke-width="2" />
 </svg>
       <div class="legend">
-        <span><i></i>Pre-registered</span>
+        <span><i></i>Pre-specified</span>
         <span><i class="dash"></i>Same-dealer sensitivity</span>
         <span><i class="inc"></i>Interval crosses the threshold and zero</span>
       </div>
@@ -519,11 +549,11 @@
       <table class="wide">
         <thead><tr><th>Metric</th><th>Comparison</th><th>Point estimate</th><th>95% CI</th><th>Resamples below threshold</th><th>Verdict</th></tr></thead>
         <tbody>
-        <tr><td>Age</td><td>Pre-registered</td><td class="num">+5.3 mo</td><td class="num">1.0 to 10.1</td><td class="num">100.0%</td><td><span class="badge badge-ink">Not met</span></td></tr>
+        <tr><td>Age</td><td>Pre-specified</td><td class="num">+5.3 mo</td><td class="num">1.0 to 10.1</td><td class="num">100.0%</td><td><span class="badge badge-ink">Not met</span></td></tr>
         <tr><td>Age</td><td>Same dealer</td><td class="num">+7.0 mo</td><td class="num">2.7 to 25.9</td><td class="num">75.2%</td><td><span class="badge badge-ink">Not met</span></td></tr>
-        <tr><td>Mileage</td><td>Pre-registered</td><td class="num">+5,883</td><td class="num">1,637 to 11,620</td><td class="num">99.7%</td><td><span class="badge badge-ink">Not met</span></td></tr>
+        <tr><td>Mileage</td><td>Pre-specified</td><td class="num">+5,883</td><td class="num">1,637 to 11,620</td><td class="num">99.7%</td><td><span class="badge badge-ink">Not met</span></td></tr>
         <tr><td>Mileage</td><td>Same dealer</td><td class="num">+3,751</td><td class="num">625 to 23,990</td><td class="num">75.0%</td><td><span class="badge badge-ink">Not met</span></td></tr>
-        <tr><td>Real price</td><td>Pre-registered</td><td class="num">+$2,521</td><td class="num">-$2,318 to +$12,059</td><td class="num">42.0%</td><td><span class="badge badge-amber">Inconclusive</span></td></tr>
+        <tr><td>Real price</td><td>Pre-specified</td><td class="num">+$2,521</td><td class="num">-$2,318 to +$12,059</td><td class="num">42.0%</td><td><span class="badge badge-amber">Inconclusive</span></td></tr>
         <tr><td>Real price</td><td>Same dealer</td><td class="num">+$2,467</td><td class="num">-$3,479 to +$4,260</td><td class="num">63.4%</td><td><span class="badge badge-amber">Inconclusive</span></td></tr>
       </tbody>
       </table>

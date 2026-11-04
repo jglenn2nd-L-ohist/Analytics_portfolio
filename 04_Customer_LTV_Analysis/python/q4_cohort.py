@@ -26,7 +26,7 @@ ltv["cohort"] = ltv["CustomerID"].map(cohort)
 ltv["period"] = (ltv["InvoiceDate"] - ltv["cohort"]).apply(lambda x: x.n)
 
 # - Determine number of customers per cohort
-uniq = ltv.groupby(["cohort","period"])["CustomerID"].count()
+uniq = ltv.groupby(["cohort","period"])["CustomerID"].nunique()  # distinct customers active (was .count(), which counted invoice lines)
 cohort_mat = uniq.unstack()
 
 # - Determine retention rate of the cohort

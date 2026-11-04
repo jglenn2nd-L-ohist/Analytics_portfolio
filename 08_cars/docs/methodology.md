@@ -243,7 +243,7 @@ Three options were considered:
 | September 2026 | 3.10 years |
 | Difference | +5.31 months (95% CI 1.0 to 10.1) |
 
-Threshold: +18 months (pre-registered). **Not met, with high confidence.** The whole interval sits below the threshold, and it excludes zero, so the increase is real but far smaller than hypothesized.
+Threshold: +18 months (pre-specified). **Not met, with high confidence.** The whole interval sits below the threshold, and it excludes zero, so the increase is real but far smaller than hypothesized.
 
 **Same-dealer comparison:** 2.83 to 3.41 years, +7.03 months (95% CI 2.7 to 25.9). Consistent in direction, but too imprecise to test the threshold on its own (sec. 18).
 
@@ -274,13 +274,13 @@ Threshold: +18 months (pre-registered). **Not met, with high confidence.** The w
 | September 2026 | 47,477 miles |
 | Difference | +5,883 miles (95% CI 1,637 to 11,620) |
 
-Threshold: +15,000 miles (pre-registered). **Not met, with high confidence.** The whole interval sits below the threshold and excludes zero.
+Threshold: +15,000 miles (pre-specified). **Not met, with high confidence.** The whole interval sits below the threshold and excludes zero.
 
 **Same-dealer comparison:** 47,171 to 50,922 miles, +3,751 (95% CI 625 to 23,990). Consistent in direction, too imprecise to test the threshold on its own.
 
 **Result history:** 45,962 and +4,368 on the 3,279-row `final_matched`; 47,475 and +5,882 after the overspill exclusions; 47,477 and +5,883 after EchoPark. The 2020 value never changed.
 
-**Cross-check with Q4:** in the pre-registered comparison, 5,883 additional miles over about 0.44 additional years of age is roughly 13,300 miles per year, in line with typical annual driving: older inventory, not harder-driven inventory. In the same-dealer comparison it is 3,751 miles over about 0.59 years, roughly 6,400 miles per year. At continuing dealers, cars aged faster than they gained miles, so the cross-check holds for the full market but not clearly for continuing stores.
+**Cross-check with Q4:** in the pre-specified comparison, 5,883 additional miles over about 0.44 additional years of age is roughly 13,300 miles per year, in line with typical annual driving: older inventory, not harder-driven inventory. In the same-dealer comparison it is 3,751 miles over about 0.59 years, roughly 6,400 miles per year. At continuing dealers, cars aged faster than they gained miles, so the cross-check holds for the full market but not clearly for continuing stores.
 
 ---
 
@@ -302,7 +302,7 @@ The CPI values are held in their own one-row CTE and attached with a `CROSS JOIN
 
 **Pitfall caught along the way:** multiplying `AVG(price)` by the CPI ratio in a grouped SELECT raised a `GROUP BY` error, because the ratio column is neither grouped nor aggregated. Moving the ratio inside the aggregate, `AVG(c.ratio * f.price)`, fixes it and reads as intended: every 2020 price in 2026 dollars.
 
-**Pre-registered result (all 2026 franchise dealers):**
+**Pre-specified result (all 2026 franchise dealers):**
 
 | Period | Weighted average price (August 2026 dollars) |
 |---|---|
@@ -312,7 +312,7 @@ The CPI values are held in their own one-row CTE and attached with a `CROSS JOIN
 
 **Same-dealer comparison:** $29,972 to $32,439, +$2,467 (95% CI -$3,479 to +$4,260).
 
-Threshold: +$2,000 (pre-registered). **Inconclusive.** Both point estimates clear the threshold by about $500, and they nearly agree, so dealer mix is not what produces the increase. But the dealer-level uncertainty is far wider than that margin: 42% of pre-registered resamples and 63% of same-dealer resamples fall below $2,000, and both intervals include zero. The data cannot confirm the threshold, or even that real prices rose.
+Threshold: +$2,000 (pre-specified). **Inconclusive.** Both point estimates clear the threshold by about $500, and they nearly agree, so dealer mix is not what produces the increase. But the dealer-level uncertainty is far wider than that margin: 42% of pre-specified resamples and 63% of same-dealer resamples fall below $2,000, and both intervals include zero. The data cannot confirm the threshold, or even that real prices rose.
 
 **Result history:** +$5,624 on the 3,279-row `final_matched`; +$2,570 after the overspill exclusions (more than half of the original figure came from two luxury dealers outside the study area); +$2,521 after EchoPark, which adds nearly new cars at below-average prices.
 
@@ -323,7 +323,7 @@ Threshold: +$2,000 (pre-registered). **Inconclusive.** Both point estimates clea
 
 **Conclusion:** the point estimates say real used-car prices at Atlanta franchise dealers rose about $2,500 more than general inflation, whether measured on the full sample or on dealers present in both periods. That is above the $2,000 threshold. But at the dealer level the evidence is too thin to confirm it: each zip's average rests on a handful of stores, and the plausible range runs from a real decline to a large increase (sec. 18). The sampling-cap check suggests the 2026 price is, if anything, understated (sec. 17).
 
-**On reporting:** the thresholds were set against the full comparison before any results were seen. The pre-registered figure is reported as the primary result, with the same-dealer comparison and the confidence intervals as tests of its robustness, rather than substituting whichever version reads best after the fact.
+**On reporting:** the thresholds were set against the full comparison before any results were seen. The pre-specified figure is reported as the primary result, with the same-dealer comparison and the confidence intervals as tests of its robustness, rather than substituting whichever version reads best after the fact.
 
 ---
 
@@ -376,13 +376,13 @@ Recently listed cars are older, higher-mileage, and cheaper; older listings are 
 
 | Metric | Comparison | Point | 95% CI | Median | Share below threshold |
 |---|---|---|---|---|---|
-| Age (months) | Pre-registered | +5.3 | 1.0 to 10.1 | 5.1 | 100.0% |
+| Age (months) | Pre-specified | +5.3 | 1.0 to 10.1 | 5.1 | 100.0% |
 | Age (months) | Same dealer | +7.0 | 2.7 to 25.9 | 7.8 | 75.2% |
-| Mileage | Pre-registered | +5,883 | 1,637 to 11,620 | 6,047 | 99.7% |
+| Mileage | Pre-specified | +5,883 | 1,637 to 11,620 | 6,047 | 99.7% |
 | Mileage | Same dealer | +3,751 | 625 to 23,990 | 5,194 | 75.0% |
-| Real price | Pre-registered | +$2,521 | -$2,318 to +$12,059 | $2,520 | 42.0% |
+| Real price | Pre-specified | +$2,521 | -$2,318 to +$12,059 | $2,520 | 42.0% |
 | Real price | Same dealer | +$2,467 | -$3,479 to +$4,260 | $1,289 | 63.4% |
 
-**Reading them:** the pre-registered intervals for age and mileage sit entirely below their thresholds and exclude zero, so both increases are real and both "not met" verdicts hold with high confidence. The price intervals span the threshold and include zero, so Q6 is inconclusive. The same-dealer intervals are wide because the continuing set is often one store per zip, and redrawing among the three to eight stores in the remaining zips swings the averages. The same-dealer run confirms that the point estimates are not a composition artifact, but it is too thin to test thresholds on its own. For same-dealer price, the median ($1,289) sits well below the point estimate, meaning the observed figure depends heavily on which specific stores are in the thin zips.
+**Reading them:** the pre-specified intervals for age and mileage sit entirely below their thresholds and exclude zero, so both increases are real and both "not met" verdicts hold with high confidence. The price intervals span the threshold and include zero, so Q6 is inconclusive. The same-dealer intervals are wide because the continuing set is often one store per zip, and redrawing among the three to eight stores in the remaining zips swings the averages. The same-dealer run confirms that the point estimates are not a composition artifact, but it is too thin to test thresholds on its own. For same-dealer price, the median ($1,289) sits well below the point estimate, meaning the observed figure depends heavily on which specific stores are in the thin zips.
 
 **Limitations:** a single-dealer group contributes no variation, since redrawing one dealer always returns it, so the true uncertainty is likely wider than shown. A bootstrap with few clusters per group gives approximate intervals. A few stores appear under two dealer IDs in the 2026 data (for example Global BMW in 30339), which slightly overstates the dealer count in those zips.
