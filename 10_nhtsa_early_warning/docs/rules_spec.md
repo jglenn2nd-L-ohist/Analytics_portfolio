@@ -22,7 +22,7 @@ Rule: Once decisions are filled in and committed, this file is not edited after 
 ## 4. Event definitions
 - Recall event date (report received date, owner notification date, or record creation date):
 - Complaint date used as "received" (LDATE, date received by NHTSA, or DATEA, date added to file):
-- Handling of the ~4% of complaints with a blank failure date:
+- Handling of blank failure dates (110,144 overall, all received before 2010; none in the analysis window):
 - Leakage rule (complaints counted only if received before the cluster's event date):
 
 ## 5. Component crosswalk
