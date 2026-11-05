@@ -22,7 +22,7 @@ Every row in all three files has the expected field count.
 Notes:
 - Row counts are records. `wc -l` reports 154,454 for `FLAT_INV.txt` because its last line has no trailing newline.
 - Recalls and investigations have several rows per event (one per vehicle and component), so count distinct campaign or investigation IDs, not rows.
-- About 4% of complaints have a blank failure date.
+- 110,144 complaints (4.9%) have a blank failure date. All of them were received before 2010, so none fall in the 2010-and-later analysis window. The received date (LDATE) is never blank.
 - Complaints carry two record dates: LDATE (field 17) is the date NHTSA received the complaint, and DATEA (field 16) is the date it was added to the file. They differ on 212,864 rows, so the choice of date matters for spike timing.
 
 ## Not used
