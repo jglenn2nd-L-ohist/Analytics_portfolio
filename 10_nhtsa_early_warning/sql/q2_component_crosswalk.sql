@@ -141,3 +141,22 @@ WHERE ldate BETWEEN '20100101' AND '20141231'
 GROUP BY 1
 ORDER BY 1
 ;
+
+-- First/last recall date, row count and distinct campaigns per top-level
+-- recall label.
+-- Result: 41 labels. Recalls use the new-style labels late and rarely
+-- (ENGINE: 140 campaigns vs 641 for ENGINE AND ENGINE COOLING;
+-- FUEL/PROPULSION SYSTEM: 2 campaigns). Rows overstate some labels:
+-- COMMUNICATION is 17,235 rows but only 11 campaigns. Count campaigns,
+-- not rows. Complaint labels in the new style must map to the old-style
+-- recall labels (the crosswalk).
+SELECT SPLIT_PART(compname, ':', 1) AS top_level
+,   MIN(rcdate) AS oldest_entry
+,   MAX(rcdate) AS latest_entry
+,   COUNT(*) AS comp_num
+,   COUNT(DISTINCT campno) AS campaigns 
+FROM recalls
+GROUP BY 1
+ORDER BY campaigns DESC
+;
+
