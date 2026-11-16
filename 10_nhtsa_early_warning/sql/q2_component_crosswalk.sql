@@ -160,3 +160,48 @@ GROUP BY 1
 ORDER BY campaigns DESC
 ;
 
+-- Build crosswalk to match complaints and recalls tables by similar family groupings
+-- Create table to hold the groupings
+-- Resulting in 39 families of issues (31 matched; 8 complaints-only / 0 recalls-only / 4 EXCLUDED)
+CREATE OR REPLACE TABLE label_crosswalk AS (
+WITH all_labels AS (
+    SELECT DISTINCT SPLIT_PART(compdesc, ':',1) AS top_level 
+    FROM complaints 
+    UNION 
+    SELECT DISTINCT SPLIT_PART(compname, ':',1) AS top_level 
+    FROM recalls
+)
+SELECT
+    top_level AS label
+,   CASE WHEN top_level IN ('ENGINE','ENGINE AND ENGINE COOLING') THEN 'ENGINE'  
+         WHEN top_level IN ('SERVICE BRAKES','SERVICE BRAKES, HYDRAULIC','SERVICE BRAKES, AIR','SERVICE BRAKES, ELECTRIC','SERVICE BRAKES, HYDRAULIC; AUTOHOLD BRAKE SYSTEM/BRAKE HOLD') THEN 'SERVICE BRAKES'  
+         WHEN top_level IN ('FUEL/PROPULSION SYSTEM','FUEL SYSTEM, GASOLINE','FUEL SYSTEM, DIESEL','FUEL SYSTEM, OTHER') THEN 'FUEL'
+         WHEN top_level IN ('VISIBILITY','VISIBILITY/WIPER') THEN 'VISIBILITY' 
+         WHEN top_level IN ('ELECTRONIC STABILITY CONTROL (ESC)','ELECTRONIC STABILITY CONTROL') THEN 'ESC'
+         WHEN top_level IN ('COMMUNICATION','COMMUNICATIONS') THEN 'COMMUNICATION'
+         WHEN top_level IN ('TRAILER HITCHES','TRAILER HARDWARE') THEN 'TRAILER HITCHES'
+         WHEN top_level IN ('UNKNOWN OR OTHER','OTHER','Other/Unknown','NONE') THEN 'EXCLUDED'
+         ELSE top_level END AS family
+FROM all_labels 
+);
+
+-- Checking to confirm crosswalk condensed top_levels into the various families of complaints
+WITH complaints_cross AS (
+        SELECT DISTINCT l.family as family 
+        FROM complaints c
+        JOIN label_crosswalk l 
+        ON SPLIT_PART(c.compdesc,':',1) = l.label 
+        WHERE c.ldate BETWEEN '20100101' AND '20261028'
+),
+    recalls_cross AS (
+        SELECT DISTINCT l.family AS family
+        FROM recalls r         
+        JOIN label_crosswalk l    
+        ON  SPLIT_PART(r.compname,':',1) = l.label 
+)
+SELECT cc.family AS complaints_fam
+,   rc.family AS recalls_fam
+FROM complaints_cross cc
+FULL OUTER JOIN recalls_cross rc  
+ON cc.family = rc.family  
+; 
